@@ -20,10 +20,15 @@
 
 At this point you write the abstract of your work, in the main language in which it is written (in this template - English). Graduate school regulations require the abstract to constitute an independent whole and be understood to a reader with general knowledge of the field. Use complete sentences and make few or no citations. Do not refer to the main body of the work and do not use uncommon shorthand, symbols and terms unless you have room for explaining them. The English abstract should be between 200 and 500 words long.
 
-So this should contain a few more paragraphs... we'll fill them using some placeholder text (in Latin):
+Temporary abstract taken from the CSL paper (199 words):
 
-\lipsum[10-12]
+Letter-to-letter transducers are a standard formalism for modeling reactive systems. Often, two transducers that model similar systems differ locally from one another, by behaving similarly, up to permutations of the input and output letters within ``rounds''.
+In this work, we introduce and study notions of simulation by rounds and equivalence by rounds of transducers. In our setting, words are partitioned to consecutive subwords of a fixed length $k$, called rounds. Then, a transducer $\cT_1$ is $k$-round simulated by transducer $\cT_2$ if, intuitively, for every input word $x$, we can permute the letters within each round in $x$, such that the output of $\cT_2$ on the permuted word is itself a permutation of the output of $\cT_1$ on $x$.
+Finally, two transducers are $k$-round equivalent if they simulate each other.
 
+We solve two main decision problems, namely whether $\cT_2$ $k$-round simulates $\cT_1$ (1) when $k$ is given as input, and (2) for an existentially quantified $k$.
+
+We demonstrate the usefulness of the definitions by applying them to process symmetry: a setting in which a permutation in the identities of processes in a multi-process system naturally gives rise to two transducers, whose $k$-round equivalence corresponds to stability against such permutations.
 } % end of English abstract
 
 

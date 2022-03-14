@@ -3,12 +3,68 @@
 % (regardless of its class and style files used),
 % e.g. package uses:
 
-%\usepackage{xspace}
+\usepackage{xspace}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,fit,calc,shapes.geometric}
 
 % and macros/command defintions:
 
-%\newcommand{\complexityclass}[1]{{\bf #1}\xspace}
-%\newcommand{\NPTIME}{\complexityclass{NP}}
+\newcommand{\IOo}{(2^{I\cup O})^\omega}
+\newcommand{\Io}{(2^{I})^\omega}
+\newcommand{\Oo}{(2^{O})^\omega}
+\newcommand{\IOs}{(2^{I\cup O})^*}
+\newcommand{\Is}{(2^{I})^*}
+\newcommand{\Os}{(2^{O})^*}
+\newcommand{\IOp}{(2^{I\cup O})^+}
+\newcommand{\Ip}{(2^{I})^+}
+\newcommand{\Op}{(2^{O})^+}
+\newcommand{\tIO}{2^{I\cup O}}
+\newcommand{\tI}{2^{I}}
+\newcommand{\tO}{2^{O}}
+\newcommand{\sI}{\Sigma_{I}}
+\newcommand{\sO}{\Sigma_{O}}
+
+\newcommand{\tup}[1]{\left< #1\right>}
+\newcommand{\ST}{\, :\, }
+
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+
+\newcommand{\bbB}{\mathbb{B}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+
+% TODO: Replace with a text-formatted \gls acronym?
+\newcommand{\DFA}{\mbox{\rm DFA}\xspace}
+\newcommand{\NFA}{\mbox{\rm NFA}\xspace}
+\newcommand{\DFAs}{\mbox{\rm DFAs}\xspace}
+\newcommand{\NFAs}{\mbox{\rm NFAs}\xspace}
+\newcommand{\PA}{\mbox{\rm PA}\xspace}
+
+\newcommand{\lab}{\boldsymbol{\ell}}
+
+\newcommand{\fL}{\Lambda}
+\newcommand{\fP}{\mathfrak{P}}
+\newcommand{\num}{\#}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\req}[1][]{\asymp_{#1}}
+\newcommand{\lcm}{{\rm lcm}}
+\newcommand{\runs}[2]{\stackrel{#1}{\longrightarrow}_{#2}}
+\newcommand{\tr}{{\mathtt{Tr}}}
+\newcommand{\perm}{{\mathtt{Perm}}}
+
+\newcommand{\condset}[2]{\left\{\,#1\ \middle|\ #2\,\right\}}
+
+% \crefname{observation}{Observation}{Observations} % For cref
 
 % For this template, we'll only have one single command,
 % necessary for including graphics...
