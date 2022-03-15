@@ -19,3 +19,347 @@ Some appendix content here. And something nice to finish things off:
 
 \section{Another appendix section}
 After the (last) appendix-section comes the thesis' bibliography; Its style is set with the \verb|\thesisbibstyle| command. Then there are the Hebrew parts of thesis, which don't exactly ``follow" the bibliography in a logical sense, but rather start at the beginning of the thesis when considered as a right-to-left printed booklet. Thus, the last page of the extended Hebrew abstract of the thesis comes right ``after" the last page of the bibliography if you're turning the pages in left-to-right order.
+
+
+\section{Proofs}
+\subsection{Proof of \autoref{thm:fixed_re_PSPACE}}
+\label{apx:fixed_re_PSPACE}
+% \begin{theorem}
+% 	\label{thm:fixed_re_PSPACE}
+% 	Given transducers $\cT_1,\cT_2$ and given $k>0$ in unary, the problem of deciding whether $\cT_1\prec_k\cT_2$ is in \PSPACE.
+% 	\end{theorem}
+% \begin{proof}
+	Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$. By \autoref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$. Looking at the dual problem, recall that for two \NFAs $\cN_1, \cN_2$ we have that $L(\cN_1)\not\subseteq L(\cN_2)$ iff 
+	there exists $w\in L(\cN_2)\setminus L(\cN_1)$ with $|w|\le |\cN_1|\cdot 2^{|\cN_2|}$ (this follows immediately by bounding the size of an \NFA for $L(\cN_1)\cap \overline{L(\cN_2)}$). Thus, we can decide whether $L(\cA^k_1)\subseteq L(\cA^k_2)$ by guessing, on-the-fly, a word $w$ over $\sI^k\times \sO^k$ of single-exponential length (in the size of $\cA^k_1$ and $\cA^k_2$), and verifying that it is accepted by $\cA^k_1$ and not by $\cA^k_2$. 
+	
+	Observe that to this end, we do not explicitly construct $\cA^k_1$ nor $\cA^k_2$, as their alphabet size is exponential. Rather, we evaluate them on each letter of $w$ based on their construction from $\cT$. 
+	
+	At each step we keep track of a counter for the length of $w$, a state of $\cA^k_1$, and a set of states of $\cA^k_2$. Since the number of states of $\cA^k_1,\cA^k_2$ is the same as that of $\cT_1,\cT_2$, respectively, this requires polynomial space. By Savitch's theorem we have that $\mathsf{coNPSPACE}=\PSPACE$, and we are done. \qed
+% \end{proof}
+
+\subsection{Proof of \autoref{lem:type_of_parikh}}
+\label{apx:type_of_parikh}
+%\begin{proof}
+	By the definitions preceding the lemma, we have that $\tau_{\cN}(\vec{p},\vec{o})=\tau_{\perm_k(\cN)}(\alpha',\beta')$ for some $(\alpha',\beta')\in \sI^k\times \sO^k$ are such that $\fP(\alpha')=\vec{p}$ and $\fP(\beta')=\vec{o}$. According to the transition function of $\perm_k(\cN)$ (see \autoref{eq:perm_transition}), for every $s_1,s_2\in S$ we have that $s_1\runs{(\alpha',\beta')}{\perm_k(\cN)}s_2$ iff there exist $(\alpha,\beta)\in \sI^k\times \sO^k$ with $\fP(\alpha)=\fP(\alpha')=\vec{p}$ and $\fP(\beta)=\fP(\beta')=\vec{o}$ such that $s_1\runs{(\alpha,\beta)}{\cN}s_2$. Since the type encodes the reachable pairs of states, this concludes the proof.
+%\end{proof}
+
+\subsection{Proof of \autoref{lem:profile_equality_to_simulation}}
+\label{apx:profile_equality_to_simulation}
+% \begin{proof}
+	%Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$ and similarly for $k'$. By \autoref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$.
+	%For brevity, denote $\cA^k_i=\perm_k(\tr(\cT_i))$ for $k>0,i\in \{1,2\}$.
+	%By the symmetry of $k$ and $k'$, it suffices to prove that (under the assumption of the lemma) if $L(\cA^k_1)\subseteq L(\cA^k_2)$ then $L(\cA^{k'}_1)\subseteq L(\cA^{k'}_2)$. 
+	
+	By the symmetry between $k$ and $k'$, it suffices to prove w.l.o.g. that if $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$, then $L(\perm_{k'}(\cB_1))\subseteq L(\perm_{k'}(\cB_2))$.
+    Assume the former, and let $w=(x',y')\in L(\perm_{k'}(\cB_1))$.
+	%Assume the former, and let $(x',y')\in L(\cA^{k'}_1)$, 
+	where $(x',y')\in (\sI^{k'}\times \sO^{k'})^*$, and we denote $(x',y')=(\alpha'_1,\beta'_1)\cdots (\alpha'_n,\beta'_n)$ with $(\alpha'_j,\beta'_j)\in \sI^{k'}\times \sO^{k'}$ for every $1\le j\le n$. 
+	%By~\autoref{obs:redundant_product_for_perm_automata} we have that $L(\cA^{k'}_1)=L(\perm_{k'}(\cB_1))$, and hence $(x',y')\in L(\perm_{k'}(\cB_1))$
+	
+	Since $\Upsilon(\cB_1,k')=\Upsilon(\cB_1,k)$, we can find $(x,y)=(\alpha_1,\beta_1)\cdots (\alpha_n,\beta_n)$ such that for every $1\le j\le n$ we have $(\alpha_j,\beta_j)\in \sI^{k}\times \sO^{k}$ and $\tau_{\cB_1}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_1}(\fP(\alpha'_j),\fP(\beta'_j))$.
+	
+	By the definition of the type of a Parikh vector, we have that \[\tau_{\perm_k(\cB_1)}(\alpha_j,\beta_j)=\tau_{\cB_1}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_1}(\fP(\alpha'_j),\fP(\beta'_j))=\tau_{\perm_{k'}(\cB_1)}(\alpha'_j,\beta'_j).\]
+	In particular, since the type of a word is the concatenation (i.e., Boolean matrix product) of its underlying letters, we have that $\tau_{\perm_k(\cB_1)}(x,y)=\tau_{\perm_{k'}(\cB_1)}(x',y')$. Since $(x',y')\in L(\perm_{k'}(\cB_1))$, it follows that also $(x,y)\in L(\perm_{k}(\cB_1))$. Indeed, 
+	$(\tau_{\perm_{k'}(\cB_1)}(x',y'))_{s^1_0,s^1_f}=1$ where $s^1_0$ and $s^1_f$ are an initial state and an accepting state of $\perm_{k'}(\cB_1)$, respectively. But the equality of the types implies that $(\tau_{\perm_{k}(\cB_1)}(x,y))_{s^1_0,s^1_f}=1$ as well, so $\perm_k(\cB_1)$ has an accepting run on $(x,y)$.
+	
+	%Using \autoref{obs:redundant_product_for_perm_automata} again, we have that $L(\cA^{k}_1)=L(\perm_{k}(\cB_1))$, and hence $(x,y)\in L(\cA^k_1)$. 
+	By our assumption, $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$, so $(x,y)\in L(\perm_{k}(\cB_2))$.
+	We now essentially reverse the arguments above, but with $\cB_2$ instead of $\cB_1$. However, this needs to be done carefully, so that the mapping of letters lands us back at $(x',y')$, and not a different word.
+%	Again by \autoref{obs:redundant_product_for_perm_automata} we have $L(\cA^{k}_2)=L(\perm_{k}(\cB_2))$, so $(x,y)\in L(\perm_{k}(\cB_2))$. 
+    Thus, instead of finding a Parikh-equivalent word, we observe that for every $1\le j\le n$, we also have 
+	\[\tau_{\perm_k(\cB_2)}(\alpha_j,\beta_j)=\tau_{\cB_2}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_2}(\fP(\alpha'_j),\fP(\beta'_j))=\tau_{\perm_{k'}(\cB_2)}(\alpha'_j,\beta'_j).\]
+	This follows from Item 2 in \autoref{obs:redundant_product}, and the fact that the permutation construction depends only on the transitions (and not on accepting states, which are the only difference between $\cB_1$ and $\cB_2$).
+	
+	Thus, similarly to the arguments above, we have that $(x',y')\in L(\perm_{k'}(\cB_2))$, and we conclude that $L(\perm_{k'}(\cB_1))\subseteq L(\perm_{k'}(\cB_2))$, as required.
+% \end{proof}
+
+\subsection{Proof of \autoref{lem:symmetry_to_simulation}}
+\label{apx:symmetry_to_simulation}
+% \begin{lemma}
+%     \label{lem:symmetry_to_simulation}
+%     For a permutation $\pi$ and $k>0$, $\cT$ is $k$-round symmetric w.r.t.\! $\pi$ iff $\cT^{\pi}\prec_k \cT$.
+% \end{lemma}
+% \begin{proof}
+    By definition, we have that $\cT^{\pi}\prec_{k} \cT$ iff for every $x\in (2^{\cP})^*$ there exists $x'\req x$ such that $\cT^{\pi}(x)\req \cT(x')$. We show that this is equivalent to the definition of round symmetry.
+    
+    For the first direction, assume $\cT$ is $k$-round symmetric w.r.t.\! $\pi$, and let $x\in (2^{\cP})^*$. Applying the definition of $k$-round symmetry to $y=\pi^{-1}(x)$ shows that there exists $x'\req \pi(y)$ such that $\pi(\cT(y))\req \cT(x')$. Since $\pi(y)=x$ we get that $x'\req x$ and $\pi(\cT(\pi^{-1}(x)))\req \cT(x')$. By the above, $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$, so we have $\cT^{\pi}(x)\req x'$.
+    
+    For the second direction, assume $\cT^\pi \prec_k \cT$, and let $x\in (2^{\cP})^*$. Applying the definition of round simulation to $z=\pi(x)$, there exists $x'\req z$ such that $\cT^{\pi}(z)\req \cT(x')$. Thus, $\pi(\cT(\pi^{-1}(z)))\req \cT(x')$, but $\pi^{-1}(z)=x$, so we get $\pi(\cT(x))\req \cT(x')$, and we are done. \qed
+% \end{proof}
+
+
+\subsection{Proof of \autoref{lem:closure_composition}}
+\label{apx:closure_composition}
+% \begin{lemma}
+%     \label{lem:closure_composition}
+%     Consider two permutations $\pi,\chi$. If $\cT^\pi\prec_k \cT$ and $\cT^\chi \prec_k \cT$ then $\cT^{\pi\circ \chi} \prec_k \cT$.
+% \end{lemma}
+% \begin{proof}
+Using the first definition of round symmetry, let $x\in (2^{\cP})^*$, then there exists $x'\req[k] \pi(x)$ such that $\cT(x')\req[k] \pi(\cT(x))$. Moreover, there exists $x''\req[k] \chi(x') \req[k] \chi(\pi(x))$ such that $\cT(x'')\req[k] \chi(\cT(x'))\req[k] \chi(\pi(\cT(x)))$, and we are done. \qed
+% \end{proof}
+
+\subsection{Proof of \autoref{lem:round_symmetry_commutative}}
+\label{apx:round_symmetry_commutative}
+% \begin{lemma}
+% \label{lem:round_symmetry_commutative}}
+%     In the notations above, if $\cT^{\pi}\prec_k \cT$ then $\cT\prec_k \cT^\pi$.
+% \end{lemma}
+% \begin{proof}
+Recall that for every permutation $\pi$ we have $\pi^{m!}=\mathtt{id}$, where $\mathtt{id}$ is the identity permutation. In particular, $\pi^{m!-1}=\pi^{-1}$. 
+
+By \autoref{lem:closure_composition}, we now have that if $\cT^{\pi}\prec_k \cT$, then $\cT^{\pi^{m!-1}}\prec_k \cT$, so $\cT^{\pi^{-1}}\prec_k \cT$. Applying $\pi$ to both sides gives us $\cT\prec_k \cT^{\pi}$. \qed
+% \antodo[inline]{Might add a proof for the last point later.}
+% \end{proof}
+
+\section{Examples}
+
+\subsection{Exponential Lower Bound on Round Length}
+\label{apx:exponential_round_length}
+
+In~\autoref{example:exponential_round_length}, we considered two transducers $\cT_1$ and $\cT_2$ and a restricting language $\fL=(1\cdot 2\cdots m)^*$, and argued that, for $\cT_2$ to $k$-round simulate $\cT_1$, the value of $k$ must be exponential in the number of states. Here, we present a more rigorous proof for the argument.
+
+Formally, the two transducers are defined as follows. 
+% \[
+% \begin{split}
+%     \cT_1 &= \tup{\cP,\cP,\{s_i\}_{i=1}^m,s_m,\delta_1,\lab_1}, \\
+%     \text{where } & \lab_1(s_i)=\{i\} \text{ and } \delta_1(s_i,\{(i\%m)+1\}) = s_{(i\%m)+1}, \\
+%     %
+%     \cT_2 &= \tup{\cP,\cP,\{s_0\} \cup \condset{s_i^j}{1\leq i\leq m, 1\leq j \leq p_i},s_0,\delta_2,\lab_2}, \\
+%     \text{where } & \lab_2(s_i^j)=\{i\} \text{ and } \lab_2(s_0)=\emptyset, \text{ and } \\
+%     %
+%     & \delta_2(s_i^j,\{\ell\}) = s_i^{j+1} \text{ for all $j<p_i$ and $i,\ell$, and} \\
+%     & \delta_2(s_i^{p_i}, \{\ell\}) = \delta_2(s_0, \{\ell\}) = s_\ell^1. \\
+%     \text{and all } & \text{transitions not yet defined lead to a sink state labelled $\emptyset$.} \\
+% \end{split}
+% \]
+%%%% INLINED VERSION OF THE ABOVE MATH %%%%
+$\cT_1 = \tup{\cP,\cP,\{s_i\}_{i=1}^m,s_m,\delta_1,\lab_1}$, where $\lab_1(s_i)=\{i\}$ and $\delta_1(s_i,\{(i\%m)+1\}) = s_{(i\%m)+1}$, and $\cT_2 = \tup{\cP,\cP,\{s_0\} \cup \condset{s_i^j}{1\leq i\leq m, 1\leq j \leq p_i},s_0,\delta_2,\lab_2}$, where $\lab_2(s_i^j)=\{i\}$, $\lab_2(s_0)=\emptyset$, $\delta_2(s_i^j,\{\ell\}) = s_i^{j+1}$ for all $j<p_i$ and $i,\ell$, and $\delta_2(s_i^{p_i}, \{\ell\}) = \delta_2(s_0, \{\ell\}) = s_\ell^1$.
+
+The sum of the number of states in $\cT_1$ and $\cT_2$ is $1+m+\sum_{i=1}^m p_i = \mathsf{O}\left(\sum_{i=1}^m p_i\right)$. It is easily verified that $\cT_1\prec_k \cT_2$ holds for $k = m\cdot \prod_{i=1}^m p_i$, which is exponential in the number of states. Indeed, for the round $w=(1\cdots m)^{\prod_{i=1}^mp_i}$, we consider the $k$-round equivalent $1^{\prod_{i=1}^mp_i}\cdots m^{\prod_{i=1}^mp_i}$, on which the run of $\cT_2$ induces the same output.
+
+We now show that this $k$ is minimal.
+For a $k$-length word $x\in (1\cdot 2\cdots m)^*$ to have round equivalent outputs in both $\cT_1$ and $\cT_2$, there must be a permutation $x'$ in which every appearance of $i\in\cP$ is part of a sequence of appearances of $i$, of length $p_i$, except maybe at its end. If $m\mid k$, then there are $\frac{k}{m}$ appearances of each $i$, so $\frac{k}{m}$ must be divisible by all primes, except maybe one. The latter possibility is falsified when considering the next round. If, however, $m\nmid k$, then in the next round, $1\in\cP$ will have one less appearance than in the first round. This, again, is impossible when considering one additional round.
+\qed
+
+\section{$\PSPACE$ Hardness}
+\label{apx:PSPACE-H}
+
+\begin{lemma}
+\label{lem:universalityofnfa}
+Universality of $\NFAs$ over alphabet $\Sigma=\{0,1\}$, where all states are accepting, and the degree of nondeterminism is at most $2$, is \PSPACE\ complete.
+\end{lemma}
+\begin{proof}
+In~\cite{kao2009nfas}, it is shown that universality of \NFAs remains \PSPACE\ complete even for \NFAs over alphabet $\Sigma=\{0,1\}$ and all states accepting. Thus, we only need to show that this remains the case under the restriction that $|\delta(q,\sigma)|\le 2$ for every state $q$ and letter $\sigma$.
+
+To see this, we start by observing that universality remains \PSPACE\ complete for \NFAs over alphabet $\{0,1,\$\}$ with nondeterminism degree at most 2. Indeed, given an \NFA over $\{0,1\}$ with maximal nondeterminism degree $d>2$, we can replace each transition of the form\footnote{We can assume all transitions have degree exactly $d$ by adding redundant transitions} $\delta(q,\sigma)=\{q_1,\ldots, q_d\}$ with a binary tree of depth $\lceil \log d \rceil$, reading $\$$ on all transitions, which starts at $q$ and ends in $q_1,\ldots,q_d$. Thus, we introduce at most $d$ states for every transition. By marking these states as accepting, this reduction maintains universality, and requires a polynomial blowup.
+
+Next, we observe that the reductions in~\cite[Lemma 2]{kao2009nfas} first transform an \NFA over alphabet size $k$ to an \NFA over alphabet size $k+1$ with all states accepting and with identical nondeterminism degree (indeed, the only added transitions are in fact deterministic), and then transforms an \NFA with all states accepting and alphabet size $4$ to an \NFA with all states accepting and alphabet size $2$, with an equal nondeterminism degree (essentially by encoding each of the 4 letters as two letters in $\{0,1\}$).
+
+Since we start this chain of reductions with an \NFA of nondeterminism degree at most 2, we maintain this property throughout the proof.
+\end{proof}
+
+\subsection{Proof of \autoref{thm:equivalence_PSPACE-H}}
+We show a reduction from the universality problem for $\NFAs$ over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \DFA of constant size. The former is shown to be \PSPACE-hard in~\autoref{lem:universalityofnfa}.
+
+Consider an \NFA $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
+%Set $\Sigma=\{0,1\}$ and $\Lambda=(ab+cd)^*$, and let $A=\tup{Q, \Sigma, \delta,q_0,Q}$ be an $\NFA$. 
+We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets $\sI=\{a,b,c,d\}$ and $\sO=\{\top,\bot\}$ and $\fL\subseteq \sI^*$, such that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$. 
+%That is, iff for all $x\in \fL$ there exist $x'\req[2] x$ with $x'\in \fL$ and $x''\req[2] x$ that satisfy $\cT_1(x)\req[2] \cT_2(x')$ and $\cT_1(x'')\req[2] T_2(x)$.
+
+Set $\fL=(ab+cd)^*$ (described as a 4-state \DFA). Intuitively, our reduction encodes $\{0,1\}$ into $\{a,b,c,d\}^2$ by setting $0$ to correspond to $ab$ and to $ba$, and $1$ to $cd$ and to $dc$. Then, $\cT_1$ keeps outputting $\top$ for all inputs in $\fL$, thus mimicking ``accepting'' every word in $\{0,1\}^*$. We then construct $\cT_2$ so that every nondeterministic transition of $\cN$ on e.g., $0$ is replaced by two deterministic branches on $ab$ and on $ba$. Hence, when we are allowed to permute $ab$ and $ba$ by round equivalence, we capture the nondeterminism of $\cN$. 
+
+We now proceed to define the reduction formally. We construct $\cT_1$ independently of $\cN$, as depicted %It is the simple transducer denoted
+in~\autoref{fig:PSPACE_reduction_T1}, containing 4 states. For every $x\in \fL$ we have $\cT_1(x)=\top^{|x|}$, and for every other $x\notin \fL$ we have $\cT_1(x)=\top^{m}\bot^{|x|-m}$ where $m$ is the length of the maximal prefix of $x$ in $(ab+cd)^*(a+c+\epsilon)$.
+
+We proceed to construct $\cT_2$. 
+%Recall that the nondeterminism degree of $\cN$ is $2$. Thus,
+We can think of the outgoing transitions from every state $q$ as $\delta(q,0)=\{q^{0,0},q^{0,1}\}$ and $\delta(q,1)=\{q^{1,0},q^{1,1}\}$ (unless $\cN$ has no outgoing transitions on one of the letters, see below). We obtain $\cT_2$ from $\cN$ by introducing 4 new states $q_a,q_b,q_c,q_d$ for every state $q\in Q$, and setting the transitions and labels as depicted in~\autoref{fig:PSPACE_reduction_T2}. In case $\cN$ does not have a transition on e.g., $0$ from $q$, then instead of going to $q_a$ or $q_b$, we proceed to a new state $q_\bot$ labelled $\bot$, which is a sink state. In addition, $q_\bot$ is reached upon any transition not yet defined.
+Observe that for every $x\in \fL$ we have $\cT_2(x)=\top^{m}\bot^{|x|-m}$ for some $0\le m\le |x|$ (since $q_\bot$ is a sink).
+% \begin{figure}
+% \begin{minipage}{.30\linewidth}%[ht]
+%  	%\centering
+% 	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,initial distance=0.2cm,on grid,auto]
+% 	\tikzstyle{smallnode}=[circle, inner sep=0mm, outer sep=0mm, minimum size=5mm, draw=black];
+% 	%\clip (-5,2) rectangle (5, -4);
+% 	\clip (-2,0.9) rectangle (2.4, -1.3);
+% 		\node[smallnode, initial text={}] (q_0) [initial above] {$\color{red} \top$}; 
+% 		\node[smallnode] (q_1) [right=of q_0] {$\color{red} \top$}; 
+% 		\node[smallnode] (q_2) [left=of q_0] {$\color{red} \top$};
+% 		\node[smallnode] (q_3) [below=of q_0] {$\color{red} \bot$};
+		
+% 		\path[->] 
+% 		(q_0)
+% 		 edge [bend right, swap, pos=0.6] node {$a$} (q_1)
+% 		 edge [bend left] node {$c$} (q_2)
+% 		 edge [pos=0.7] node {$b,d$} (q_3)
+% 		(q_1) 
+% 		 edge [bend right, swap] node {$b$} (q_0)
+% 		 edge [out=-90, in=0] node[pos=0.8,yshift=0.2cm] {$a,c,d$} (q_3)
+% 		(q_2)
+% 	     edge [bend left] node {$d$} (q_0)
+% 		 edge [out=-90, in=180, swap] node[pos=0.8,yshift=0.2cm] {$a,b,c$} (q_3);
+% 	\end{tikzpicture}
+%  	\caption{The transducer $\cT_1$ in the proof of \autoref{thm:equivalence_PSPACE-H}.}
+%  	\label{fig:PSPACE_reduction_T1}
+%  \end{minipage}%
+%  \hfill%
+%  %\hspace{2.0cm}%
+%  \begin{minipage}{.65\linewidth}%[ht]
+% 	%\centering
+% 	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.2cm,on grid,auto]
+% 		\tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
+% 		%\clip (-2,1.5) rectangle (2,-0.4);
+% 		\node[state] (q_0) {$q$}; 
+% 		\node[state] (q_1) [above right=of q_0] {$q^{0,0}$}; 
+% 		\node[state] (q_2) [right=of q_0] {$q^{0,1}$}; 
+% 		\node[state] (q_3) [above left=of q_0] {$q^{1,0}$}; 
+% 		\node[state] (q_4) [left=of q_0] {$q^{1,1}$}; 
+		
+% 		\path[->] 
+% 		(q_0)
+% 		 edge node [pos=0.6] {$0$} (q_1)
+% 		 edge node [pos=0.6] {$0$} (q_2)
+% 		 edge node [pos=0.6, swap] {$1$} (q_3)
+% 		 edge node [pos=0.6, swap] {$1$} (q_4);
+% 	\end{tikzpicture}%
+% 	%\hspace{1cm}%
+% 	\hspace{0.5cm}%
+% 	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.2cm,on grid,auto]
+% 	    \tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
+% 	    %\clip (-3.5,2) rectangle (3.5,-0.4);
+% 		\node[state] (q_0) {$q$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_a$}] (q_1) [above right=of q_0] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_b$}] (q_2) [right=of q_0] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_c$}] (q_3) [above left=of q_0] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_d$}] (q_4) [left=of q_0] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{0,0}$}] (q_1b)[right=of q_1] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{0,1}$}] (q_2b)[right=of q_2] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{1,0}$}] (q_3b)[left=of q_3] {$\color{red} \top$}; 
+% 		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{1,1}$}] (q_4b)[left=of q_4] {$\color{red} \top$}; 
+		
+% 		\path[->] 
+% 		(q_0)
+% 		 edge node [pos=0.6] {$a$} (q_1)
+% 		 edge node [pos=0.6] {$b$} (q_2)
+% 		 edge node [pos=0.6, swap] {$c$} (q_3)
+% 		 edge node [pos=0.6, swap] {$d$} (q_4)
+% 		(q_1) edge node [pos=0.6] {$b$} (q_1b)
+% 		(q_2) edge node [pos=0.6] {$a$} (q_2b)
+% 		(q_3) edge node [pos=0.6, swap] {$d$} (q_3b)
+% 		(q_4) edge node [pos=0.6, swap] {$c$} (q_4b);
+% 	\end{tikzpicture}
+%  	\caption{Every state and its 4 transitions in $\cN$ (left) turn into 8 transitions in $\cT_2$ (right). All transitions not drawn in the right figure lead to $q_\bot$, a sink state labelled $\color{red}\bot$.}
+%  	\label{fig:PSPACE_reduction_T2}
+%  \end{minipage}
+% \end{figure}
+%Assume $\Sigma^* = L(A)$, then all words have a path. Let $x\in\Lambda$. It is straightforward to see that $T_1(x)=\mathbf{o}_1^{|x|}$. Moreover, $T_2(x')=\mathbf{o}_1^{|x|}$, where $x'$ is obtained as follows: Replace every appearance of $ab$ with $0$ and of $cd$ with $1$, and call the resulting word $\hat{x}$. This word has a generating path in $A$, denoted by $s_1\rightarrow s_2\rightarrow\cdots\rightarrow s_k$. Now, every path in $A$ has a matching path in $T_1$ (in a one-to-one manner).
+
+We now claim that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$.
+For the first direction, assume $L(\cN)=\{0,1\}^*$. Observe that $\cT_2\prec_{2,\fL}\cT_1$ independently: for every $x\in (ab+cd)^*$, denote $\cT_2(x)=\top^{m}\bot^{|x|-m}$, then we can construct $x'\req[2]x$ such that $\cT_1(x')=\top^{m}\bot^{|x|-m}$ by leaving $x$ unchanged $m$ steps, and then permuting the letters such that the run of $\cT_1$ moves to the sink labelled $\bot$ (indeed, observe that $m$ must be even by the construction of $\cT_2$, and hence $\cT_1$ can permute e.g., $ab$ to $ba$ in order to start outputting $\bot$ on an even step).
+
+Next, we show that $\cT_1\prec_{2,\fL}\cT_2$. Consider $x\in (ab+cd)^*$, so that $\cT_1(x)=\top^{|x|}$, and let $w\in \{0,1\}^*$ be the word obtained from $x$ by identifying $ab$ with $0$ and $cd$ with $1$. Since $L(\cN)=\{0,1\}^*$, there exists a run (and hence an accepting run) of $\cN$ on $w$, denoted $s_0,s_1,\ldots,s_n$. We now obtain $x''\req[2]x$ by identifying each letter $0$ in $x$ with either $ab$ or $ba$, and each letter $1$ with $cd$ or $dc$, such that the run of $\cT_2$ on $x''$ simulates the run of $\cN$ on $w$. Thus, $\cT_2(x'')=\top^{|x''|}$, and $x''\req[2]x$, so we are done.
+
+Conversely, if $\cT_1\equiv_{2,\fL}\cT_2$, then in particular $\cT_1\prec_{2,\fL}\cT_2$. We claim that $L(\cN)=\{0,1\}^*$. Consider $w\in \{0,1\}^*$. Dually to the above, we obtain from $w$ a word $x\in (ab+cd)^*$ by identifying $0$ with $ab$ and $1$ with $cd$, so that $\cT_1(x)=\top^{|x|}$. 
+Since $\cT_1\equiv_{2,\fL}\cT_2$, there exists $x'\req[2]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$. In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. This gives $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, which concludes the proof.\qed
+
+\subsection{Proof of \autoref{thm:existential_equivalence_PSPACE-H}}
+\label{apx:proof_existential_PSPACE-H}
+In order to show that existential round equivalence is \PSPACE-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for $\NFAs$ over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf. \autoref{lem:universalityofnfa}), to existential round-equivalence, and with $\fL$ given as a \DFA of constant size. 
+
+Consider an \NFA $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
+We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets $\sI=\{a,b,c,d,\#\}$ and $\sO=\{\top,\bot\}$ and $\fL\subseteq \sI^*$, such that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$. 
+
+Intuitively, the idea is to use a similar encoding of $\{0,1\}$ in $\{a,b,c,d\}$ whereby $0$ corresponds to either $ab$ or $ba$ and $1$ to $cd$ or $dc$. Now, however, since $k$ is not fixed to $2$, we also allow arbitrary padding with sequences of $\#\#$.
+
+Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\cT_2$ similarly to the proof of \autoref{thm:equivalence_PSPACE-H}, by adding self-cycles of length 2 upon reading $\#\#$, from every state except the sink $q_\bot$. See \autoref{fig:existential_PSPACE_reduction_T1,fig:existential_PSPACE_reduction_T2} for an illustration.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
+	\tikzstyle{smallnode}=[circle, inner sep=0mm, outer sep=0mm, minimum size=5mm, draw=black];
+		\node[smallnode] (q_0) [initial above] {$\color{red} \top$}; 
+		\node[smallnode] (q_1) [right=of q_0] {$\color{red} \top$}; 
+		\node[smallnode] (q_2) [left=of q_0] {$\color{red} \top$};
+		\node[smallnode] (q_3) [below=of q_0] {$\color{red} \top$};
+		\node[smallnode] (q_4) [below=of q_3] {$\color{red} \bot$};
+		
+		\path[->] 
+		(q_0)
+		 edge [bend right, swap, pos=0.6] node {$a$} (q_1)
+		 edge [bend left, pos=0.6] node {$c$} (q_2)
+		 edge [bend left] node {$\#$} (q_3)
+		 edge [out=-135, in=135, swap, pos=0.7] node {$b,d$} (q_4)
+		(q_1) 
+		 edge [bend right, swap] node {$b$} (q_0)
+		 edge [out=-45, in=-45] node {$a,c,d,\#$} (q_4)
+		(q_2)
+	     edge [bend left] node {$d$} (q_0)
+		 edge [out=-135, in=-135, swap] node {$a,b,c,\#$} (q_4)
+		(q_3)
+		 edge [bend left] node {$\#$} (q_0)
+		 edge [] node {$a,b,c,d$} (q_4);
+		 
+	\end{tikzpicture}
+	\caption{The transducer $\cT_1$ in  the proof of \autoref{thm:existential_equivalence_PSPACE-H}.}
+	\label{fig:existential_PSPACE_reduction_T1}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	
+	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
+		\tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
+		\node[state] (q_0) {$q$}; 
+		\node[state] (q_1) [above right=of q_0] {$q^{0,0}$}; 
+		\node[state] (q_2) [right=of q_0] {$q^{0,1}$}; 
+		\node[state] (q_3) [above left=of q_0] {$q^{1,0}$}; 
+		\node[state] (q_4) [left=of q_0] {$q^{1,1}$}; 
+		
+		\path[->] 
+		(q_0)
+		 edge node [pos=0.6] {$0$} (q_1)
+		 edge node [pos=0.6] {$0$} (q_2)
+		 edge node [pos=0.6,swap] {$1$} (q_3)
+		 edge node [pos=0.6,swap] {$1$} (q_4);
+	\end{tikzpicture}%
+	\hspace{2cm}%
+	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
+	    \tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
+		\node[state] (q_0) {$q$}; 
+		\node[state] (q') [above=of q_0] {$q_\#$}; 
+		\node[state, label={[font=\small]above:$q_a$}] (q_1) [above right=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]above:$q_b$}] (q_2) [right=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]above:$q_c$}] (q_3) [above left=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]above:$q_d$}] (q_4) [left=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]right:$q^{0,0}$}] (q_1b)[right=of q_1] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]right:$q^{0,1}$}] (q_2b)[right=of q_2] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]left:$q^{1,0}$}] (q_3b)[left=of q_3] {$\color{red} \top$}; 
+		\node[state, label={[font=\small]left:$q^{1,1}$}] (q_4b)[left=of q_4] {$\color{red} \top$}; 
+		
+		\path[->] 
+		(q_0)
+		 edge node [pos=0.8] {$a$} (q_1)
+		 edge node [pos=0.8] {$b$} (q_2)
+		 edge node [pos=0.6, swap] {$c$} (q_3)
+		 edge node [pos=0.6, swap] {$d$} (q_4)
+		 edge node [bend left, pos=0.6] {$\#$} (q')
+		(q_1) edge node [pos=0.6] {$b$} (q_1b)
+		(q_2) edge node [pos=0.6] {$a$} (q_2b)
+		(q_3) edge node [pos=0.6, swap] {$d$} (q_3b)
+		(q_4) edge node [pos=0.6, swap] {$c$} (q_4b)
+		(q') edge [bend left] node[pos=0.5] {$\#$} (q_0);
+	\end{tikzpicture}
+	\caption{Every state and its 4 transitions in $\cN$ (left) turn into 10 transitions in $\cT_2$ (right). All transitions not drawn in the right figure lead to $q_\bot$, a sink state labelled $\color{red}\bot$.}
+	\label{fig:existential_PSPACE_reduction_T2}
+\end{figure}
+
+We claim that $L(\cN)=\{0,1\}^*$ iff there exists $k>0$ such that $\cT_1\equiv_{k,\fL}\cT_2$.
+For the first direction, assume $L(\cN)=\{0,1\}^*$, then we can show that $\cT_1\equiv_{2,\fL}\cT_2$ by following the proof of \autoref{thm:equivalence_PSPACE-H} line for line, with the addition that blocks of the form $\#\#$ leave the state of both $\cT_1$ and $\cT_2$ unchanged.
+
+For the converse direction, assume $\cT_1\equiv_{k,\fL}\cT_2$, and in fact we only assume $\cT_1\prec_{k,\fL}\cT_2$ for some $k>0$. We assume w.l.o.g. that $k$ is even, otherwise we can consider $2k$ (since we also have $\cT_1\prec_{2k,\fL}\cT_2$).
+
+Consider $w\in \{0,1\}^*$. We obtain from $w$ a word $x\in (ab+cd+\#\#)^*$ by identifying $0$ with $ab\#^{k-2}$ and $1$ with $cd\#^{k-2}$. Observe that $\cT_1(x)=\top^{|x|}$, and that $x$ is indeed a $k$-round word in $\fL$, with each round being either $ab\#^{k-2}$ or $cd\#^{k-2}$. 
+
+Since $\cT_1\prec_{k,\fL}\cT_2$, there exists $x'\req[k]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$, and by shifting the location of this pair within the $\#$ symbols. Indeed, otherwise the run of $\cT_2$ on $x'$ ends in $q_{\bot}$.
+In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. Thus, $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, and the proof is concluded. \qed
+

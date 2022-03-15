@@ -1,5 +1,7 @@
 \chapter{Conclusion and open questions}
 \label{chap:conclusion}
+\label{chap:discussion}
+\label{chap:future}
 
 This kind of chapter can include may different things (or only some of them):
 \begin{itemize}
@@ -21,3 +23,8 @@ Here is what I conclude.
 
 \paragraph{A second question in brief.} A broader exposition of the question and indications of directions or ideas regarding its resolution.
 
+In this work, we introduced round simulation and provided decision procedures and lower bounds (some with remaining gaps) for the related algorithmic problems.
+
+Round simulation, and in particular its application to Round Symmetry, is only an instantiation of a more general framework of symmetry, by which we measure the stability of transducers under local changes to the input. In particular, we plan to extend this study to other definitions, such as \emph{window simulation}, where we use a sliding window of size $k$ instead of disjoint $k$-rounds, and \emph{Parikh round symmetry}, where the alphabet is of the form $2^{\cP}$, and we are allowed not only to permute the letters in each round, but also to shuffle the individual signals between letters in the round. 
+In addition, the setting of infinite words is of interest, where one can define \emph{ultimate simulation}, requiring the simulation to only hold after a finite prefix. 
+Finally, other types of transducers may require variants of simulation, such as probabilistic transducers, or streaming-string transducers~\cite{Alur2010}.
