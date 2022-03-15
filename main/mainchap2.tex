@@ -1,7 +1,7 @@
 \chapter{Deciding Fixed Round Simulation}
 \label{chap:deciding_fixed_round_sim}
 
-In this section we show decidability of fixed round simulation (and, by \cref{lem:reduce_equiv_to_simulation}, fixed round equivalence). The tools we develop will be used in \cref{sec:deciding_existential_round_sim} to handle the existential variant.
+In this section we show decidability of fixed round simulation (and, by \autoref{lem:reduce_equiv_to_simulation}, fixed round equivalence). The tools we develop will be used in \autoref{chap:deciding_existential_round_sim} to handle the existential variant.
 
 Let $\sI$ and $\sO$ be input and output alphabets. Consider two $\sI/\sO$ transducers $\cT_1$ and $\cT_2$, and let $\fL\subseteq \sI^*$ and $k>0$.
 In order to decide whether $\cT_1\prec_{k,\fL} \cT_2$, we proceed as follows. First, we cast the problem to a problem about deterministic automata. Then, we translate $k$-rounds into letters, by working over the alphabets $\sI^k$ and $\sO^k$. We construct an \NFA, dubbed the \emph{permutation closure}, for each transducer $\cT$, that captures the behaviour of $\cT$ on words and their permutations. Intuitively, the \NFA takes as input a word $(x,y)\in (\sI^{k}\times \sO^k)^*$, guesses a round-equivalent word $x'\req x$, and verifies that $\cT(x')\req \cT(x)$. We then show that round-simulation amounts to deciding the containment of these \NFAs.
@@ -46,7 +46,7 @@ Given a transducer $\cT$, we apply the permutation closure to the trace $\DFA$ o
 	\end{flalign*}
 \end{lemma}
 \begin{proof}
-	Recall that $\tr(\cT)$ accepts a word $(x',y')$ iff $\cT(x')=y'$. The claim then follows from \cref{obs:perm_closure_language}, by replacing the expression $y\req y' \wedge (x',y')\in L(\tr(\cT))$ with the equivalent expression $\cT(x')\req[k] y$.
+	Recall that $\tr(\cT)$ accepts a word $(x',y')$ iff $\cT(x')=y'$. The claim then follows from \autoref{obs:perm_closure_language}, by replacing the expression $y\req y' \wedge (x',y')\in L(\tr(\cT))$ with the equivalent expression $\cT(x')\req[k] y$.
 \end{proof}
 
 We now reduce round simulation to the containment of permutation-closure \NFAs.
@@ -57,23 +57,23 @@ We now reduce round simulation to the containment of permutation-closure \NFAs.
 	then, $\cT_1\prec_{k,\fL} \cT_2$ iff $L(\cA^k_1)\subseteq L(\cA^k_2)$.
 \end{lemma}
 \begin{proof}
-	For the first direction, assume $\cT_1\prec_{k,\fL} \cT_2$, and let $(x,y)\in L(\cA^k_1)$. By~\cref{lem:permutation_closure_construction}, $x$ and $y$ are $k$-round words, and there exists a word $x'\in \fL$ such that $x\req x'$ and $\cT_1(x')\req y$. Since $\cT_1\prec_{k,\fL} \cT_2$, then applying the definition on $x'$ yields that there exists a $k$-round word $x''$ such that $x'\req x''$ and such that $\cT_1(x')\req \cT_2(x'')$. Since $\req$ is an equivalence relation, it follows that $x\req x''$ and $\cT_2(x'')\req y$, so again by \cref{lem:permutation_closure_construction} we have $(x,y)\in L(\cA^k_2)$.
+	For the first direction, assume $\cT_1\prec_{k,\fL} \cT_2$, and let $(x,y)\in L(\cA^k_1)$. By~\autoref{lem:permutation_closure_construction}, $x$ and $y$ are $k$-round words, and there exists a word $x'\in \fL$ such that $x\req x'$ and $\cT_1(x')\req y$. Since $\cT_1\prec_{k,\fL} \cT_2$, then applying the definition on $x'$ yields that there exists a $k$-round word $x''$ such that $x'\req x''$ and such that $\cT_1(x')\req \cT_2(x'')$. Since $\req$ is an equivalence relation, it follows that $x\req x''$ and $\cT_2(x'')\req y$, so again by \autoref{lem:permutation_closure_construction} we have $(x,y)\in L(\cA^k_2)$.
 	
-	Conversely, assume $L(\cA^k_1)\subseteq L(\cA^k_2)$, we wish to prove that for every $k$-round word $x\in \fL$ there exists a word $x'$ such that $x\req x'$ and $\cT_1(x)\req \cT_2(x')$. Let $x\in \fL$ be a $k$-round word, and let $y=\cT_1(x)$, then clearly $(x,y)\in L(\cA^k_1)\subseteq L(\cA^k_2)$ (since $x\req x$, $\cT_1(x)=y\req y$ and $x\in \fL$). By \cref{lem:permutation_closure_construction}, there exists $x'$ such that $x\req x'$ and $\cT_2(x')\req y=\cT_1(x)$, so $\cT_2(x')\req \cT_1(x)$, thus concluding the proof.
+	Conversely, assume $L(\cA^k_1)\subseteq L(\cA^k_2)$, we wish to prove that for every $k$-round word $x\in \fL$ there exists a word $x'$ such that $x\req x'$ and $\cT_1(x)\req \cT_2(x')$. Let $x\in \fL$ be a $k$-round word, and let $y=\cT_1(x)$, then clearly $(x,y)\in L(\cA^k_1)\subseteq L(\cA^k_2)$ (since $x\req x$, $\cT_1(x)=y\req y$ and $x\in \fL$). By \autoref{lem:permutation_closure_construction}, there exists $x'$ such that $x\req x'$ and $\cT_2(x')\req y=\cT_1(x)$, so $\cT_2(x')\req \cT_1(x)$, thus concluding the proof.
 \end{proof}
 
 \begin{remark}
 \label{rmk:det_A1}
-The proof of \cref{lem:round_equivalence_iff_perm_containment} can be simplified by using instead of $\cA^k_1$, the augmentation of $\tr(\cT_1)\cap \fL$ to $k$-round words. However, such a \DFA is not permutation invariant, which is key to our solution for existential round simulation. Since this simplification does not reduce the overall complexity, we use a uniform setting for both solutions.
+The proof of \autoref{lem:round_equivalence_iff_perm_containment} can be simplified by using instead of $\cA^k_1$, the augmentation of $\tr(\cT_1)\cap \fL$ to $k$-round words. However, such a \DFA is not permutation invariant, which is key to our solution for existential round simulation. Since this simplification does not reduce the overall complexity, we use a uniform setting for both solutions.
 \end{remark}
 
-\cref{lem:round_equivalence_iff_perm_containment} shows that deciding fixed round equivalence amounts to deciding containment of \NFAs. By analyzing the size of the \NFAs, we obtain the following.
+\autoref{lem:round_equivalence_iff_perm_containment} shows that deciding fixed round equivalence amounts to deciding containment of \NFAs. By analyzing the size of the \NFAs, we obtain the following.
 \begin{theorem}
 	\label{thm:fixed_re_PSPACE}
 	Given transducers $\cT_1,\cT_2$, an \NFA $\fL$, and $k>0$ in unary, the problem of deciding whether $\cT_1\prec_{k,\fL}\cT_2$ is in \PSPACE.
 \end{theorem}
 \begin{proof}
-	Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$. By \cref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$. Looking at the dual problem, recall that for two \NFAs $\cN_1, \cN_2$ we have that $L(\cN_1)\not\subseteq L(\cN_2)$ iff 
+	Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$. By \autoref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$. Looking at the dual problem, recall that for two \NFAs $\cN_1, \cN_2$ we have that $L(\cN_1)\not\subseteq L(\cN_2)$ iff 
 	there exists $w\in L(\cN_2)\setminus L(\cN_1)$ with $|w|\le |\cN_1|\cdot 2^{|\cN_2|}$ (this follows immediately by bounding the size of an \NFA for $L(\cN_1)\cap \overline{L(\cN_2)}$). Thus, we can decide whether $L(\cA^k_1)\subseteq L(\cA^k_2)$ by guessing a word $w$ over $\sI^k\times \sO^k$ of single-exponential length (in the size of $\cA^k_1$ and $\cA^k_2$), and verifying that it is accepted by $\cA^k_1$ and not by $\cA^k_2$. 
 	
 	Observe that to this end, we do not explicitly construct $\cA^k_1$ nor $\cA^k_2$, as their alphabet size is exponential. Rather, we evaluate them on each letter of $w$ based on their construction from $\cT$. At each step we keep track of a counter for the length of $w$, a state of $\cA^k_1$, and a set of states of $\cA^k_2$. Since the number of states in $\cA^k_1$ and $\cA^k_2$ is the same as that of $\cT_1$ and $\cT_2$, this requires polynomial space.
@@ -81,7 +81,7 @@ The proof of \cref{lem:round_equivalence_iff_perm_containment} can be simplified
 	By Savitch's theorem we have that $\mathsf{coNPSPACE}=\PSPACE$, and the proof is concluded.
 \end{proof}
 
-We now give a \PSPACE-hardness lower bound, thus concluding the problem is \PSPACE-complete. By~\cref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound already for round-equivalence.\footnote{The reduction in \cref{lem:reduce_equiv_to_simulation} is a Turing reduction. Nonetheless, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
+We now give a \PSPACE-hardness lower bound, thus concluding the problem is \PSPACE-complete. By~\autoref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound already for round-equivalence.\footnote{The reduction in \autoref{lem:reduce_equiv_to_simulation} is a Turing reduction. Nonetheless, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
 \begin{theorem}
 \label{thm:equivalence_PSPACE-H}
 The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$, is \PSPACE-hard, even for $k=2$ and for a fixed $\fL$ (given as a 4-state \DFA).
@@ -95,7 +95,7 @@ We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets
 
 Set $\fL=(ab+cd)^*$.
 Intuitively, our reduction encodes $\{0,1\}$ over $\{a,b,c,d\}$ by identifying $0$ with $ab$ and with $ba$, and $1$ with $cd$ and with $dc$. 
-Then, $\cT_1$ (\cref{fig:PSPACE_reduction_T1}) keeps outputting $\top$ for all inputs in $\fL$, thus mimicking a universal language in $\{0,1\}^*$. We then construct $\cT_2$ so that every nondeterministic transition of $\cN$ on e.g., $0$ is replaced by two deterministic branches on $ab$ and on $ba$ (see~\cref{fig:PSPACE_reduction_T2}). Hence, when we are allowed to permute $ab$ and $ba$ by round equivalence, we capture the nondeterminism of $\cN$. The outputs in $\cT_2$ are all $\top$, except a sink state $q_\bot$ labelled $\bot$, which is reached upon any undefined transition (including transitions from states of $\cN$ that do not have an outgoing $0$ or $1$ transition).
+Then, $\cT_1$ (\autoref{fig:PSPACE_reduction_T1}) keeps outputting $\top$ for all inputs in $\fL$, thus mimicking a universal language in $\{0,1\}^*$. We then construct $\cT_2$ so that every nondeterministic transition of $\cN$ on e.g., $0$ is replaced by two deterministic branches on $ab$ and on $ba$ (see~\autoref{fig:PSPACE_reduction_T2}). Hence, when we are allowed to permute $ab$ and $ba$ by round equivalence, we capture the nondeterminism of $\cN$. The outputs in $\cT_2$ are all $\top$, except a sink state $q_\bot$ labelled $\bot$, which is reached upon any undefined transition (including transitions from states of $\cN$ that do not have an outgoing $0$ or $1$ transition).
 
 \begin{figure}
 \begin{minipage}{.30\linewidth}
@@ -119,7 +119,7 @@ Then, $\cT_1$ (\cref{fig:PSPACE_reduction_T1}) keeps outputting $\top$ for all i
 	     edge [bend left] node {$d$} (q_0)
 		 edge [out=-90, in=180, swap] node[pos=0.8,yshift=0.2cm] {$a,b,c$} (q_3);
 	\end{tikzpicture}
- 	\caption{The transducer $\cT_1$ in the proof of \cref{thm:equivalence_PSPACE-H}.}
+ 	\caption{The transducer $\cT_1$ in the proof of \autoref{thm:equivalence_PSPACE-H}.}
  	\label{fig:PSPACE_reduction_T1}
  \end{minipage}%
  \hfill%
