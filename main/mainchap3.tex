@@ -1,6 +1,8 @@
 \chapter{Deciding Existential Round Simulation}
 \label{chap:deciding_existential_round_sim}
 
+The above algorithm has given a way to check $k$-round-symmetry of a transducer $T$ w.r.t.\! any family of permutations $\Pi$ in $\PSPACE$. However, whenever we are interested in checking for the symmetry of a transducer, $k$ is usually not given. We must then look for ways to bound $k$ so as, to check for round-symmetry with \emph{any} round length, we need only check a finite number (hopefully no more than exponential in size) of possibilities for $k$.
+
 We turn to solve existential round simulation. That is, given $\cT_1,\cT_2$ and $\fL$, we wish to decide whether there exists $k>0$ such that $\cT_1\prec_{k,\fL} \cT_2$. 
 By \autoref{lem:round_equivalence_iff_perm_containment}, this is equivalent to deciding whether there exists $k>0$ such that $L(\cA^k_1)\subseteq L(\cA^k_2)$, as defined therein.
 
