@@ -1,32 +1,7 @@
 \chapter{Preliminaries}
 \label{chap:prelims}
 
-A preliminaries chapter is not necessary, but it may be a good idea to use it for presenting your theoretical/mathematical framework in a more detailed and technical way than the introduction, and to perhaps establish some basic lemmata/observations common to multiple chapters of your thesis.
-
-\section{Some section}
-
-Let's define some concept we'll be using throughout the thesis.
-
-\begin{definition}
-The \emph{von Neumann model} of a computer, also known as the \emph{Princeton architecture} is an architecture for digital computers, which consists of a processing units, containing an ALU and processing registers; a control unit consisting of an instruction register and a program counter; a memory unit which stores both data and instructions; and input-and-output mechanisms.
-\end{definition}
-
-\section{Acronyms and abbreviations}
-
-Your thesis will typically have a set of significant terms, abbreviations and acronyms. Technion guidelines mandate that you place a list of these at the beginning of your thesis; and that they be defined upon first use. And, indeed, if you followed read this sample thesis carefuly thus far you should have seen ``\nameref{chap:notation-and-abbreviations}'' following the abstract.
-
-When writing your thesis, collect such terms and their corresponding definitions in the \texttt{front/abbrevs.tex} file --- using the commands \verb|\newacronym|,  \verb|\newabbreviation| and \verb|\newglossaryentry|; the latter command is used for symbols and short, but unabbreviated, terms.
-
-In the body of your thesis, your first use of a term will typically be where you want to also include the text of its definition. You don't need to repeat the definition you've already entered! Let's explain with an example: You've defined the term \gls{DIY} beforehand; when using it, you invoke the command \verb|\gls{DIY}|.\footnote{The 
-\texttt{\textbackslash{}gls} command originates in the \texttt{glossaries-extra} package, which is used to automate the handling of notation \& abbreviations.} This command does several things:
-\begin{itemize}
-	\item It ensures the term \gls{DIY} is included in the list of Notation \& Abbreviation, at the beginning of the thesis; the entry for the term will also include the page on which it first appears;
-	\item It produces the definition text; and finally
-	\item It adds the defined term --- \gls{DIY} --- in parentheses, after the definition.
-\end{itemize}
-In later invocations of \verb|\gls{DIY}|, only the short form (\gls{DIY}) will be printed, not the definition, and no parentheses. (This also means that if you move text around in your thesis you don't have to worry about defining on first use - that's already taken care of.) 
-
-\subparagraph*{Automata}
+\section*{Automata}
 A \emph{deterministic finite automaton} ($\DFA$) is $\cA=\tup{\Sigma,Q,q_0,\delta,F}$, where $Q$ is a finite set of states, $q_0 \in Q$ is an initial state, $\delta: Q\times \Sigma \to Q$ is a transition function, and $F\subseteq Q$ is the set of accepting states. 
 
 The run of $\cA$ on a word $w=\sigma_0 \cdot \sigma_2 \cdots \sigma_{n-1}\in \Sigma^*$ is a sequence of states $q_0,q_1,\ldots,q_n$ such that $q_{i+1} = \delta(q_i,\sigma_{i})$ for all $0\le i<n$. 
@@ -39,22 +14,25 @@ For states $q,q'$ and $w\in \Sigma^*$, we write $q\runs{w}{\cA}q'$ if $q'\in \de
 
 An \NFA $\cA$ can be viewed as a morphism from $\Sigma^*$ to the monoid $\bbB^{Q\times Q}$ of $Q\times Q$ Boolean matrices, where we associate with a letter $\sigma\in \Sigma$ its \emph{type} $\tau_{\cA}(\sigma)\in \bbB^{Q\times Q}$ defined by $(\tau_{\cA}(\sigma))_{q,q'}=1$ if $q\runs{\sigma}{\cA}q'$, and $(\tau_{\cA}(\sigma))_{q,q'}=0$ otherwise. We extend this to $\Sigma^*$ by defining, for a word $w=\sigma_1\cdots \sigma_n\in \Sigma^*$, its type as $\tau_{\cA}(w)=\tau_{\cA}(\sigma_1)\cdots \tau_{\cA}(\sigma_n)$ where the concatenation denotes Boolean matrix product. It is easy to see that $(\tau_{\cA}(w))_{q,q'}=1$ iff $q\runs{w}{\cA}q'$.
 
-\subparagraph*{Transducers} Consider two sets $\sI$ and $\sO$, representing Input and Output alphabets, respectively. A \emph{$\sI/\sO$ transducer} is $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$ where $Q$, $q_0\in Q$, and $\delta:Q\times \sI\to Q$ are as in a \DFA, and $\lab:Q\to \sO$ is a labelling function. For a word $w\in \sI^*$, consider the run $\rho=q_0,\ldots,q_n$ of $\cT$ on a word $w$. We define its output $\lab(\rho)=\lab(q_1)\cdots\lab(q_n)\in \sO^*$, and we define the output of $\cT$ on $w$ to be $\cT(w)=\lab(\rho)$. Observe that we ignore the labelling of the initial state in the run, so that the length of the output matches that of the input.
+\section*{Transducers}
+Consider two sets $\sI$ and $\sO$, representing Input and Output alphabets, respectively. A \emph{$\sI/\sO$ transducer} is $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$ where $Q$, $q_0\in Q$, and $\delta:Q\times \sI\to Q$ are as in a \DFA, and $\lab:Q\to \sO$ is a labelling function. For a word $w\in \sI^*$, consider the run $\rho=q_0,\ldots,q_n$ of $\cT$ on a word $w$. We define its output $\lab(\rho)=\lab(q_1)\cdots\lab(q_n)\in \sO^*$, and we define the output of $\cT$ on $w$ to be $\cT(w)=\lab(\rho)$. Observe that we ignore the labelling of the initial state in the run, so that the length of the output matches that of the input.
 
-For a transducer $\cT$ and a state $s$, we denote by $\cT^s$ the transducer $\cT$ with  initial \nolinebreak state \nolinebreak $s$.
+% For a transducer $\cT$ and a state $s$, we denote by $\cT^s$ the transducer $\cT$ with  initial \nolinebreak state \nolinebreak $s$.
 
-\subparagraph*{Words and Rounds}
-Consider a word $w=\sigma_0\cdots \sigma_{n-1}\in \Sigma^*$. We denote its length by $|w|$, and for $0\le i\le j< |w|$, we define $w[i:j]=\sigma_i\cdots \sigma_j$. 
-For $k>0$, we say that $w$ is a \emph{$k$-round word} if $|w|=kR$ for some $R\in \bbN$. Then, for every $0\le r<R$, we refer to $w[rk:r(k+1)-1]$ as the \emph{$r$-th round} in $w$, and we write $w=\gamma_0\cdots \gamma_{R-1}$ where $\gamma_r$ is the $r$-th round. We emphasize that $k$ signifies the length of each round, not the number of rounds.
+\section*{Words and Rounds}
+Consider a word $w=\sigma_0\cdots \sigma_{n-1}\in \Sigma^*$. We denote its length by $|w|$, and for $0\le i\le j< |w|$ we define $w[i:j]=\sigma_i\cdots \sigma_j$. 
+For $k>0$, we say that $w$ is a \emph{$k$-round word} if $|w|=kR$ for some $R\in \bbN$. Then, for every $0\le r<R$, we refer to $w[rk:r(k+1)-1]$ as the \emph{$r$-th round} in $w$, and we write $w=\gamma_0\cdots \gamma_{R-1}$ where $\gamma_r$ is the $r$-th round. We emphasize that $k$ indicates the length of each round, not the number of rounds.
 
 In particular, throughout the paper we consider $k$-round words $(x,y)\in (\sI^k\times \sO^k)^*$. In such cases, we sometimes use the natural embedding of $(\sI^k\times \sO^k)^*$ in $(\sI\times \sO)^*$ and in $\sI^*\times \sO^*$, and refer to these sets interchangeably.
 
-\subparagraph*{Parikh Vectors and Permutations}
+\section*{Parikh Vectors and Permutations}
 Consider an alphabet $\Sigma$. For a word $w\in \Sigma^*$ and a letter $\sigma\in \Sigma$, we denote by $\num_\sigma(w)$ the number of occurrences of $\sigma$ in $w$. 
-The Parikh map\footnote{We use $\bbN^\Sigma$ rather than $\bbN^{|\Sigma|}$ to emphasize that the vector's indices are the letters in $\Sigma$.} $\fP:\Sigma^*\to \bbN^\Sigma$ maps every word $w\in \Sigma^*$ to a \emph{Parikh vector} $\fP(w)\in \bbN^\Sigma$, where $\fP(w)(\sigma)=\num_\sigma(w)$. We lift this to languages by defining, for $L\subseteq \Sigma^*$, $\fP(L)=\{\fP(w):w\in L\}$. 
+The Parikh map
+%\footnote{We use $\bbN^\Sigma$ rather than $\bbN^{|\Sigma|}$ to emphasize that the vector's indices are the letters in $\Sigma$.}
+$\fP:\Sigma^*\to \bbN^\Sigma$ maps every word $w\in \Sigma^*$ to a \emph{Parikh vector} $\fP(w)\in \bbN^\Sigma$, where $\fP(w)(\sigma)=\num_\sigma(w)$. We lift this to languages by defining, for $L\subseteq \Sigma^*$, $\fP(L)=\{\fP(w):w\in L\}$. 
 
 For $\vec{p}\in \bbN^\Sigma$ (in the following we consistently denote vectors in $\bbN^\Sigma$ by bold letters) we write $|\vec{p}|=\sum_{\sigma\in \Sigma}\vec{p}(\sigma)$. In particular, for a word $w\in \Sigma^*$ we have $|\fP(w)|=|w|$.
 
-By Parikh's Theorem~\cite{Parikh1966}, for every $\NFA$ $\cA$ we have that $\fP(L(\cA))$ is a \emph{semilinear set}, namely a finite union of sets of the form $\{\vec{p}+\lambda_1 \vec{s_1}+\ldots+\lambda_1 \vec{s_m}\ST \lambda_1,\ldots,\lambda_m\in \bbN\}$ where $\vec{p},\vec{s_1},\ldots,\vec{s_m}\in \bbN^d$ (and the translation is effective).
+By Parikh's Theorem~\cite{Parikh1966}, for every $\NFA$ $\cA$ we have that $\fP(L(\cA))$ is a \emph{semilinear set} -- that is, a finite union of sets of the form $\{\vec{p}+\lambda_1 \vec{s_1}+\ldots+\lambda_1 \vec{s_m}\ST \lambda_1,\ldots,\lambda_m\in \bbN\}$ where $\vec{p},\vec{s_1},\ldots,\vec{s_m}\in \bbN^d$.
 
 Consider words $x,y\in \Sigma^*$, we say that $x$ is a \emph{permutation} of $y$ if $\fP(x)=\fP(y)$ (indeed, in this case $y$ can be obtained from $x$ by permuting its letters). Note that in particular this implies $|x|=|y|$.

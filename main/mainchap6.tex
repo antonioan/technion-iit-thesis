@@ -1,22 +1,20 @@
 \chapter{Other Notions of Symmetry}
 \label{chap:other_notions}
 
-\section{Other types of round symmetry}
+\section{Variations of round symmetry}
 
-As we said in the beginning, we are interested in other types of symmetry too.
+A stronger variation of the symmetry we described is to demand that all rounds be permuted in the same manner. We call this \emph{uniform round symmetry}. If there exists a global permutation that works for all input words, this becomes \emph{global round symmetry}.
 
-A stronger variation of the symmetry we described is to demand that all round scrambles be done in the same manner (i.e. permute identically). We call this \emph{uniform round symmetry}.
+Conversely, a weaker notion of symmetry than the initial is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of the signal set $I$, a permutation in rounds can not only move letters but also signals, as long as the Parikh image of the round w.r.t.\! $I$ is unchanged (i.e. every $i\in I$ appears the same number of times in the round as originally).
 
-Conversely, a weaker notion of symmetry than the one described is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of the signal set $I$, a scramble in rounds can not only move letters but also signals, as long as the Parikh image of the round w.r.t.\! $I$ is unchanged (i.e. every $i\in I$ appears the same number of times in the round as originally).
+The original notion of round symmetry is here called \emph{symbol-wise round symmetry}.
 
-The original notion is here called \emph{symbol-wise round symmetry}.
-
-For all examples, denote $I=O=[m]=\{0,\cdots, m-1\}$.
+% Ant: Add some gaps intro. What these examples are showing.
 
 \begin{example}[Parikh does not imply symbol-wise]
-Let $m\geq 3$ and $\pi=(0\ 1)$. For every $k$, we construct a transducer that is length-$k$ Parikh round-equivalent, but not length-$k'$ symbol-wise round-equivalent for any $k'$.
+Let $m\geq 3$ and $\pi=(0\ 1)$. For every $k$, we construct a transducer that is Parikh $k$-round symmetric, but not symbol-wise $k'$-round symmetric for any $k'$.
 
-Construct the deterministic transducer $\cT$ as follows: $\cT=\tup{I,O,S,s_0,\delta,\lab}$ where
+Construct the deterministic transducer $\cT$ as follows: $\cT=\tup{I,O,S,s_0,\delta,\lab}$ where $I=O=[m]=\{0,\cdots, m-1\}$ and
 \begin{gather*}
     S = \{ s_0, \mathrm{sink}, 
         s_1, \dots, s_{k-1}, 
@@ -32,46 +30,66 @@ Construct the deterministic transducer $\cT$ as follows: $\cT=\tup{I,O,S,s_0,\de
         \delta(t_i, \bullet)= t_{i+1}, \\
     \text{All other transitions lead to $\mathrm{sink}$}
 \end{gather*}
-\antodo[inline]{Draw or make this more intuitive.}
 
-It is Parikh round-symmetric since upon permuting a round of the form $\mathbf{r}=\{0\}\sigma_2\cdots\sigma_{k-1}\{1,2\}$, one can obtain $\mathbf{r}'=\{1,2\}\sigma_2\cdots\sigma_{k-1}\{0\}$ that satisfies $T(\mathbf{r}')=\pi(T(\mathbf{r}))$, such that $\mathbf{r}'\equivP \mathbf{r}$ but not necessarily $\mathbf{r}'\equivS \mathbf{r}$. \antodo{Formalize.} This also holds conversely, for rounds of the form of $\mathbf{r}'$. For all other rounds, the output is always $\emptyset^k$, so for them $T$ is symmetric.
+Todo: Draw or make this more intuitive.
+
+It is Parikh round symmetric since upon permuting a round of the form $\mathbf{r}=\{0\}\sigma_2\cdots\sigma_{k-1}\{1,2\}$, one can obtain $\mathbf{r}'=\{1,2\}\sigma_2\cdots\sigma_{k-1}\{0\}$ that satisfies $T(\mathbf{r}')=\pi(T(\mathbf{r}))$, such that $\mathbf{r}'\equiv_P \mathbf{r}$ but not necessarily $\mathbf{r}'\equiv_S \mathbf{r}$. (Todo: Formalize. Explain the notations also.) This also holds conversely, for rounds of the form of $\mathbf{r}'$. For all other rounds, the output is always $\emptyset^k$, so for them $T$ is symmetric.
 \end{example}
 
 \begin{example}[Round Robin]
-\antodo[inline]{Show that it trivially satisfies symmetry, and call its strong symmetry \emph{uniform round-symmetry}.}
+Recall the Round Robin (RR) scheduler from earlier. The permutation of the output round depends only on the corresponding input round. So if all input rounds are permuted identically, then so are the output rounds. It follows that RR exhibits uniform round symmetry.
 \end{example}
 
-See `my-notes-p57-61.pdf` for further details.
+% See `my-notes-p57-61.pdf` for further details and for more gaps.
 
-\subparagraph*{Extension to round simulation}
-All this could also be extended to round simulation.
+% \subsection*{Extension to round simulation}
+% Any type of round symmetry can also be generalized to round simulation in the same manner as we did in symbol-wise round symmetry.
 
-\section{Symmetry in other settings}
+\subsection{Extension to round simulation}
 
-Consider a transducer $\cT=\tup{I,O,S,s_0,\delta,\lab}$ over $I=\{i_1,\ldots,i_k\}$ and $O=\{o_1,\ldots,o_k\}$. We say that $\cT$ is \emph{Ultimately Symmetric} if for every permutation $\pi\in \cS_k$ and for every $x\in \Io$, there exists $k\ge 0$ such that $\cT(\pi(x))[k:\infty]=\pi(\cT(x))[k:\infty]$.
+Naturally, any type of round symmetry can also be generalized to round simulation in the same manner as we did in symbol-wise round symmetry. However, more can be considered. A system developer might be interested in simulation that permutes the input rounds according to one of the described \emph{modes of permutation} (Parikh, symbol-wise, uniform and global), while permuting the output rounds according to another mode.
 
-That is, for every word $x$, apart from some finite prefix, the output of $\cT$ on $\pi(x)$ is identical to the permuted output $\pi(\cT(x))$.
+\newcommand{\RSTYPES}{\ensuremath{\mathbf{Typ}_1}}
+\newcommand{\RSTUPS}{\ensuremath{\mathbf{Typ}_2}}
+Set $\RSTYPES=\{p, s, u, g\}$. Let $\eta,\eta' \in \RSTYPES$, where $p$, $s$, $u$ and $g$ stand for Parikh, symbol-wise, uniform and global. When two words $x$ and $y$ are permutations of each other according to a type $\eta \in \RSTYPES$, we say they are $\eta$-permutations and denote $x\equiv_\eta y$. Now, transducer $\cT_1$ $\tup{\eta, \eta', k}$-round simulates transducer $\cT_2$ if for any input word $x$, there exists an $\eta$-permutation $x'$ such that $\cT_2(x')$ is an $\eta'$-permutation of $\cT_1(x)$. We denote this by $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$ (for simplicity, we do not consider restriction languages in this section).
+Fix $k>0$. We wish to define a partial order on the set of all types of round simulation according to this definition, i.e. the set $\RSTUPS:=\condset{\tup{\eta, \eta', k}}{\eta,\eta'\in \RSTYPES}$. First, we define an order on the elements of $\RSTYPES$ as such: $p\leq s\leq u\leq g$. A simple observation of the definitions gives the following.
 
-The following is a proposition we are yet to prove, but we strongly believe we are soon to succeed.
+\begin{lemma}
+    Let $\cT_1\prec_{k} \cT_2$ and $x,y$ be input words. For any $\eta,\mu\in\RSTYPES$ such that $\eta\leq \mu$, if $x\equiv_\mu y$ then $x\equiv_\eta y$.
+\end{lemma}
 
-\begin{hypothesis}
-Let $A,B$ be two NFAs over $\Sigma$. There exists a bound $M=M(A,B)$ that satisfies the following: let $x\in \Sigma^\star$ and $x'\equiv x$ a scramble thereof. Denote $q'\in\delta_1(q,x)$ and $s'\in\delta_2(s,x')$, then there exists such an $x$ with $|x|<M$.
-\end{hypothesis}
+The above lemma gives the semantic meaning ``implied-by'' to the order on $\RSTYPES$. Also, we can now define the order on $\RSTUPS$ to be the implied \emph{product order}; i.e. $\tup{\eta, \eta', k}\leq \tup{\mu, \mu', k}$ if both $\eta\leq \mu$ and $\eta'\leq \mu'$. In fact, $\RSTYPES$ defines a lattice, and $\RSTUPS$ (upon fixing $k$ and ignoring the third coordinate) is the lattice obtained from the product of two copies of $\RSTYPES$. It is not difficult to see from the definition that the following holds too.
 
-To understand how this theorem can help our cause, recall that the algorithm for checking $k$-simulation in rounds was based on a construction of a DFA $A_1^k$ and an NFA $A_2^k$ so that, if we fix $T_1$ and $T_2$ and gradually increase $k$, we will have a sequence of automata with identical states, wherein only the transitions and the alphabet change.
+\begin{lemma}
+        Let $\cT_1$ and $\cT_2$ be transducers. For any $\eta,\eta',\mu,\mu'\in\RSTYPES$ such that $\tup{\eta,\eta',k}\leq \tup{\mu,\mu',k}$, if $\cT_1 \prec_{k}^{\mu,\mu'} \cT_2$ then $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$.
+\end{lemma}
 
-If we succeed to show that for some $k_1$ and $k_2$ the two pairs of automata are identical in transitions, then by help of the theorem we can bound the difference $k_2-k_1$ and hopefully get a deterministic analysis of the values of $k$ which would work, i.e. we would solve the problem of bounding $k$.
+We furthermore suggest that these implications are strict. We prove this for the relations in the diagram in the figure below (the $p$-diagram), and keep the rest for the reader to experiment with. We show examples for the gaps $\tup{p, p, k}<\tup{s, p, k}$ and $\tup{p, p, k}<\tup{p, s, k}$ by a round symmetric approach, then we argue that these two gaps imply the other two.
+Note that our examples rely on the fact that permutations $x'$ can move signals around even if they are not touched by the permutation $\pi$ of round symmetry. They also rely on the fact that we cannot move two requests of the process to the same time-step (since $\{a,a\}=\{a\}$ for any $a$).
+
+\begin{example}[Gap I]
+\end{example}
+
+\begin{example}[Gap II]
+\end{example}
+
+Continue by showing how Gaps III and IV are implied.
+
+\section{Symmetry over infinite words}
+
+Consider a deterministic transducer over infinite words $\cT=\tup{I,O,S,s_0,\delta,\lab}$ with input and output signals $I=\{i_1,\ldots,i_k\}$ and $O=\{o_1,\ldots,o_k\}$. We say that $\cT$ is \emph{ultimately symmetric} if for every permutation $\pi\in \cS_k$ and for every $x\in \Io$, there exists $k\ge 0$ such that $\cT(\pi(x))[k:\infty]=\pi(\cT(x))[k:\infty]$. That is, for every word $x$, apart from some finite prefix, the output of $\cT$ on $\pi(x)$ is identical to the permuted output $\pi(\cT(x))$.
+
+The setting of infinite words is common in formal verification; it arises from the idea that a system might expect input indefinitely, and symmetry in such systems would either span over all the input that has been read already or extend into the future. Ultimate symmetry captures a kind of symmetry that achieves the latter case.
 
 \begin{theorem}
-	The problem of deciding whether a transducer $\cT$ is ultimately symmetric can be solved in polynomial time.
+	The problem of deciding whether a transducer $\cT$ is ultimately symmetric w.r.t.\! $\pi$ can be solved in polynomial time.
 \end{theorem}
 \begin{proof}
-	First, we observe that if $\cT$ is ultimately symmetric with respect to permutations $\pi$ and $\tau$ then it is also ultimately symmetric with respect to $\pi\circ\tau$. Thus, it is enough to check ultimate symmetry for the two generators of $\cS_k$, and we henceforth focus on deciding ultimate symmetry for a fixed permutation $\pi\in \cS_k$.
-	
 	We obtain from $\cT$ a deterministic co-B\"uchi automaton $\cC_{\cT,\pi}=\tup{Q,\tI,\mu,q_0,\alpha}$ as follows. Intuitively, $\cC_{\cT,\pi}$ simulates two copies of $\cT$, where the second copy is permuted by $\pi$ (i.e., when seeing the input $\vec{i}\in \tI$ it actually simulates the transition of $\cT$ with $\pi(\vec{i})$). Then, each state $(q,r)$ is marked as accepting if the permuted labelling of $q$ is the same as the labelling of $r$. 
 	We then show that $\cC$ accepts a word $x\in \Io$ iff there exists $k\ge 0$ such that $\cT(\pi(x))[k:\infty]=\pi(\cT(x))[k:\infty]$, so all that remains is to decide whether $L(\cC)=\Io$, which can be done in polynomial time.
 	
-	\shtodo[inline]{add the details.}
-	
+	Formally, we define the components of $\cC_{\cT, \pi}$ as such: $Q=S\times S$, $\alpha=\condset{(s,t)}{\pi(\ell(s))=\ell(t)}$ and $\mu\left((s,t),I'\right)=\left( \delta(s,I'), \delta(t, \pi(I')) \right)$. Observe that for an input $x\in \Io$, by naturally embedding $\left(\tO \times \tO\right)^\omega$ into $\Oo\times \Oo$, we have that $\cC(x)=\left(\cT(x), \cT(\pi(x))\right)$.
+	Then, it holds that $x\in L(\cC)$ iff $\inf(\cC(x))\subseteq \alpha$, iff there exists $k>0$ such that $\cC(x)[k:\infty]\in \alpha^\star$, iff there exists $k>0$ such that $\pi(\cT(x))[k:\infty]=\cT(\pi(x))[k:\infty]$. The required result follows.
 \end{proof}
 
+Observe that, like round symmetry, ultimate symmetry is closed under composition of permutations: if $\cT$ is ultimately symmetric w.r.t.\! permutations $\pi$ and $\tau$ then it is also ultimately symmetric w.r.t.\! $\pi\circ\tau$.

@@ -1,50 +1,5 @@
 \chapter{Introduction}
 \label{chap:intro}
-% do we need to add TOC lines?
-
-%\begin{figure}
-%  \centering
-%  \includegraphics[width=0.75\textwidth]{main/graphics/a_blowup.pdf}
-%  \caption{This is a caption}
-%\end{figure}
-
-Here you can introduce the field, survey past results, give context, use citations of course... (e.g. \cite{CLR}). It is probably worthwhile to clarify the goals or targets of the research and describe the process, unless this is done later.
-
-You can also introduce \emph{a key concept} (or rather, several) without formally defining them until later on.
-
-\subsection*{An unnumbered subsection}
-
-You may want to break up the intro into parts with titles. Subsectioning without numbering is an option you might want to consider.
-
-Some people include a specific section overviewing the results ("In Chapter so-and-so, we will see how etc.") which is also a way of describing the structure of the thesis. But this is not necessary.
-
-\subsection*{Thesis options and appearance}
-
-Please note that the \texttt{iitthesis} class has several options when you use it, such as:
-\begin{itemize}
-\item \texttt{fullpageDraft} to avoid the margins necessary for proper binding when you make the final print
-\item \texttt{beforeDefense} makes the personal acknowledgements invisible; use this to print the copies you submit initially to the grad school for sending to the opponent panel, i.e. thesis readers (who shouldn't see those parts). For the final submission, after having successfully defended --- drop this option. 
-\item \texttt{noabbrevs} no notation \& abbreviations list will be included in the thesis.
-\end{itemize}
-
-\subsection*{Hebrew font}
-
-The \texttt{iitthesis} document class uses the David CLM font family for Hebrew text. CLM is a shorthand for ``Culmus'' (\texthebrew{קולמוס}) --- the name of a freely-available Hebrew font package. It may be bundled with your LaTeX distribution, or otherwise, must be available as system fonts. If you're missing the Culmus fonts, try adding an appropriate package from your LaTeX distribution or system distribution; alternatively, you might want to visit the Culmus project page at \url{http://culmus.sourceforge.net/} and download and install the fonts manually.
-
-\subsection*{Setting thesis meta-data and publication information}
-
-The document class used to generate this document defines several commands you can use to set information  regarding your thesis, which is used in the title pages and elsewhere in the front matter.  Every (or almost every) command has an English and a Hebrew variant, with a \texttt{English} or \texttt{Hebrew} suffix to the command name. Examples:
-\begin{itemize}
-\item \verb|\titleHebrew|, \verb|\titleEnglish|
-\item \verb|\authorHebrew|, \verb|\authorEnglish|
-\item \verb|\JewishDateHebrew|, \verb|\JewishDateEnglish|
-\item \verb|\GregorianDateHebrew|, \verb|\GregorianDateEnglish|
-\item \verb|\publicationinfoHebrew|, \verb|\publicationinfoEnglish|
-\end{itemize}
-
-The file \texttt{misc/thesis-fields.tex} contains invocations of several such commands (some of them commented-out with \texttt{\%}), and some additional information about them.
-
-\subsection*{Introduction from CSL}
 
 Reactive systems interact with their environment by receiving inputs, corresponding to the state of the environment, and sending outputs, which describe actions of the system. Finite-state reactive systems are often modeled by \emph{transducers} -- finite-state machines over alphabets $\sI$ and $\sO$ of inputs and outputs, respectively, which read an input letter in $\sI$, and respond with an output in $\sO$. 
 Such transducers are amenable to automatic verification of certain properties (e.g., LTL model-checking), and are therefore useful in practice. Nonetheless, modeling complex systems may result in huge transducers, which make verification procedures prohibitively expensive, and makes understanding the constructed transducers difficult.
@@ -52,7 +7,8 @@ Such transducers are amenable to automatic verification of certain properties (e
 A common approach to gain a better understanding of a transducer (or more generally, any system) is \emph{simulation}~\cite{Milner1971}, whereby a transducer $\cT_1$ is simulated by a ``simpler'' transducer $\cT_2$ in such a way that model checking is easier on $\cT_2$, and the correctness of the desired property is preserved under the simulation. Usually, ``simpler'' means smaller, as in standard simulation~\cite{Milner1971} and fair simulation~\cite{Henzinger1997}, but one can also view e.g., linearization of concurrent programs~\cite{Herlihy1987} as a form of simulation by a simpler machine.
 
 In this work, we introduce and study new notions of simulation and of equivalence for transducers, based on \emph{$k$-rounds}: consider an input word $x\in \sI^*$ whose length is $k\cdot R$ for some $k,R>0$. We divide the word into $R$ disjoint infixes of length $k$, called $k$-rounds. We then say that two words $x,x'\in \sI^{kR}$ are $k$-round equivalent, denoted $x'\req[k]x$, if $x'$ is obtained from $x$ by permuting the letters within each round of $x$. For example $abcabc$ and $cbaacb$ are $3$-round equivalent. We now say that a transducer $\cT_1$ is \emph{$k$-round simulated} by a transducer $\cT_2$, denoted $\cT_1\prec_{k} \cT_2$, if for every\footnote{Our formal definition allows to also restrict the input to some regular language $\fL\subseteq \sI^*$, see \autoref{chap:round_equivalence}.} input $x\in \sI^{kR}$ we can find some input $x'\req[k]x$, such that the outputs of $\cT_1$ on $x$ and $\cT_2$ on $x'$, denoted $y,y'$ respectively, are also equivalent: $y'\req[k] y$.
-Intuitively, $\cT_1\prec_{k}\cT_2$ means that every behaviour of $\cT_1$ is captured by $\cT_2$, up to permutations within each $k$-round. 
+Intuitively, $\cT_1\prec_{k}\cT_2$ means that every behaviour of $\cT_1$ is captured by $\cT_2$, up to permutations within each $k$-round.
+When we have both $\cT_1\prec_{k}\cT_2$ and $\cT_2\prec_{k}\cT_1$, we say that they are $k$-round equivalent and denote this by $\cT_1\equiv_{k}\cT_2$.
 
 The benefit of $k$-round simulation is twofold: First, it may serve as an alternative simulation technique for reducing the state space while maintaining the correctness of certain properties. Second, we argue that $k$-round simulation is in and of itself a design concern. Indeed, in certain scenarios we can naturally design a transducer $\cT_2$ that performs a certain task in an ideal, but not realistic, way, and we want to check that an existing design, namely $\cT_1$, is simulated by this ideal. In particular, this is useful when dealing with systems that naturally work in rounds, such as schedulers (e.g., Round Robin, cf. \autoref{example:transducer-req}), arbiters, and other resource allocation systems.
 
@@ -68,26 +24,21 @@ It is not hard to see that $\cT_1$ is $10$-round simulated by an ``ideal'' trans
 Now, suppose we want to verify some correctness property which is invariant to permutations of the processes within each $10$-round, such as ``if there is no \texttt{error}, then Process $3$ works at least once every 20 steps''. Then we can verify this against the much smaller $\cT_2$.\qed
 \end{example}
 
-The notion of $k$-round simulation arises naturally in the setting of \emph{process symmetry}. There, the input and output alphabets are $\sI=\tI$ and $\sO=\tO$ respectively, where $I=\{i_1,\ldots,i_m\}$ and $O=\{o_1,\ldots,o_m\}$ represent signals corresponding to $m$ processes. Process symmetry addresses the scenario where the identities of the processes may be scrambled. For example, if the input $\{i_1,i_2\}$ is generated, the system might actually receive an input $\{i_7,i_4\}$. A system exhibits process symmetry if, intuitively, its outputs are permuted in a similar way to the inputs. Unfortunately, deterministic systems that are process symmetric are extremely naive, as process symmetry is too restrictive for them. While this can be overcome using probabilistic systems, as studied by the second author in~\cite{Almagor2020b}, it is also desirable to find a definition that is suited for deterministic systems. As we show in~\autoref{chap:application}, $k$-round simulation provides such a definition.
+The notion of $k$-round simulation arises naturally in the setting of \emph{process symmetry}. There, the input and output alphabets are $\sI=\tI$ and $\sO=\tO$ respectively, where $I=\{i_1,\ldots,i_m\}$ and $O=\{o_1,\ldots,o_m\}$ represent signals corresponding to $m$ processes. Process symmetry addresses the scenario where the identities of the processes may be scrambled. For example, if the input $\{i_1,i_2\}$ is generated, the system might actually receive an input $\{i_7,i_4\}$. A system exhibits process symmetry if, intuitively, its outputs are permuted in a similar way to the inputs. Unfortunately, deterministic systems that are process symmetric are extremely naive, as process symmetry is too restrictive for them. While this can be overcome using probabilistic systems, as studied by my advisor in~\cite{Almagor2020b}, it is also desirable to find a definition that is suited for deterministic systems. As we show in~\autoref{chap:application}, $k$-round simulation provides such a definition.
 
 The main contributions of this work are as follows. We introduce the notion of $k$-round simulation and $k$-round equivalence, and define two decision problems pertaining to them: in \emph{fixed round simulation} we need to decide whether $\cT_1\prec_k \cT_2$ for a given value of $k$, and in \emph{existential round simulation} we need to decide whether there exists some value of $k$ for which $\cT_1\prec_k \cT_2$ holds. In fact, we consider a somewhat more elaborate setting, by also allowing the inputs to $\cT_1$ to be restricted to some regular language $\fL$.
 We solve the first problem by reducing it to the containment of two nondeterministic automata. For the second problem, things become considerably more difficult, and the solution requires several constructions, as well as tools such as Presburger Arithmetic and Parikh's theorem. 
 In addition, we demonstrate the usefulness of the definitions in relation to process symmetry.
 
-\subparagraph*{Related Work} Simulation relations between systems are a well studied notion. We refer the reader to~\cite[Chapter 13]{Clarke2018a} and references therein for an exposition. The connection of our notion with standard simulation is only up to motivation, as our measure is semantic and does not directly relate to the state space.
+\subsection*{Related Work}
+Simulation relations between systems are a well studied notion. We refer the reader to~\cite[Chapter 13]{Clarke2018a} and references therein for an exposition. The connection of our notion with standard simulation is only up to motivation, as our measure is semantic in that it does not directly relate to the state space; it refers to the \emph{behaviour} of the system rather than its structure.
 
-Technically, our work is closely related to \emph{commutative automata}~\cite{Brzozowski1973} and \emph{jumping automata}~\cite{Fernau2015,Meduna2012} --- models of automata capable of reading their input in a discontinuous manner, by jumping from one letter to another. Indeed, our notion of round simulation essentially allows the simulating transducer to read the letters within rounds in a discontinuous manner. This similarity is manifested implicitly in~\autoref{sec:proof_of_bound}, where we encounter similar structures as e.g.,~\cite{Hoffmann2020} (although the analysis here has a different purpose).
+On the technical level, our work is closely related to \emph{commutative automata}~\cite{Brzozowski1973} and \emph{jumping automata}~\cite{Fernau2015,Meduna2012} --- models of automata capable of reading their input in a discontinuous manner, by jumping from one letter to another. Indeed, our notion of round simulation essentially allows the simulating transducer to read the letters within rounds in a discontinuous manner. This similarity is manifested implicitly in~\autoref{sec:proof_of_bound}, where we encounter similar structures as e.g.,~\cite{Hoffmann2020} (although the analysis here has a different purpose).
 
 Finally, the initial motivation for this work comes from \emph{process symmetry}~\cite{Almagor2020b,Clarke1996,Emerson1996,Ip1996,Lin2016}. We demonstrate the connections in depth in \autoref{chap:application}.
 
-\subparagraph*{Paper organization}
+\subsection*{Paper organization}
 In \autoref{chap:prelims} we present some basic definitions used throughout the paper. In \autoref{chap:round_equivalence} we introduce $k$-round simulation and equivalence, define the relevant decision problems, and study some fundamental properties of the definitions. In \autoref{chap:deciding_fixed_round_sim} we solve fixed round simulation, while developing some technical tools and characterizations that are reused later. \autoref{chap:deciding_existential_round_sim} is our main technical result, where we develop a solution for existential round simulation. In particular, in \autoref{sec:intuitive_overview} we give an overview of the solution, before going through the technical details in \autoref{sec:proof_of_bound}. In \autoref{sec:lower_bounds_existential} we give lower bounds for the existential setting.
-In \autoref{chap:application} we use round simulation to obtain a definition of process symmetry for deterministic transducers. Finally, in \autoref{chap:discussion}, we discuss some variants and open problems.
-
-Due to lack of space, some proofs are omitted and can be found in the full version.
-
-Exploiting symmetry for verification:
-1.	First case is when symmetry is the goal (check for symmetry and fail if not)
-2.	Second case is when symmetry is built upon (e.g. in RR it is enough to run checks with one order of processes)
+In \autoref{chap:application} we use round simulation to obtain a definition of process symmetry for deterministic transducers, along with an algorithm for deciding it, and in \autoref{chap:equiv_mapping} we go into further detail about the mapping between rounds of transducers with a simulation relation. Other notions of symmetry and simulation are considered in \autoref{chap:other_notions}, and finally, in \autoref{chap:discussion}, we discuss such variants and open problems.
 
 \gls{todo}: the notations and abbreviations table

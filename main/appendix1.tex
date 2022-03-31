@@ -1,148 +1,5 @@
-\chapter{Some sort of an appendix}
-\label{appendix:somesort}
-
-You may want to include appendices of your own volition. Also, if you've developed any computer software, that needs to go in as an appendix as well.
-
-\section{A first section in this appendix}
-
-Some appendix content here. And something nice to finish things off:
-
-\begin{figure}[htb]
-  \centering
-  \ifpdf
-    \includegraphics[width=0.3\textwidth]{graphics/mygraphic2.png}
-  \else
-    \includegraphics[width=0.3\textwidth]{graphics/mygraphic2-for-ps.eps}
-  \fi
-  \caption{A Flower.}
-\end{figure}
-
-\section{Another appendix section}
-After the (last) appendix-section comes the thesis' bibliography; Its style is set with the \verb|\thesisbibstyle| command. Then there are the Hebrew parts of thesis, which don't exactly ``follow" the bibliography in a logical sense, but rather start at the beginning of the thesis when considered as a right-to-left printed booklet. Thus, the last page of the extended Hebrew abstract of the thesis comes right ``after" the last page of the bibliography if you're turning the pages in left-to-right order.
-
-
-\section{Proofs}
-\subsection{Proof of \autoref{thm:fixed_re_PSPACE}}
-\label{apx:fixed_re_PSPACE}
-% \begin{theorem}
-% 	\label{thm:fixed_re_PSPACE}
-% 	Given transducers $\cT_1,\cT_2$ and given $k>0$ in unary, the problem of deciding whether $\cT_1\prec_k\cT_2$ is in \PSPACE.
-% 	\end{theorem}
-% \begin{proof}
-	Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$. By \autoref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$. Looking at the dual problem, recall that for two \NFAs $\cN_1, \cN_2$ we have that $L(\cN_1)\not\subseteq L(\cN_2)$ iff 
-	there exists $w\in L(\cN_2)\setminus L(\cN_1)$ with $|w|\le |\cN_1|\cdot 2^{|\cN_2|}$ (this follows immediately by bounding the size of an \NFA for $L(\cN_1)\cap \overline{L(\cN_2)}$). Thus, we can decide whether $L(\cA^k_1)\subseteq L(\cA^k_2)$ by guessing, on-the-fly, a word $w$ over $\sI^k\times \sO^k$ of single-exponential length (in the size of $\cA^k_1$ and $\cA^k_2$), and verifying that it is accepted by $\cA^k_1$ and not by $\cA^k_2$. 
-	
-	Observe that to this end, we do not explicitly construct $\cA^k_1$ nor $\cA^k_2$, as their alphabet size is exponential. Rather, we evaluate them on each letter of $w$ based on their construction from $\cT$. 
-	
-	At each step we keep track of a counter for the length of $w$, a state of $\cA^k_1$, and a set of states of $\cA^k_2$. Since the number of states of $\cA^k_1,\cA^k_2$ is the same as that of $\cT_1,\cT_2$, respectively, this requires polynomial space. By Savitch's theorem we have that $\mathsf{coNPSPACE}=\PSPACE$, and we are done. \qed
-% \end{proof}
-
-\subsection{Proof of \autoref{lem:type_of_parikh}}
-\label{apx:type_of_parikh}
-%\begin{proof}
-	By the definitions preceding the lemma, we have that $\tau_{\cN}(\vec{p},\vec{o})=\tau_{\perm_k(\cN)}(\alpha',\beta')$ for some $(\alpha',\beta')\in \sI^k\times \sO^k$ are such that $\fP(\alpha')=\vec{p}$ and $\fP(\beta')=\vec{o}$. According to the transition function of $\perm_k(\cN)$ (see \autoref{eq:perm_transition}), for every $s_1,s_2\in S$ we have that $s_1\runs{(\alpha',\beta')}{\perm_k(\cN)}s_2$ iff there exist $(\alpha,\beta)\in \sI^k\times \sO^k$ with $\fP(\alpha)=\fP(\alpha')=\vec{p}$ and $\fP(\beta)=\fP(\beta')=\vec{o}$ such that $s_1\runs{(\alpha,\beta)}{\cN}s_2$. Since the type encodes the reachable pairs of states, this concludes the proof.
-%\end{proof}
-
-\subsection{Proof of \autoref{lem:profile_equality_to_simulation}}
-\label{apx:profile_equality_to_simulation}
-% \begin{proof}
-	%Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$ and similarly for $k'$. By \autoref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$.
-	%For brevity, denote $\cA^k_i=\perm_k(\tr(\cT_i))$ for $k>0,i\in \{1,2\}$.
-	%By the symmetry of $k$ and $k'$, it suffices to prove that (under the assumption of the lemma) if $L(\cA^k_1)\subseteq L(\cA^k_2)$ then $L(\cA^{k'}_1)\subseteq L(\cA^{k'}_2)$. 
-	
-	By the symmetry between $k$ and $k'$, it suffices to prove w.l.o.g. that if $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$, then $L(\perm_{k'}(\cB_1))\subseteq L(\perm_{k'}(\cB_2))$.
-    Assume the former, and let $w=(x',y')\in L(\perm_{k'}(\cB_1))$.
-	%Assume the former, and let $(x',y')\in L(\cA^{k'}_1)$, 
-	where $(x',y')\in (\sI^{k'}\times \sO^{k'})^*$, and we denote $(x',y')=(\alpha'_1,\beta'_1)\cdots (\alpha'_n,\beta'_n)$ with $(\alpha'_j,\beta'_j)\in \sI^{k'}\times \sO^{k'}$ for every $1\le j\le n$. 
-	%By~\autoref{obs:redundant_product_for_perm_automata} we have that $L(\cA^{k'}_1)=L(\perm_{k'}(\cB_1))$, and hence $(x',y')\in L(\perm_{k'}(\cB_1))$
-	
-	Since $\Upsilon(\cB_1,k')=\Upsilon(\cB_1,k)$, we can find $(x,y)=(\alpha_1,\beta_1)\cdots (\alpha_n,\beta_n)$ such that for every $1\le j\le n$ we have $(\alpha_j,\beta_j)\in \sI^{k}\times \sO^{k}$ and $\tau_{\cB_1}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_1}(\fP(\alpha'_j),\fP(\beta'_j))$.
-	
-	By the definition of the type of a Parikh vector, we have that \[\tau_{\perm_k(\cB_1)}(\alpha_j,\beta_j)=\tau_{\cB_1}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_1}(\fP(\alpha'_j),\fP(\beta'_j))=\tau_{\perm_{k'}(\cB_1)}(\alpha'_j,\beta'_j).\]
-	In particular, since the type of a word is the concatenation (i.e., Boolean matrix product) of its underlying letters, we have that $\tau_{\perm_k(\cB_1)}(x,y)=\tau_{\perm_{k'}(\cB_1)}(x',y')$. Since $(x',y')\in L(\perm_{k'}(\cB_1))$, it follows that also $(x,y)\in L(\perm_{k}(\cB_1))$. Indeed, 
-	$(\tau_{\perm_{k'}(\cB_1)}(x',y'))_{s^1_0,s^1_f}=1$ where $s^1_0$ and $s^1_f$ are an initial state and an accepting state of $\perm_{k'}(\cB_1)$, respectively. But the equality of the types implies that $(\tau_{\perm_{k}(\cB_1)}(x,y))_{s^1_0,s^1_f}=1$ as well, so $\perm_k(\cB_1)$ has an accepting run on $(x,y)$.
-	
-	%Using \autoref{obs:redundant_product_for_perm_automata} again, we have that $L(\cA^{k}_1)=L(\perm_{k}(\cB_1))$, and hence $(x,y)\in L(\cA^k_1)$. 
-	By our assumption, $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$, so $(x,y)\in L(\perm_{k}(\cB_2))$.
-	We now essentially reverse the arguments above, but with $\cB_2$ instead of $\cB_1$. However, this needs to be done carefully, so that the mapping of letters lands us back at $(x',y')$, and not a different word.
-%	Again by \autoref{obs:redundant_product_for_perm_automata} we have $L(\cA^{k}_2)=L(\perm_{k}(\cB_2))$, so $(x,y)\in L(\perm_{k}(\cB_2))$. 
-    Thus, instead of finding a Parikh-equivalent word, we observe that for every $1\le j\le n$, we also have 
-	\[\tau_{\perm_k(\cB_2)}(\alpha_j,\beta_j)=\tau_{\cB_2}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_2}(\fP(\alpha'_j),\fP(\beta'_j))=\tau_{\perm_{k'}(\cB_2)}(\alpha'_j,\beta'_j).\]
-	This follows from Item 2 in \autoref{obs:redundant_product}, and the fact that the permutation construction depends only on the transitions (and not on accepting states, which are the only difference between $\cB_1$ and $\cB_2$).
-	
-	Thus, similarly to the arguments above, we have that $(x',y')\in L(\perm_{k'}(\cB_2))$, and we conclude that $L(\perm_{k'}(\cB_1))\subseteq L(\perm_{k'}(\cB_2))$, as required.
-% \end{proof}
-
-\subsection{Proof of \autoref{lem:symmetry_to_simulation}}
-\label{apx:symmetry_to_simulation}
-% \begin{lemma}
-%     \label{lem:symmetry_to_simulation}
-%     For a permutation $\pi$ and $k>0$, $\cT$ is $k$-round symmetric w.r.t.\! $\pi$ iff $\cT^{\pi}\prec_k \cT$.
-% \end{lemma}
-% \begin{proof}
-    By definition, we have that $\cT^{\pi}\prec_{k} \cT$ iff for every $x\in (2^{\cP})^*$ there exists $x'\req x$ such that $\cT^{\pi}(x)\req \cT(x')$. We show that this is equivalent to the definition of round symmetry.
-    
-    For the first direction, assume $\cT$ is $k$-round symmetric w.r.t.\! $\pi$, and let $x\in (2^{\cP})^*$. Applying the definition of $k$-round symmetry to $y=\pi^{-1}(x)$ shows that there exists $x'\req \pi(y)$ such that $\pi(\cT(y))\req \cT(x')$. Since $\pi(y)=x$ we get that $x'\req x$ and $\pi(\cT(\pi^{-1}(x)))\req \cT(x')$. By the above, $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$, so we have $\cT^{\pi}(x)\req x'$.
-    
-    For the second direction, assume $\cT^\pi \prec_k \cT$, and let $x\in (2^{\cP})^*$. Applying the definition of round simulation to $z=\pi(x)$, there exists $x'\req z$ such that $\cT^{\pi}(z)\req \cT(x')$. Thus, $\pi(\cT(\pi^{-1}(z)))\req \cT(x')$, but $\pi^{-1}(z)=x$, so we get $\pi(\cT(x))\req \cT(x')$, and we are done. \qed
-% \end{proof}
-
-
-\subsection{Proof of \autoref{lem:closure_composition}}
-\label{apx:closure_composition}
-% \begin{lemma}
-%     \label{lem:closure_composition}
-%     Consider two permutations $\pi,\chi$. If $\cT^\pi\prec_k \cT$ and $\cT^\chi \prec_k \cT$ then $\cT^{\pi\circ \chi} \prec_k \cT$.
-% \end{lemma}
-% \begin{proof}
-Using the first definition of round symmetry, let $x\in (2^{\cP})^*$, then there exists $x'\req[k] \pi(x)$ such that $\cT(x')\req[k] \pi(\cT(x))$. Moreover, there exists $x''\req[k] \chi(x') \req[k] \chi(\pi(x))$ such that $\cT(x'')\req[k] \chi(\cT(x'))\req[k] \chi(\pi(\cT(x)))$, and we are done. \qed
-% \end{proof}
-
-\subsection{Proof of \autoref{lem:round_symmetry_commutative}}
-\label{apx:round_symmetry_commutative}
-% \begin{lemma}
-% \label{lem:round_symmetry_commutative}}
-%     In the notations above, if $\cT^{\pi}\prec_k \cT$ then $\cT\prec_k \cT^\pi$.
-% \end{lemma}
-% \begin{proof}
-Recall that for every permutation $\pi$ we have $\pi^{m!}=\mathtt{id}$, where $\mathtt{id}$ is the identity permutation. In particular, $\pi^{m!-1}=\pi^{-1}$. 
-
-By \autoref{lem:closure_composition}, we now have that if $\cT^{\pi}\prec_k \cT$, then $\cT^{\pi^{m!-1}}\prec_k \cT$, so $\cT^{\pi^{-1}}\prec_k \cT$. Applying $\pi$ to both sides gives us $\cT\prec_k \cT^{\pi}$. \qed
-% \antodo[inline]{Might add a proof for the last point later.}
-% \end{proof}
-
-\section{Examples}
-
-\subsection{Exponential Lower Bound on Round Length}
-\label{apx:exponential_round_length}
-
-In~\autoref{example:exponential_round_length}, we considered two transducers $\cT_1$ and $\cT_2$ and a restricting language $\fL=(1\cdot 2\cdots m)^*$, and argued that, for $\cT_2$ to $k$-round simulate $\cT_1$, the value of $k$ must be exponential in the number of states. Here, we present a more rigorous proof for the argument.
-
-Formally, the two transducers are defined as follows. 
-% \[
-% \begin{split}
-%     \cT_1 &= \tup{\cP,\cP,\{s_i\}_{i=1}^m,s_m,\delta_1,\lab_1}, \\
-%     \text{where } & \lab_1(s_i)=\{i\} \text{ and } \delta_1(s_i,\{(i\%m)+1\}) = s_{(i\%m)+1}, \\
-%     %
-%     \cT_2 &= \tup{\cP,\cP,\{s_0\} \cup \condset{s_i^j}{1\leq i\leq m, 1\leq j \leq p_i},s_0,\delta_2,\lab_2}, \\
-%     \text{where } & \lab_2(s_i^j)=\{i\} \text{ and } \lab_2(s_0)=\emptyset, \text{ and } \\
-%     %
-%     & \delta_2(s_i^j,\{\ell\}) = s_i^{j+1} \text{ for all $j<p_i$ and $i,\ell$, and} \\
-%     & \delta_2(s_i^{p_i}, \{\ell\}) = \delta_2(s_0, \{\ell\}) = s_\ell^1. \\
-%     \text{and all } & \text{transitions not yet defined lead to a sink state labelled $\emptyset$.} \\
-% \end{split}
-% \]
-%%%% INLINED VERSION OF THE ABOVE MATH %%%%
-$\cT_1 = \tup{\cP,\cP,\{s_i\}_{i=1}^m,s_m,\delta_1,\lab_1}$, where $\lab_1(s_i)=\{i\}$ and $\delta_1(s_i,\{(i\%m)+1\}) = s_{(i\%m)+1}$, and $\cT_2 = \tup{\cP,\cP,\{s_0\} \cup \condset{s_i^j}{1\leq i\leq m, 1\leq j \leq p_i},s_0,\delta_2,\lab_2}$, where $\lab_2(s_i^j)=\{i\}$, $\lab_2(s_0)=\emptyset$, $\delta_2(s_i^j,\{\ell\}) = s_i^{j+1}$ for all $j<p_i$ and $i,\ell$, and $\delta_2(s_i^{p_i}, \{\ell\}) = \delta_2(s_0, \{\ell\}) = s_\ell^1$.
-
-The sum of the number of states in $\cT_1$ and $\cT_2$ is $1+m+\sum_{i=1}^m p_i = \mathsf{O}\left(\sum_{i=1}^m p_i\right)$. It is easily verified that $\cT_1\prec_k \cT_2$ holds for $k = m\cdot \prod_{i=1}^m p_i$, which is exponential in the number of states. Indeed, for the round $w=(1\cdots m)^{\prod_{i=1}^mp_i}$, we consider the $k$-round equivalent $1^{\prod_{i=1}^mp_i}\cdots m^{\prod_{i=1}^mp_i}$, on which the run of $\cT_2$ induces the same output.
-
-We now show that this $k$ is minimal.
-For a $k$-length word $x\in (1\cdot 2\cdots m)^*$ to have round equivalent outputs in both $\cT_1$ and $\cT_2$, there must be a permutation $x'$ in which every appearance of $i\in\cP$ is part of a sequence of appearances of $i$, of length $p_i$, except maybe at its end. If $m\mid k$, then there are $\frac{k}{m}$ appearances of each $i$, so $\frac{k}{m}$ must be divisible by all primes, except maybe one. The latter possibility is falsified when considering the next round. If, however, $m\nmid k$, then in the next round, $1\in\cP$ will have one less appearance than in the first round. This, again, is impossible when considering one additional round.
-\qed
-
-\section{$\PSPACE$ Hardness}
-\label{apx:PSPACE-H}
+\chapter{$\PSPACE$ Hardness}
+\label{chap:apx3}
 
 \begin{lemma}
 \label{lem:universalityofnfa}
@@ -158,7 +15,7 @@ Next, we observe that the reductions in~\cite[Lemma 2]{kao2009nfas} first transf
 Since we start this chain of reductions with an \NFA of nondeterminism degree at most 2, we maintain this property throughout the proof.
 \end{proof}
 
-\subsection{Proof of \autoref{thm:equivalence_PSPACE-H}}
+\section{Proof of \autoref{thm:equivalence_PSPACE-H}}
 We show a reduction from the universality problem for $\NFAs$ over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \DFA of constant size. The former is shown to be \PSPACE-hard in~\autoref{lem:universalityofnfa}.
 
 Consider an \NFA $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
@@ -262,7 +119,7 @@ Next, we show that $\cT_1\prec_{2,\fL}\cT_2$. Consider $x\in (ab+cd)^*$, so that
 Conversely, if $\cT_1\equiv_{2,\fL}\cT_2$, then in particular $\cT_1\prec_{2,\fL}\cT_2$. We claim that $L(\cN)=\{0,1\}^*$. Consider $w\in \{0,1\}^*$. Dually to the above, we obtain from $w$ a word $x\in (ab+cd)^*$ by identifying $0$ with $ab$ and $1$ with $cd$, so that $\cT_1(x)=\top^{|x|}$. 
 Since $\cT_1\equiv_{2,\fL}\cT_2$, there exists $x'\req[2]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$. In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. This gives $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, which concludes the proof.\qed
 
-\subsection{Proof of \autoref{thm:existential_equivalence_PSPACE-H}}
+\section{Proof of \autoref{thm:existential_equivalence_PSPACE-H}}
 \label{apx:proof_existential_PSPACE-H}
 In order to show that existential round equivalence is \PSPACE-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for $\NFAs$ over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf. \autoref{lem:universalityofnfa}), to existential round-equivalence, and with $\fL$ given as a \DFA of constant size. 
 
@@ -306,9 +163,8 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 
 \begin{figure}[ht]
 	\centering
-	
 	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
-		\tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
+		\tikzstyle{state}=[circle, inner sep=.5mm, outer sep=0mm, minimum size=6mm, draw=black];
 		\node[state] (q_0) {$q$}; 
 		\node[state] (q_1) [above right=of q_0] {$q^{0,0}$}; 
 		\node[state] (q_2) [right=of q_0] {$q^{0,1}$}; 
@@ -324,7 +180,7 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 	\end{tikzpicture}%
 	\hspace{2cm}%
 	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
-	    \tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
+	    \tikzstyle{state}=[circle, inner sep=.5mm, outer sep=0mm, minimum size=6mm, draw=black];
 		\node[state] (q_0) {$q$}; 
 		\node[state] (q') [above=of q_0] {$q_\#$}; 
 		\node[state, label={[font=\small]above:$q_a$}] (q_1) [above right=of q_0] {$\color{red} \top$}; 
@@ -363,3 +219,15 @@ Consider $w\in \{0,1\}^*$. We obtain from $w$ a word $x\in (ab+cd+\#\#)^*$ by id
 Since $\cT_1\prec_{k,\fL}\cT_2$, there exists $x'\req[k]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$, and by shifting the location of this pair within the $\#$ symbols. Indeed, otherwise the run of $\cT_2$ on $x'$ ends in $q_{\bot}$.
 In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. Thus, $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, and the proof is concluded. \qed
 
+\begin{section}
+This a former try of proving existential. Either Appendix or drop.
+
+\begin{hypothesis}
+Let $A,B$ be two NFAs over $\Sigma$. There exists a bound $M=M(A,B)$ that satisfies the following: let $x\in \Sigma^\star$ and $x'\equiv x$ a permutation thereof. Denote $q'\in\delta_1(q,x)$ and $s'\in\delta_2(s,x')$, then there exists such an $x$ with $|x|<M$.
+\end{hypothesis}
+
+To understand how this theorem can help our cause, recall that the algorithm for checking $k$-simulation in rounds was based on a construction of a DFA $A_1^k$ and an NFA $A_2^k$ so that, if we fix $T_1$ and $T_2$ and gradually increase $k$, we will have a sequence of automata with identical states, wherein only the transitions and the alphabet change.
+
+If we succeed to show that for some $k_1$ and $k_2$ the two pairs of automata are identical in transitions, then by help of the theorem we can bound the difference $k_2-k_1$ and hopefully get a deterministic analysis of the values of $k$ which would work, i.e. we would solve the problem of bounding $k$.
+
+\end{section}

@@ -17,33 +17,28 @@
 %   present in the English; it is not just a translation.
 
 \abstractEnglish{
-
-At this point you write the abstract of your work, in the main language in which it is written (in this template - English). Graduate school regulations require the abstract to constitute an independent whole and be understood to a reader with general knowledge of the field. Use complete sentences and make few or no citations. Do not refer to the main body of the work and do not use uncommon shorthand, symbols and terms unless you have room for explaining them. The English abstract should be between 200 and 500 words long.
-
-%%%%%%%%%%%%%%%
-Temporary abstract taken from the CSL paper (199 words):
-%%%%%%%%%%%%%%%
-
-Letter-to-letter transducers are a standard formalism for modeling reactive systems. Often, two transducers that model similar systems differ locally from one another, by behaving similarly, up to permutations of the input and output letters within ``rounds''.
-In this work, we introduce and study notions of simulation by rounds and equivalence by rounds of transducers. In our setting, words are partitioned to consecutive subwords of a fixed length $k$, called rounds. Then, a transducer $\cT_1$ is $k$-round simulated by transducer $\cT_2$ if, intuitively, for every input word $x$, we can permute the letters within each round in $x$, such that the output of $\cT_2$ on the permuted word is itself a permutation of the output of $\cT_1$ on $x$.
-Finally, two transducers are $k$-round equivalent if they simulate each other.
-
-We solve two main decision problems, namely whether $\cT_2$ $k$-round simulates $\cT_1$ (1) when $k$ is given as input, and (2) for an existentially quantified $k$.
-
-We demonstrate the usefulness of the definitions by applying them to process symmetry: a setting in which a permutation in the identities of processes in a multi-process system naturally gives rise to two transducers, whose $k$-round equivalence corresponds to stability against such permutations.
-
-%%%%%%%%%%%%%%%
-Temporary abstract taken from my seminar:
-%%%%%%%%%%%%%%%
-
 In model checking, we work toward deciding whether a system satisfies a given specification. Often, a system exhibits some type of symmetry in its structure or in its behaviour. Such symmetries can be exploited by a designer to alleviate some of the complexity of model checking, as well as to gain insight into the behaviour of the system. Thus, we want to decide whether a given system exhibits symmetry.
 
-Symmetry is not a well-defined concept and might come in various forms, each capturing a different characteristic behaviour. In this talk, I introduce several notions of semantic symmetry in transducers, and demonstrate the definitions and the behaviours they capture, as well as pose the algorithmic questions pertaining to them and their solutions.
+Symmetry is not a well-defined concept and might come in various forms, each capturing a different characteristic behaviour. In this work, we introduce a notion of semantic symmetry in transducers, and demonstrate the definitions and the behaviours it captures, as well as pose the algorithmic questions pertaining to it and their solutions.
 
-In particular, I present the notion of simulation by rounds, whose usefulness is in that it can be applied to process symmetry. In this setting, words are partitioned into rounds, and a transducer is round simulated by another if for every input word, we can shuffle the letters within each round such that the output of the simulating transducer on the shuffled word is itself a shuffle of the output of the simulated transducer.
+In particular, I present the notion of simulation by rounds, whose usefulness is in that it can be applied to process symmetry.
+In this setting, words are partitioned into rounds, and
+% OPTION 1 %
+[OPTION 1] a transducer is round simulated by another if for every input word, we can shuffle the letters within each round such that the output of the simulating transducer on the shuffled word is itself a shuffle of the output of the simulated transducer.
+% OPTION 2 %
+[OR, OPTION 2] a transducer $\cT_1$ is $k$-round simulated by transducer $\cT_2$ if for every input word $x$, we can permute the letters within each round in $x$, such that the output of $\cT_2$ on the permuted word is itself a permutation of the output of $\cT_1$ on $x$.
+[END]
+% END %
+Finally, two transducers are round equivalent if they simulate each other.
+
+We solve two main decision problems, namely whether $\cT_2$ $k$-round simulates $\cT_1$ (1) when $k$ is given as input, and (2) for an existentially quantified $k$.
+We then show that the problem of round symmetry can be reduced to round simulation and solved as such.
+
+Several more notions are then presented and discussed, including what we call Parikh round symmetry and ultimate symmetry.
+
+Once symmetry is established, it can be exploited to facilitate the verification procedures.
 
 We use tools and techniques from logic, algebra and automata theory.
-
 } % end of English abstract
 
 

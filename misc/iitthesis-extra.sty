@@ -434,7 +434,7 @@
  \theorembodyfont{\normalfont}
 
  %environemnts with this style:
- \newaliasedtheorem{example}[lemma]{Example}
+% \newaliasedtheorem{example}[lemma]{Example}
 % \newtheorem*{proof-sketch}{Proof Sketch}
  \newtheorem*{proofsketch}{Proof Sketch}
  \newtheorem*{proof-attempt}{Proof Attempt}
@@ -446,6 +446,8 @@
  \newaliasedtheorem{question}[lemma]{Question}
  \newaliasedtheorem{conjecture}[lemma]{Conjecture}
  \newaliasedtheorem{hypothesis}[lemma]{Hypothesis}
+ 
+ \numberwithin{equation}{section}
 
  % Now for a definition of the proof environment, which is defined for
  % us by default with amsthm, but not with ntheorem without the amsthm
@@ -475,6 +477,10 @@
   {\@endtheorem}
 
  \qedsymbol{\proofSymbol}
+
+ %%% Additions by Antonio - for named examples %%%
+ \theoremstyle{plain}
+ \newtheorem{example}{Example}[chapter]
 
 }% end of definitions for when ntheorem is loaded
 % ... and now for definitions in the case of amsthm being loaded:

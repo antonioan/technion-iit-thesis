@@ -5,21 +5,22 @@ In this section we show decidability of fixed round simulation (and, by \autoref
 
 Let $\sI$ and $\sO$ be input and output alphabets. Consider two $\sI/\sO$ transducers $\cT_1$ and $\cT_2$, and let $\fL\subseteq \sI^*$ and $k>0$.
 In order to decide whether $\cT_1\prec_{k,\fL} \cT_2$, we proceed as follows. First, we cast the problem to a problem about deterministic automata. Then, we translate $k$-rounds into letters, by working over the alphabets $\sI^k$ and $\sO^k$. We construct an \NFA, dubbed the \emph{permutation closure}, for each transducer $\cT$, that captures the behaviour of $\cT$ on words and their permutations. Intuitively, the \NFA takes as input a word $(x,y)\in (\sI^{k}\times \sO^k)^*$, guesses a round-equivalent word $x'\req x$, and verifies that $\cT(x')\req \cT(x)$. We then show that round-simulation amounts to deciding the containment of these \NFAs.
-We now turn to give the details of the construction. 
 
-\subparagraph*{The Trace \bf DFA}
-Consider a transducer $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$, we define its \emph{trace \DFA} $\tr(\cT)=\tup{\sI\times\sO,Q\cup\{q_{\bot}\},q_0,\eta,Q}$ where for $q\in Q$ and $(\sigma,\sigma')\in \sI\times \sO$ we define $\eta(q,(\sigma,\sigma'))=\delta(q,\sigma)$ if $\cT^{q}(\sigma)=\sigma'$ and $\eta(q,(\sigma,\sigma'))=q_{\bot}$ otherwise.
+% \section*{Construction of tools}
+We now turn to give the details of the construction of these \NFAs.
+
+\paragraph{The Trace \bf DFA} Consider a transducer $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$, we define its \emph{trace \DFA} $\tr(\cT)=\tup{\sI\times\sO,Q\cup\{q_{\bot}\},q_0,\eta,Q}$ where for $q\in Q$ and $(\sigma,\sigma')\in \sI\times \sO$ we define $\eta(q,(\sigma,\sigma'))=\delta(q,\sigma)$ if $\cT^{q}(\sigma)=\sigma'$ and $\eta(q,(\sigma,\sigma'))=q_{\bot}$ otherwise.
 $q_\bot$ is a rejecting sink. 
 
 $\tr(\cT)$ captures the behaviour of $\cT$ in that $L(\tr(\cT))=\{(x,y)\in (\sI\times \sO)^*\ST \cT(x)=y\}$. 
 
-\subparagraph*{The Permutation-Closure \bf NFA}
+\paragraph{The Permutation-Closure \bf NFA}
 Consider an \NFA $\cN=\tup{\sI\times\sO,S,s_0,\eta,F}$, and let $k>0$. 
 We obtain from $\cN$ an \NFA $\perm_k(\cN)=\tup{\sI^k \times \sO^k,S, s_0, \mu, F}$
 where the alphabet is $\sI^k\times \sO^k$, and the transition function $\mu$ is defined as follows. For a letter $(\alpha,\beta)\in \sI^k \times \sO^k$ and a state $s\in S$, we think of $(\alpha,\beta)$ as a word in $(\sI\times \sO)^*$. Then we have
 \begin{equation}
-	\label{eq:perm_transition}
-	\mu(s,(\alpha,\beta))=\bigcup\{\eta^*(s,(\alpha',\beta')) \ST \fP(\alpha')=\fP(\alpha) \wedge \fP(\beta)=\fP(\beta')\}.
+\label{test}
+    \mu(s,(\alpha,\beta))=\bigcup\{\eta^*(s,(\alpha',\beta')) \ST \fP(\alpha')=\fP(\alpha) \wedge \fP(\beta)=\fP(\beta')\}.
 \end{equation}
 
 That is, upon reading $(\alpha,\beta)$, $\perm_k(\cN)$ can move to any state $s'$ that is reachable in $\cN$ from $s$
@@ -28,7 +29,7 @@ Recall that for two words $x,x'$ we have that $x\req[k]x'$ if for every two corr
 Thus, we have the following.
 \begin{observation}
 	\label{obs:perm_closure_language}
-	$L(\perm_k(\cN))=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x, y'\req[k] y, (x',y')\in L(\cN) \wedge\ |x|=|y|=kR \text{ for some }R\in \bbN\}$
+	In the notations above, it holds that $L(\perm_k(\cN))=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x, y'\req[k] y, (x',y')\in L(\cN) \wedge\ |x|=|y|=kR \text{ for some }R\in \bbN\}$.
 	\end{observation}
 Since the transition function of $\perm_k(\cN)$ is only defined using permutations of its input letters, we have the following property, which we refer to as \emph{permutation invariance}:
 \begin{observation}[Permutation Invariance]
@@ -36,12 +37,12 @@ Since the transition function of $\perm_k(\cN)$ is only defined using permutatio
 	For every state $s\in S$ and letters $(\alpha,\beta), (\alpha',\beta')\in \sI^k \times \sO^k$, if $\fP(\alpha)=\fP(\alpha')$ and $\fP(\beta)=\fP(\beta')$ then $\mu(s,(\alpha,\beta))=\mu(s,(\alpha',\beta'))$.
 \end{observation}
 
-Given a transducer $\cT$, we apply the permutation closure to the trace $\DFA$ of $\cT$. In order to account for $\fL\subseteq \sI^*$, we identify it with $\fL\subseteq \sI^*\times \sO^*$ by simply ignoring the $\sO$ component. We remind that $\fL$ denotes both a language and a corresponding \DFA or \NFA.
+Given a transducer $\cT$, we apply the permutation closure to the trace $\DFA$ of $\cT$. In order to account for the restriction given by $\fL\subseteq \sI^*$, we identify it with $\fL \subseteq \sI^*\times \sO^*$. We remind that $\fL$ denotes both a language and a corresponding \NFA (or \DFA), so what this means is that the \NFA, reading input from $\sI^*\times \sO^*$, simply ignores the second component.
 \begin{lemma}
 	\label{lem:permutation_closure_construction}
-	Consider transducers $\cT_1,\cT_2$, an \NFA $\fL$ and $k>0$. Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ (where the intersection is obtained by the product \NFA) and $\cA_2^k=\perm_k(\tr(\cT_2))$, then
+	Consider transducers $\cT_1,\cT_2$, an \NFA $\fL$ and $k>0$. Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ (where the intersection implies the product \NFA construction) and $\cA_2^k=\perm_k(\tr(\cT_2))$, then
 	\begin{flalign*}
-	L(\cA_1^k)&=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x,\ \cT_1(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN \wedge x'\in \fL\}.&\\
+	L(\cA_1^k)&=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x,\ \cT_1(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN \wedge x'\in \fL\},&\\
 	L(\cA_2^k)&=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x,\ \cT_2(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN\}.&
 	\end{flalign*}
 \end{lemma}
@@ -64,7 +65,7 @@ We now reduce round simulation to the containment of permutation-closure \NFAs.
 
 \begin{remark}
 \label{rmk:det_A1}
-The proof of \autoref{lem:round_equivalence_iff_perm_containment} can be simplified by using instead of $\cA^k_1$, the augmentation of $\tr(\cT_1)\cap \fL$ to $k$-round words. However, such a \DFA is not permutation invariant, which is key to our solution for existential round simulation. Since this simplification does not reduce the overall complexity, we use a uniform setting for both solutions.
+The proof of \autoref{lem:round_equivalence_iff_perm_containment} does not require taking the permutation closure of $\tr(\cT_1)\cap \fL$, and it could be simplified by using instead of $\cA^k_1$, the augmentation of $\tr(\cT_1)\cap \fL$ to $k$-round words. However, such a \NFA is not permutation invariant, which is key to our solution for existential round simulation. Since this simplification does not reduce the overall complexity, we use a uniform setting for both solutions.
 \end{remark}
 
 \autoref{lem:round_equivalence_iff_perm_containment} shows that deciding fixed round equivalence amounts to deciding containment of \NFAs. By analyzing the size of the \NFAs, we obtain the following.
@@ -81,7 +82,9 @@ The proof of \autoref{lem:round_equivalence_iff_perm_containment} can be simplif
 	By Savitch's theorem we have that $\mathsf{coNPSPACE}=\PSPACE$, and the proof is concluded.
 \end{proof}
 
-We now give a \PSPACE-hardness lower bound, thus concluding the problem is \PSPACE-complete. By~\autoref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound already for round-equivalence.\footnote{The reduction in \autoref{lem:reduce_equiv_to_simulation} is a Turing reduction. Nonetheless, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
+We now establish a \PSPACE-hardness lower bound, thus concluding that the problem is \PSPACE-complete. In fact, we show a lower bound for round equivalence. Does this entail a lower bound for round simulation by~\autoref{lem:reduce_equiv_to_simulation}? Not immediately so, since the reduction there is a Turing reduction. Nevertheless, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.
+
+% We now give a \PSPACE-hardness lower bound, thus concluding the problem is \PSPACE-complete. Actually, following~\autoref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound for round equivalence.\footnote{The reduction in \autoref{lem:reduce_equiv_to_simulation} is a Turing reduction, so a mere lower bound for round equivalence does not establish a bound for round simulation. Thankfully, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
 \begin{theorem}
 \label{thm:equivalence_PSPACE-H}
 The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$, is \PSPACE-hard, even for $k=2$ and for a fixed $\fL$ (given as a 4-state \DFA).
