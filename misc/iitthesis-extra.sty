@@ -45,7 +45,7 @@
 \def\fileversion{v0.3}
 \def\filedate{2012/03/24}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{\filename}[\filedate\space\fileversion\space - Technion IIT Thesis extra machinery]
+\ProvidesPackage{misc/\filename}[\filedate\space\fileversion\space - Technion IIT Thesis extra machinery]
 
 
 % for generating dummy text, for those chapters/sections
@@ -53,7 +53,7 @@
 %\RequirePackage{lipsum}
 % amsthm causes problems with Hebrew, you get "Missing { inserted" after your \begin{theorem}
 % or any other theorem environment
-%\RequirePackage{amsthm}
+\RequirePackage{amsthm}
 
 % This should hopefully reduce missing font shape warnings; see
 % http://tex.stackexchange.com/a/58088/5640
@@ -114,8 +114,9 @@
 % Note there are all sorts of constraints on package loading order. For
 % example, hyperref must load after algorithmicx, but before ntheorem
 
+\RequirePackage{complexity} % trying to load it before hyperref
 \RequirePackage{hyperref}
-\RequirePackage[hyperref,thmmarks]{ntheorem} % must be loaded before bidi
+% \RequirePackage[hyperref,thmmarks]{ntheorem} % must be loaded before bidi
 \RequirePackage{amssymb} % for \blacksquare
 \RequirePackage{aliascnt}
 \RequirePackage{mathtools}
@@ -497,32 +498,32 @@
  % We can now proceed to define the theorem-like environments we will be using
  % in the thesis
 
- \theoremstyle{theorem}
- \newtheorem{theorem}{Theorem}[chapter]
- \newtheorem*{theorem*}{Theorem}
- \newtheorem{lemma}{Lemma}[section]
- \newaliasedtheorem{corollary}[theorem]{Corollary}
- \newtheorem*{corollary*}{Corollary}
- \newaliasedtheorem{proposition}[lemma]{Proposition}
- \newtheorem*{proposition*}{Proposition}
- \newaliasedtheorem{claim}[lemma]{Claim}
- \newaliasedtheorem{observation}[lemma]{Observation}
+%  \theoremstyle{theorem}
+%  \newtheorem{theorem}{Theorem}[chapter]
+%  \newtheorem*{theorem*}{Theorem}
+%  \newtheorem{lemma}{Lemma}[section]
+%  \newaliasedtheorem{corollary}[theorem]{Corollary}
+%  \newtheorem*{corollary*}{Corollary}
+%  \newaliasedtheorem{proposition}[lemma]{Proposition}
+%  \newtheorem*{proposition*}{Proposition}
+%  \newaliasedtheorem{claim}[lemma]{Claim}
+%  \newaliasedtheorem{observation}[lemma]{Observation}
 
- \theoremstyle{definition}
- \newaliasedtheorem{definition}[lemma]{Definition}
+%  \theoremstyle{definition}
+%  \newaliasedtheorem{definition}[lemma]{Definition}
 
- \theoremstyle{remark}
- \newaliasedtheorem{example}[lemma]{Example}
- \newtheorem*{proof-sketch}{Proof Sketch}
- \newtheorem*{proof-attempt}{Proof Attempt}
- \newaliasedtheorem{fact}[lemma]{Fact}
- \newaliasedtheorem{assumption}[lemma]{Assumption}
- \newtheorem*{remark}{Remark}
- \newtheorem*{note}{Note}
- \newtheorem*{notes}{Notes}
- \newaliasedtheorem{question}[lemma]{Question}
- \newaliasedtheorem{conjecture}[lemma]{Conjecture}
- \newaliasedtheorem{hypothesis}[lemma]{Hypothesis}
+%  \theoremstyle{remark}
+%  \newaliasedtheorem{example}[lemma]{Example}
+%  \newtheorem*{proof-sketch}{Proof Sketch}
+%  \newtheorem*{proof-attempt}{Proof Attempt}
+%  \newaliasedtheorem{fact}[lemma]{Fact}
+%  \newaliasedtheorem{assumption}[lemma]{Assumption}
+%  \newtheorem*{remark}{Remark}
+%  \newtheorem*{note}{Note}
+%  \newtheorem*{notes}{Notes}
+%  \newaliasedtheorem{question}[lemma]{Question}
+%  \newaliasedtheorem{conjecture}[lemma]{Conjecture}
+%  \newaliasedtheorem{hypothesis}[lemma]{Hypothesis}
 }
 % -----------------------------------------------------------------
 

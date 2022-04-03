@@ -9,22 +9,24 @@ Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sig
 \begin{table}[!htb]
 \begin{minipage}{.5\linewidth}
     \centering
+    \caption{$x$ and $y$ are $3$-round equivalent}
+    \vspace{2mm}
     \begin{tabular}{c||c|c|c|c}
         $x$ & aba & abb & abb & baa \\
         \hline
         $y$ & baa & bba & abb & aba \\
     \end{tabular}
-    \caption{$x$ and $y$ are $3$-round equivalent}
     \label{tab:word-req-3}
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
     \centering
+    \caption{$x$ and $y$ are not $4$-round equivalent}
+    \vspace{2mm}
     \begin{tabular}{c||c|c|c}
         $x$ & \emph{abaa} & bbab & bbaa \\
         \hline
         $y$ & \emph{baab} & baab & baba \\
     \end{tabular}
-    \caption{$x$ and $y$ are not $4$-round equivalent}
     \label{tab:word-req-4}
 \end{minipage}
 \end{table}
@@ -40,7 +42,7 @@ In the special case where $\fL=\sI^*$ (i.e., when we require the simulation to h
 
 \begin{example}[Round Robin]
 \label{example:transducer-req}
-We consider a simple version of the Round Robin scheduler for three processes $\cP=\{0,1,2\}$. In each time step, the scheduler outputs either a singleton set containing the ID of the process whose request is granted, or an empty set if the process whose turn it is did not make a request. 
+We consider a simple version of the \gls{rr} scheduler for three processes $\cP=\{0,1,2\}$. In each time step, the scheduler outputs either a singleton set containing the ID of the process whose request is granted, or an empty set if the process whose turn it is did not make a request. 
 Depending on the ID $i\in \{0,1,2\}$ of the first process, we model the scheduler as a $2^{\cP}/2^{\cP}$ transducer $\cT_i = \tup{2^\cP, 2^\cP, Q, q_{(i-1)\%3}, \delta, \lab}$ depicted in \autoref{fig:RR}, where \% is the $\bmod$ operator, $Q=\left\{q_0,q_1,q_2,q'_0,q'_1,q'_2\right\}$, $\delta(q_i, \sigma)=q_{(i+1)\%3}$ if $i+1\in\sigma$ and $\delta(q_i,\sigma)=q'_{(i+1)\%3}$ otherwise, $\lab(q_i)=\{i\}$ and $\lab(q'_i)=\emptyset$.
 \begin{figure}[ht]
 	\centering
@@ -76,7 +78,6 @@ Depending on the ID $i\in \{0,1,2\}$ of the first process, we model the schedule
 Technically, the initial state changes the behaviour of $\cT_i$ significantly (e.g. $\cT_0(\{0\}\{2\}\{1\})=\{0\}\emptyset\emptyset$ whereas $\cT_1(\{0\}\{2\}\{1\})=\emptyset\{2\}\emptyset$). Conceptually, however, changing the initial state does not alter the behaviour, as long as the requests are permuted accordingly. This is captured by round equivalence, as follows.
 
 We argue that, if we allow reordering of the input letters, then the set of processes whose requests are granted in each round is independent of the start state. This is equivalent to saying $\cT_0 \equiv_k \cT_j$ for $j\in \{1,2\}$, which indeed holds: if $j=1$ then we permute all rounds of the form $\sigma_0 \sigma_1 \sigma_2$ to $\sigma_1 \sigma_2 \sigma_0$, and similarly if $j=2$ then we permute all rounds to $\sigma_2 \sigma_0 \sigma_1$. It is easy to see that the run of $\cT_i$ on the permuted input grants outputs that are permutations of the output of $\cT_0$ on the non-permuted input. 
-\qed
 \end{example}
 
 \begin{example}[Round simulation is not symmetric]
@@ -128,15 +129,14 @@ We claim that $\cT_1\prec_2 \cT_2$ but $\cT_2\not\prec_2 \cT_1$. Starting with t
 
 We turn to show that $\cT_1\prec_{2}\cT_2$.  Observe that for every input word of the form $x\in (ab+ba)^m$, we have $\cT_1(x)=(01)^m$, and $x\req[2] (ba)^m$. So in this case we have that $\cT_2((ba)^m)=(10)^m\req[2] (01)^m$. Next, for $x\in (ab+ba)^m\cdot bb\cdot w$ for some $w\in \sI^*$ we have $\cT_1(x)=(01)^m 01 1^{|w|}$ and $x\req[2] (ba)^m\cdot bb\cdot w$, for which $\cT_2((ba)^m\cdot bb\cdot w)=(01)^m 10 1^{|w|}\req[2]\cT_1(x)$.
 The case where $x\in (ab+ba)^m\cdot aa\cdot w$ is handled similarly. We conclude that $\cT_1\prec_{2} \cT_2$.
-\qed
 \end{example}
 
 Round simulation and round equivalence give rise to the following decision problems: 
 \begin{itemize}
-	\item In \emph{fixed round simulation} (resp. \emph{fixed round equivalence}) we are given transducers $\cT_1,\cT_2$, an \NFA for the language $\fL$, and $k>0$, and we need to decide whether $\cT_1\prec_{k,\fL} \cT_2$ (resp. whether $\cT_1\equiv_{k,\fL}\cT_2$).
-	\item In \emph{existential round simulation} (resp. \emph{existential round equivalence}) we are given transducers $\cT_1,\cT_2$ and an \NFA for the language $\fL$, and we need to decide whether there exists $k>0$ such that $\cT_1\prec_{k,\fL} \cT_2$ (resp. $\cT_1\equiv_{k,\fL}\cT_2$). 
+	\item In \emph{fixed round simulation} (resp. \emph{fixed round equivalence}) we are given transducers $\cT_1,\cT_2$, an \gls{nfa} for the language $\fL$, and $k>0$, and we need to decide whether $\cT_1\prec_{k,\fL} \cT_2$ (resp. whether $\cT_1\equiv_{k,\fL}\cT_2$).
+	\item In \emph{existential round simulation} (resp. \emph{existential round equivalence}) we are given transducers $\cT_1,\cT_2$ and an \gls{nfa} for the language $\fL$, and we need to decide whether there exists $k>0$ such that $\cT_1\prec_{k,\fL} \cT_2$ (resp. $\cT_1\equiv_{k,\fL}\cT_2$). 
 \end{itemize}
-In the following we identify $\fL$ with an \NFA (or \DFA) for it, as we do not explicitly rely on its description.
+In the following we identify $\fL$ with an \gls{nfa} (or \gls{dfa}) for it, as we do not explicitly rely on its description.
 
 We start by showing that deciding equivalence (both fixed and existential) is reducible, in polynomial time, to the respective simulation problem.
 \begin{lemma}

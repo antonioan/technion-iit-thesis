@@ -5,18 +5,9 @@
 
 In this work, we introduced round simulation and provided decision procedures and lower bounds (some with remaining gaps) for the related algorithmic problems.
 
-Round simulation, and in particular its application to Round Symmetry, is only an instantiation of a more general framework of symmetry, by which we measure the stability of transducers under local changes to the input. In particular, we hope that what we started in this work appeals to more students, and that they contribute their part in the study of notions of symmetry and simulation, extending it to other definitions. I would encourage the reader to look into the idea of \emph{window simulation}, where we use a sliding window of size $k$ instead of disjoint $k$-rounds, and \emph{Parikh round symmetry}, where the alphabet is of the form $2^{\cP}$, and we are allowed not only to permute the letters in each round, but also to shuffle the individual signals between letters in the round. 
-In addition, the setting of infinite words is of interest, where one can define \emph{ultimate simulation}, requiring the simulation to only hold after a finite prefix. 
+Round simulation, and in particular its application to round symmetry, is only an instantiation of a more general framework of symmetry, by which we measure the stability of transducers under local changes to the input. In particular, we hope that what we started in this work appeals to more students and researchers, and that they contribute their part in the study of notions of symmetry and simulation, extending it to other definitions. We encourage the interested reader to look into the idea of \emph{window simulation}, where we use a sliding window of size $k$ instead of disjoint $k$-rounds, and \emph{Parikh round symmetry}, where the alphabet is of the form $2^{\cP}$, and we are allowed not only to permute the letters in each round, but also to shuffle the individual signals between letters in the round. 
+In addition, the setting of infinite words is of interest, where we defined \emph{ultimate simulation}, requiring the simulation to only hold after a finite prefix.
 Finally, other types of transducers may require variants of simulation, such as probabilistic transducers, or streaming-string transducers~\cite{Alur2010}.
 
-Add more from the seminar's conclusions slide, and the open question from that slide on round mapping.
-
-\section{Some open questions}
-
-Ant: Enumerate next steps? e.g. 1. Mapping, 2. Other notions, 3. Complexity.
-
-Ant: [Important] Either talk a bit about complexity and not properly exploiting any of the structure of $\Theta_T$ or remove the claim of discussing this here, as seen just before \autoref{sec:lower_bounds_existential}.
-
-\paragraph{A question in brief.} In Chapter so-and-so, we explored a certain subject, but what about this-or-that idea? Perhaps it is worth exploring. Can one produce interesting results?
-
-\paragraph{A second question in brief.} A broader exposition of the question and indications of directions or ideas regarding its resolution.
+Beside extending the study of the different notions of symmetry, we would encourage the reader to close the gaps that have remained open along the way of this study. In terms of complexity bounds for the existential case, can we do better than the 5\,-\,$\EXP$ bound in~\autoref{rmk:complexity}?
+Furthermore, regarding the problem of the equivalence mapping, which maps every input word to a corresponding word for the simulating transducer, can we find a sub-Turing model that defines it? Here, too, other models might help. We would suggest looking into streaming-string transducers and bi-machines~\cite{Muscholl} for this end.

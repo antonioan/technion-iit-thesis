@@ -2,84 +2,235 @@
 \label{chap:other_notions}
 
 \section{Variations of round symmetry}
+\newcommand{\RSTYPES}{\ensuremath{\mathbf{Typ}_1}}
+\newcommand{\RSTUPS}{\ensuremath{\mathbf{Typ}_2}}
 
 A stronger variation of the symmetry we described is to demand that all rounds be permuted in the same manner. We call this \emph{uniform round symmetry}. If there exists a global permutation that works for all input words, this becomes \emph{global round symmetry}.
 
-Conversely, a weaker notion of symmetry than the initial is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of the signal set $I$, a permutation in rounds can not only move letters but also signals, as long as the Parikh image of the round w.r.t.\! $I$ is unchanged (i.e. every $i\in I$ appears the same number of times in the round as originally).
+Conversely, a weaker notion of symmetry than the initial is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of the signal set $I$, a permutation in Parikh round symmetry can not only move letters but also signals, as long as the Parikh image of the round w.r.t.\! $I$ is unchanged (i.e. every $i\in I$ appears the same number of times in the round as originally).
 
-The original notion of round symmetry is here called \emph{symbol-wise round symmetry}.
+The original notion of round symmetry is hereby called \emph{symbol-wise round symmetry}.
+Set $\RSTYPES=\{p, s, u, g\}$, where $p$, $s$, $u$ and $g$ stand for Parikh, symbol-wise, uniform and global. When two words $x$ and $y$ are permutations of each other according to a type $\eta \in \RSTYPES$, we say they are $\eta$-permutations and write $x\equiv_\eta y$.
 
 % Ant: Add some gaps intro. What these examples are showing.
 
 \begin{example}[Parikh does not imply symbol-wise]
-Let $m\geq 3$ and $\pi=(0\ 1)$. For every $k$, we construct a transducer that is Parikh $k$-round symmetric, but not symbol-wise $k'$-round symmetric for any $k'$.
+\label{example:parikh_not_symbolwise}
+Set $\pi=(0\ 1)$ and let $k$ be given as a parameter. Let also $m\geq 3$. We construct a transducer that is Parikh $k$-round symmetric, but not symbol-wise $k'$-round symmetric for any $k'$.
 
-Construct the deterministic transducer $\cT$ as follows: $\cT=\tup{I,O,S,s_0,\delta,\lab}$ where $I=O=[m]=\{0,\cdots, m-1\}$ and
-\begin{gather*}
-    S = \{ s_0, \mathrm{sink}, 
-        s_1, \dots, s_{k-1}, 
-        t_1, \dots, t_{k-1} \} \\
-    \lab(s_1)=\{0\}, \lab(t_1)=\{1\},
-        \forall s\notin\{s_1, t_1\}:\  \lab(s)=\emptyset \\
-    \delta(s_0, \{0\}) = s_1,\ 
-        \delta(s_0, \{1,2\}) = t_1, \\
-    \delta(s_{k-1}, \{1,2\}) = s_0,\ 
-        \delta(t_{k-1}, \{0\}) = s_0, \\
-    \forall 1\leq i \leq k-2:\ 
-        \delta(s_i, \bullet)= s_{i+1},\ 
-        \delta(t_i, \bullet)= t_{i+1}, \\
-    \text{All other transitions lead to $\mathrm{sink}$}
-\end{gather*}
+Construct the deterministic transducer $\cT=\tup{I,O,S,s_0,\delta,\lab}$ as in~\autoref{fig:example_parikh_not_symbolwise}, where $I=O=[m]=\{0,\cdots, m-1\}$ (so the input and output alphabets are $2^I=2^O$).
+% \begin{gather*}
+%     S = \{ s_0, \mathrm{sink}, 
+%         s_1, \dots, s_{k-1}, 
+%         t_1, \dots, t_{k-1} \} \\
+%     \lab(s_1)=\{0\}, \lab(t_1)=\{1\},
+%         \forall s\notin\{s_1, t_1\}:\  \lab(s)=\emptyset \\
+%     \delta(s_0, \{0\}) = s_1,\ 
+%         \delta(s_0, \{1,2\}) = t_1, \\
+%     \delta(s_{k-1}, \{1,2\}) = s_0,\ 
+%         \delta(t_{k-1}, \{0\}) = s_0, \\
+%     \forall 1\leq i \leq k-2:\ 
+%         \delta(s_i, \bullet)= s_{i+1},\ 
+%         \delta(t_i, \bullet)= t_{i+1}, \\
+%     \text{All other transitions lead to $\mathrm{sink}$}
+% \end{gather*}
 
-Todo: Draw or make this more intuitive.
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.8cm,on grid,auto]
+	    \tikzset{every state/.style={minimum size=7mm}};
+	    \node[state] (q_0)  [initial, fill=orange!20] {$q_0$};
+        \node[state] (s_1) [above right=of q_0, text=red] {$\emptyset$};
+        \node[state] (s_2) [right=of s_1, text=red] {$\emptyset$};
+        \node[draw=none] (s_ellipsis) [right=of s_2] {$\cdots$};
+        \node[state] (s_k-1) [right=of s_ellipsis, text=red] {$\emptyset$};
+        \node[state] (s_k) [right=of s_k-1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}, inner sep=0] {\small $\{0\}$};
+        \node[state] (t_1) [right=of q_0, text=red] {$\emptyset$};
+        \node[state] (t_2) [right=of t_1, text=red] {$\emptyset$};
+        \node[draw=none] (t_ellipsis) [right=of t_2] {$\cdots$};
+        \node[state] (t_k-1) [right=of t_ellipsis, text=red] {$\emptyset$};
+        \node[state] (t_k) [right=of t_k-1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}, inner sep=0] {\small $\{1\}$};
+        \node[state] (p_1) [below right=of q_0, text=red] {$\emptyset$};
+        \node[state] (p_2) [right=of p_1, text=red] {$\emptyset$};
+        \node[draw=none] (p_ellipsis) [right=of p_2] {$\cdots$};
+        \node[state] (p_k-1) [right=of p_ellipsis, text=red] {$\emptyset$};
+        \node[state] (p_k) [right=of p_k-1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {$\emptyset$};
+        
+        \path[->] 
+        (q_0) edge [sloped, pos=0.3, bend left] node {$\{0\}$} (s_1)
+        (q_0) edge [] node {$\{1,2\}$} (t_1)
+        (q_0) edge [sloped, pos=0.3, bend right] node {else} (p_1)
+        (s_1) edge [] node {$\sI$} (s_2)
+        (s_2) edge [] node {$\sI$} (s_ellipsis)
+        (s_ellipsis) edge [] node {$\sI$} (s_k-1)
+        (s_k-1) edge [] node {$\{1,2\}$} (s_k)
+        (s_k-1) edge [sloped, pos=0.15] node {else} (p_k)
+        (t_1) edge [] node {$\sI$} (t_2)
+        (t_2) edge [] node {$\sI$} (t_ellipsis)
+        (t_ellipsis) edge [] node {$\sI$} (t_k-1)
+        (t_k-1) edge [] node {$\{0\}$} (t_k)
+        (t_k-1) edge [sloped, pos=0.3] node {else} (p_k)
+        (p_1) edge [] node {$\sI$} (p_2)
+        (p_2) edge [] node {$\sI$} (p_ellipsis)
+        (p_ellipsis) edge [] node {$\sI$} (p_k-1)
+        (p_k-1) edge [] node {$\sI$} (p_k);
+    \end{tikzpicture}
+	\caption{Something about \autoref{example:parikh_not_symbolwise}.}
+	\label{fig:example_parikh_not_symbolwise}
+\end{figure}
 
-It is Parikh round symmetric since upon permuting a round of the form $\mathbf{r}=\{0\}\sigma_2\cdots\sigma_{k-1}\{1,2\}$, one can obtain $\mathbf{r}'=\{1,2\}\sigma_2\cdots\sigma_{k-1}\{0\}$ that satisfies $T(\mathbf{r}')=\pi(T(\mathbf{r}))$, such that $\mathbf{r}'\equiv_P \mathbf{r}$ but not necessarily $\mathbf{r}'\equiv_S \mathbf{r}$. (Todo: Formalize. Explain the notations also.) This also holds conversely, for rounds of the form of $\mathbf{r}'$. For all other rounds, the output is always $\emptyset^k$, so for them $T$ is symmetric.
+Observe that every round starts at $q_0$. There are three possible forms for the output of each round depending on the input, as summarized in~\autoref{tab:example_parikh_not_symbolwise}.
+% Note that the sets $\{0\}$ and $\{1,2\}$ are letters from the input alphabet.
+
+\begin{table}[!htb]
+    \centering
+    \caption{Something about~\autoref{example:parikh_not_symbolwise}.}
+    \vspace{2mm}
+    \def\arraystretch{1.3}
+    \begin{tabular}{c|c}
+        Input & Output \\
+        \hline \hline
+        $\{0\}\sigma_2\cdots \sigma_{k-1}\{1,2\}$ & $\emptyset^{k-1} \{0\}$ \\
+        \hline
+        $\{1,2\}\sigma_2\cdots \sigma_{k-1}\{0\}$ & $\emptyset^{k-1} \{1\}$ \\
+        \hline
+        else & $\emptyset^k$ \\
+    \end{tabular}
+    \label{tab:example_parikh_not_symbolwise}
+\end{table}
+
+We first show that $\cT$ is Parikh round symmetric. Let $x$ be an input word. If $x$ is of one of the first two forms, then by moving the non-permuted signal $2\in I$ between the first and last letters, we get $x'\equiv_p \pi(x)$ such that $T(x')\equiv_p\pi(T(x))$, as desired. Now assume $x$ is of some other form, having the output $\emptyset^k$. If $2\in I$ appears in both the first and last letters, or it appears in neither, then set $x'=\pi(x)$; otherwise, move the signal $2$ to the other letter, and the output will remain $\emptyset^k$.
+
+On the other hand, $\cT$ is not symbol-wise round symmetric. To see this, take the input $x=\{0\}^{k-1}\cdot\{1,2\}\cdot\emptyset^{k'k-k}$. We have $|x|=k'k$ which is divisible by $k'$. The output of $x'$ is $\emptyset^{k-1}\cdot0\cdot\emptyset^{k'k-k}$, and $\pi(x)=\{1\}^{k-1}\cdot\{0,2\}\cdot\emptyset^{k'k-k}$. Having neither the letter $\{0\}$ nor $\{1,2\}$, the output of any (symbol-wise) permutation of $\pi(x)$ is always $\emptyset^{k'k}$, which is not a permutation of the original output.
+
+% It is Parikh round symmetric since upon permuting a round of the form $\mathbf{r}=\{0\}\sigma_2\cdots\sigma_{k-1}\{1,2\}$, one can obtain $\mathbf{r}'=\{1,2\}\sigma_2\cdots\sigma_{k-1}\{0\}$ that satisfies $T(\mathbf{r}')=\pi(T(\mathbf{r}))$, such that $\mathbf{r}'\equiv_P \pi(\mathbf{r})$ but not necessarily $\mathbf{r}'\equiv_S \pi(\mathbf{r})$. (Todo: Formalize. Explain the notations also.) This also holds conversely, for rounds of the form of $\mathbf{r}'$. For all other rounds, the output is always $\emptyset^k$, so for them $T$ is symmetric.
 \end{example}
 
 \begin{example}[Round Robin]
-Recall the Round Robin (RR) scheduler from earlier. The permutation of the output round depends only on the corresponding input round. So if all input rounds are permuted identically, then so are the output rounds. It follows that RR exhibits uniform round symmetry.
+Consider the \gls{rr} scheduler. The permutation of the output round depends only on the permutation $\pi$ that was done on the signals, since all that needs to be done is make the order of grants match the new order of requests. So for all input words and all rounds, the permutation is identical. It follows that \gls{rr} exhibits global round symmetry.
 \end{example}
 
-% See `my-notes-p57-61.pdf` for further details and for more gaps.
-
-% \subsection*{Extension to round simulation}
-% Any type of round symmetry can also be generalized to round simulation in the same manner as we did in symbol-wise round symmetry.
+In terms of round simulation, take \gls{rr} once more as an example, and recall the variations of \gls{rr} with different initial states. Observe that for such a variation, a single permutation needs to be performed on all rounds of all input words to have a corresponding input for the variant system. It follows that a notion of global round simulation is exhibited. We therefore extend the variations of round symmetry to round simulation.
 
 \subsection{Extension to round simulation}
 
 Naturally, any type of round symmetry can also be generalized to round simulation in the same manner as we did in symbol-wise round symmetry. However, more can be considered. A system developer might be interested in simulation that permutes the input rounds according to one of the described \emph{modes of permutation} (Parikh, symbol-wise, uniform and global), while permuting the output rounds according to another mode.
 
-\newcommand{\RSTYPES}{\ensuremath{\mathbf{Typ}_1}}
-\newcommand{\RSTUPS}{\ensuremath{\mathbf{Typ}_2}}
-Set $\RSTYPES=\{p, s, u, g\}$. Let $\eta,\eta' \in \RSTYPES$, where $p$, $s$, $u$ and $g$ stand for Parikh, symbol-wise, uniform and global. When two words $x$ and $y$ are permutations of each other according to a type $\eta \in \RSTYPES$, we say they are $\eta$-permutations and denote $x\equiv_\eta y$. Now, transducer $\cT_1$ $\tup{\eta, \eta', k}$-round simulates transducer $\cT_2$ if for any input word $x$, there exists an $\eta$-permutation $x'$ such that $\cT_2(x')$ is an $\eta'$-permutation of $\cT_1(x)$. We denote this by $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$ (for simplicity, we do not consider restriction languages in this section).
-Fix $k>0$. We wish to define a partial order on the set of all types of round simulation according to this definition, i.e. the set $\RSTUPS:=\condset{\tup{\eta, \eta', k}}{\eta,\eta'\in \RSTYPES}$. First, we define an order on the elements of $\RSTYPES$ as such: $p\leq s\leq u\leq g$. A simple observation of the definitions gives the following.
+Following this motivation, we say a transducer $\cT_1$ is $\tup{\eta, \eta', k}$-round simulated by transducer $\cT_2$ if for any input word $x$, there exists an $\eta$-permutation $x'$ such that $\cT_2(x')$ is an $\eta'$-permutation of $\cT_1(x)$. We denote this by $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$ (for simplicity, we do not consider restriction languages in this section).
+
+We go a step further and define a partial order on the set of all types of round simulation according to this definition, i.e. the set $\RSTUPS:=\condset{\tup{\eta, \eta', k}}{\eta,\eta'\in \RSTYPES}$ for a fixed $k>0$. First, we define an order on the elements of $\RSTYPES$ as such: $p\leq s\leq u\leq g$. A simple observation of the definitions gives the following.
 
 \begin{lemma}
-    Let $\cT_1\prec_{k} \cT_2$ and $x,y$ be input words. For any $\eta,\mu\in\RSTYPES$ such that $\eta\leq \mu$, if $x\equiv_\mu y$ then $x\equiv_\eta y$.
+    Let $x,y$ be words over $\Sigma$. For any $\eta,\mu\in\RSTYPES$ such that $\eta\leq \mu$, if $x\equiv_\mu y$ then $x\equiv_\eta y$.
 \end{lemma}
 
 The above lemma gives the semantic meaning ``implied-by'' to the order on $\RSTYPES$. Also, we can now define the order on $\RSTUPS$ to be the implied \emph{product order}; i.e. $\tup{\eta, \eta', k}\leq \tup{\mu, \mu', k}$ if both $\eta\leq \mu$ and $\eta'\leq \mu'$. In fact, $\RSTYPES$ defines a lattice, and $\RSTUPS$ (upon fixing $k$ and ignoring the third coordinate) is the lattice obtained from the product of two copies of $\RSTYPES$. It is not difficult to see from the definition that the following holds too.
 
 \begin{lemma}
+\label{lemma:partial_order_tups}
         Let $\cT_1$ and $\cT_2$ be transducers. For any $\eta,\eta',\mu,\mu'\in\RSTYPES$ such that $\tup{\eta,\eta',k}\leq \tup{\mu,\mu',k}$, if $\cT_1 \prec_{k}^{\mu,\mu'} \cT_2$ then $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$.
 \end{lemma}
+We furthermore show that these implications are strict.
 
-We furthermore suggest that these implications are strict. We prove this for the relations in the diagram in the figure below (the $p$-diagram), and keep the rest for the reader to experiment with. We show examples for the gaps $\tup{p, p, k}<\tup{s, p, k}$ and $\tup{p, p, k}<\tup{p, s, k}$ by a round symmetric approach, then we argue that these two gaps imply the other two.
-Note that our examples rely on the fact that permutations $x'$ can move signals around even if they are not touched by the permutation $\pi$ of round symmetry. They also rely on the fact that we cannot move two requests of the process to the same time-step (since $\{a,a\}=\{a\}$ for any $a$).
+Recall the transducer $\cT$ from~\autoref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi$ as we did back in~\autoref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By similar reasoning as in the symbol-wise, this gives $\cT\prec^{p,p}_k \cT^\pi$. However, it does not hold that $\cT\prec^{s,p}_k \cT^\pi$, since the permuted input had to move a single signal between letters in some cases (see~\autoref{example:parikh_not_symbolwise}).
 
-\begin{example}[Gap I]
+The former result establishes the gap\footnote{Inequality clearly holds between the two tuples. However, we use the notation of equality (and strict inequality) between elements in $\RSTUPS$ to mean the implication of round simulation (or lack of it) between these types, as in~\autoref{lemma:partial_order_tups}.} $\tup{p, p, k}\lneq\tup{s, p, k}$, illustrated in~\autoref{fig:p-diagram}. For the gap $\tup{p, p, k}\lneq\tup{p, s, k}$, we will have to use a different pair of transducers. Here, too, we use a process-symmetric approach.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.25cm and 1.25cm,on grid,auto]
+		\node (top)    [] {$\tup{p,p,k}$}; 
+		\node (left)   [below left=of top]   {$\tup{p,s,k}$};
+		\node (right)  [below right=of top]  {$\tup{s,p,k}$};
+		\node (bottom) [below right=of left] {$\tup{s,s,k}$};
+		
+ 		\path[->] 
+		(top)    edge node [] {} (left)
+		(top)    edge node [] {} (right)
+		(left)   edge node [] {} (bottom)
+		(right)  edge node [] {} (bottom);
+	\end{tikzpicture}
+	\caption{A diagram for the partial order on $\RSTUPS$ ($\alpha\rightarrow\beta$ implies $\alpha\leq \beta$). In this section we show that all ordered pairs are strict.}
+	\label{fig:p-diagram}
+\end{figure}
+
+\begin{example}[The Other Gap]
+\label{example:gap}
+At first glance, the transducer $\cT$ in~\autoref{fig:example_gap} might look intimidating. However, it is in fact simple, and its round-by-round behaviour can once more be summarized in a table (see~\autoref{tab:example_gap}). The proof for $\cT$ being Parikh round symmetric is left for the reader. To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \emptyset$. The output of $\cT$ on $x$ is $0\emptyset 2$. All permutations $x'$ of $x$ either start with $\{1\}$ or $\emptyset$, their respective outputs being either $\{1,2\}\emptyset\emptyset$ or $\emptyset^3$. In all cases, we have $T(x')\not\equiv_s \pi(T(x))$.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 3.5cm,on grid,auto]
+	    \tikzset{every state/.style={minimum size=9mm, inner sep=0}};
+	    \node[state] (q_0)  [initial, fill=orange!20] {$q_0$};
+	    \node[state] (s_0)  [above right=of q_0, text=red] {\small $\{0\}$};
+	    \node[state] (s_1)  [below right=of q_0, text=red] {\small $\{1\}$};
+	    \node[state] (s_2)  [below=of s_1, text=red] {\footnotesize $\{0,2\}$};
+	    \node[state] (s_3)  [below=of s_2, text=red] {\footnotesize $\{1,2\}$};
+	    \node[state] (s_4)  [below=of s_3, text=red] {$\emptyset$};
+	    \node[state] (t_0)  [right=of s_0, text=red] {$\emptyset$};
+	    \node[state] (t_1)  [right=of s_1, text=red] {\small $\{2\}$};
+	    \node[state] (t_2)  [right=of s_3, text=red] {$\emptyset$};
+	    \node[state] (p_0)  [right=of t_0, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{2\}$};
+	    \node[state] (p_1)  [right=of t_1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\emptyset$};
+	    \node[state] (p_2)  [right=of t_2, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\emptyset$};
+        
+        \path[->] 
+        (q_0) edge [sloped, pos=0.7] node {$\{0\}$} (s_0)
+        (q_0) edge [sloped, pos=0.7] node {$\{1,2\}$} (s_1)
+        (q_0) edge [sloped, pos=0.7, bend right] node {$\{0,2\}$} (s_2)
+        (q_0) edge [sloped, pos=0.7, bend right] node {$\{1\}$} (s_3)
+        (q_0) edge [sloped, pos=0.7, bend right] node {else} (s_4)
+        (s_0) edge [sloped, pos=0.3] node {$2\notin \sigma$} (t_0)
+        (s_0) edge [sloped, pos=0.3] node {$2\in \sigma$} (t_1)
+        (s_1) edge [sloped, pos=0.3] node {$2\notin \sigma$} (t_1)
+        (s_1) edge [sloped, pos=0.2] node {$2\in \sigma$} (t_0)
+        (s_2) edge [sloped, pos=0.3] node {$\Sigma$} (t_2)
+        (s_3) edge [sloped, pos=0.3] node {$\Sigma$} (t_2)
+        (s_4) edge [sloped, pos=0.3] node {$\Sigma$} (t_2)
+        (t_0) edge [] node {$\Sigma$} (p_0)
+        (t_1) edge [] node {$\Sigma$} (p_1)
+        (t_2) edge [] node {$\Sigma$} (p_2);
+    \end{tikzpicture}
+	\caption{Something about \autoref{example:gap}. The transitions $i\in\sigma$ and $i\notin\sigma$ mean all letters from $\sI$ that, respectively, contain or do not contain $i$.}
+	\label{fig:example_gap}
+\end{figure}
+
+\begin{table}[!htb]
+    \centering
+    \caption{Something about~\autoref{example:gap}.}
+    \vspace{2mm}
+    \def\arraystretch{1.3}
+    \begin{tabular}{c|c}
+        Input & Output \\
+        \hline \hline
+        $\{0\}(2\notin\sigma)\sigma$ & $\{0\}\emptyset\{2\}$ \\
+        \hline
+        $\{0\}(2\in\sigma)\sigma$ & $\{0\}\{2\}\emptyset$ \\
+        \hline
+        $\{1,2\}(2\in\sigma)\sigma$ & $\{1\}\emptyset\{2\}$ \\
+        \hline
+        $\{1,2\}(2\notin\sigma)\sigma$ & $\{1\}\{2\}\emptyset$ \\
+        \hline
+        $\{0,2\}\sigma\sigma$ & $\{0,2\}\emptyset\emptyset$ \\
+        \hline
+        $\{1\}\sigma\sigma$ & $\{1,2\}\emptyset\emptyset$ \\
+        \hline
+        else & $\emptyset\emptyset\emptyset$ \\
+    \end{tabular}
+    \label{tab:example_gap}
+\end{table}
 \end{example}
 
-\begin{example}[Gap II]
-\end{example}
+The machines used in~\autoref{example:parikh_not_symbolwise} and~\autoref{example:gap} have established two gaps from~\autoref{fig:p-diagram} already. In fact, these same machines give the other two gaps as well: the former satisfies $\tup{s,p,k}$-round simulation with its corresponding $\cT^\pi$, the latter satisfies $\tup{p,s,k}$-round simulation, and neither of them satisfies $\tup{s,s,k}$-round simulation (they are not symbol-wise round symmetric).
 
-Continue by showing how Gaps III and IV are implied.
+Note that our examples rely on the fact that permutations $x'$ can move signals around even if they are not touched by the permutation $\pi$ of round symmetry (they are not in $\mathrm{supp}(\pi)$). We keep the rest of the implications in $\RSTUPS$ for the reader to experiment with.
 
 \section{Symmetry over infinite words}
 
 Consider a deterministic transducer over infinite words $\cT=\tup{I,O,S,s_0,\delta,\lab}$ with input and output signals $I=\{i_1,\ldots,i_k\}$ and $O=\{o_1,\ldots,o_k\}$. We say that $\cT$ is \emph{ultimately symmetric} if for every permutation $\pi\in \cS_k$ and for every $x\in \Io$, there exists $k\ge 0$ such that $\cT(\pi(x))[k:\infty]=\pi(\cT(x))[k:\infty]$. That is, for every word $x$, apart from some finite prefix, the output of $\cT$ on $\pi(x)$ is identical to the permuted output $\pi(\cT(x))$.
 
-The setting of infinite words is common in formal verification; it arises from the idea that a system might expect input indefinitely, and symmetry in such systems would either span over all the input that has been read already or extend into the future. Ultimate symmetry captures a kind of symmetry that achieves the latter case.
+The setting of infinite words is common in formal verification; it arises from the idea that a system is sometimes expected to read input indefinitely, and symmetry in such systems would either span over all the input that has been read already or extend into the future. Ultimate symmetry captures a kind of symmetry that achieves the latter case.
 
 \begin{theorem}
 	The problem of deciding whether a transducer $\cT$ is ultimately symmetric w.r.t.\! $\pi$ can be solved in polynomial time.

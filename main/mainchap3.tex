@@ -8,13 +8,13 @@ Recall that all this will aid us in solving the initial problem of round symmetr
 
 \section{Intuitive Overview}
 \label{sec:intuitive_overview}
-We start with an intuitive explanation of the solution and its challenges. For simplicity, assume for now $\fL=\sI^*$, so it can be ignored. The overall approach is to present a feasible test for $k$: in \autoref{thm:bound_on_k}, the main result of this section, we give an upper bound on the minimal $k>0$ for which $\cT_1\prec_{k} \cT_2$. In order to obtain this bound, we proceed as follows. Observe that for a transducer $\cT$ and for $0<k\neq k'$ the corresponding permutation closure \NFAs $\perm_k(\tr(\cT))$ and $\perm_{k'}(\tr(\cT))$ are defined on the same state space, but differ by their alphabet ($\sI^{k}\times \sO^{k}$ vs $\sI^{k'}\times \sO^{k'}$). Thus, by definition, these \NFAs obtained from an increasing round length form infinitely many distinct automata. Nonetheless, there are only finitely many possible types of letters (indeed, at most $|\bbB^{Q\times Q}|=2^{|Q|^2}$). Therefore, there are only finitely many \emph{type~profiles} for \NFAs (that is, the set of letter types occurring in the \NFA), up to multiplicities of the letter types.
+We start with an intuitive explanation of the solution and its challenges. For simplicity, assume for now $\fL=\sI^*$, so it can be ignored. The overall approach is to present a feasible test for $k$: in \autoref{thm:bound_on_k}, the main result of this section, we give an upper bound on the minimal $k>0$ for which $\cT_1\prec_{k} \cT_2$. In order to obtain this bound, we proceed as follows. Observe that for a transducer $\cT$ and for $0<k\neq k'$ the corresponding permutation closure \glspl{nfa} $\perm_k(\tr(\cT))$ and $\perm_{k'}(\tr(\cT))$ are defined on the same state space, but differ by their alphabet ($\sI^{k}\times \sO^{k}$ vs $\sI^{k'}\times \sO^{k'}$). Thus, by definition, these \glspl{nfa} obtained from an increasing round length form infinitely many distinct automata. Nonetheless, there are only finitely many possible types of letters (indeed, at most $|\bbB^{Q\times Q}|=2^{|Q|^2}$). Therefore, there are only finitely many \emph{type~profiles} for \glspl{nfa} (that is, the set of letter types occurring in the \gls{nfa}), up to multiplicities of the letter types.
 
 Recall that by \autoref{lem:round_equivalence_iff_perm_containment}, we have that $\cT_1\prec_k \cT_2$ iff $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$.
 Intuitively, one could hope that if $\perm_k(\tr(\cT_i))$ and $\perm_{k'}(\tr(\cT_i))$ have the same type profile, for each $i\in \{1,2\}$, then $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$ iff $L(\perm_{k'}(\tr(\cT_1)))\subseteq L(\perm_{k'}(\tr(\cT_2)))$. Then, if one can bound the index $k$ after which no further type profiles are encountered, then the problem reduces to checking a finite number of containments.
 
 Unfortunately, this is not the case, the reason being
-that the mapping of letters induced by the equal type profiles between $\perm_k(\tr(\cT_1))$ and $\perm_{k'}(\tr(\cT_1))$ may differ from the one between $\perm_k(\tr(\cT_2))$ and $\perm_{k'}(\tr(\cT_2))$, and thus one cannot translate language containment between the two pairs. We overcome this difficulty, however, by working from the start with product automata that capture the structure of both $\cT_1$ and $\cT_2$ simultaneously, and thus unify the letter mapping. We call them \emph{redundant product automata} (Ant: add reason). 
+that the mapping of letters induced by the equal type profiles between $\perm_k(\tr(\cT_1))$ and $\perm_{k'}(\tr(\cT_1))$ may differ from the one between $\perm_k(\tr(\cT_2))$ and $\perm_{k'}(\tr(\cT_2))$, and thus one cannot translate language containment between the two pairs. We overcome this difficulty, however, by working from the start with product automata that capture the structure of both $\cT_1$ and $\cT_2$ simultaneously, and thus unify the letter mapping. We call them \emph{redundant product automata} for their apparent redundancy. 
 
 We are now left with the problem of bounding the minimal $k$ after which 
 %all type profiles have been exhausted.
@@ -31,7 +31,7 @@ Which by \autoref{lem:round_equivalence_iff_perm_containment} immediately entail
 Existential round simulation is decidable.
 \end{corollary}
 
-We prove \autoref{thm:bound_on_k} in \autoref{sec:proof_of_bound}, organized as follows. We start by lifting the definition of \emph{types} in an \NFA to Parikh vectors, and show how these relate to the \NFA (\autoref{lem:type_of_parikh}). We then introduce Presburger Arithmetic and its relation to Parikh's Theorem. In \autoref{lem:parikh_type_definable} we show that the set of Parikh vectors that share a type $\tau$ is definable in Presburger arithmetic, which provides the first main step towards our bound.
+We prove \autoref{thm:bound_on_k} in \autoref{sec:proof_of_bound}, organized as follows. We start by lifting the definition of \emph{types} in an \gls{nfa} to Parikh vectors, and show how these relate to the \gls{nfa} (\autoref{lem:type_of_parikh}). We then introduce Presburger Arithmetic and its relation to Parikh's Theorem. In \autoref{lem:parikh_type_definable} we show that the set of Parikh vectors that share a type $\tau$ is definable in Presburger arithmetic, which provides the first main step towards our bound.
 
 We then proceed to define the ``redundant'' product automata mentioned above, which serve to unify the types between $\cT_1$ and $\cT_2$. In \autoref{obs:redundant_product} and \autoref{obs:redundant_product_for_perm_automata} we formalize the connection of these products to the transducers $\cT_1,\cT_2$. We then define the type profiles mentioned above, and prove in \autoref{lem:type_profile_bound} that they exhibit a semilinear behaviour. Finally, in \autoref{lem:profile_equality_to_simulation} we prove that when two redundant-product automata have the same type profile, then the containment mentioned above can be shown. Combining these results, we obtain \autoref{thm:bound_on_k}.
 
@@ -39,10 +39,10 @@ We then proceed to define the ``redundant'' product automata mentioned above, wh
 \label{sec:proof_of_bound}
 \subsection*{Type Matrices of Parikh Vectors}
 Consider the alphabet $\sI^k\times \sO^k$ for some $k>0$.
-Recall that by \autoref{obs:perm_invariance}, permutation closure \NFAs are permutation invariant, and from \autoref{chap:prelims}, the \emph{type} of a word in an \NFA is the transition matrix it induces.
-In particular, for permutation-invariant \NFAs, two letters $(\alpha,\beta),(\alpha',\beta')\in \sI^k\times \sO^k$ with $\fP(\alpha)=\fP(\alpha')$ and $\fP(\beta)=\fP(\beta')$ have the same type.
+Recall that by \autoref{obs:perm_invariance}, permutation closure \glspl{nfa} are permutation invariant, and from \autoref{chap:prelims}, the \emph{type} of a word in an \gls{nfa} is the transition matrix it induces.
+In particular, for permutation-invariant \glspl{nfa}, two letters $(\alpha,\beta),(\alpha',\beta')\in \sI^k\times \sO^k$ with $\fP(\alpha)=\fP(\alpha')$ and $\fP(\beta)=\fP(\beta')$ have the same type.
 
-Following this, we now lift the definition of types to Parikh vectors. Consider an \NFA $\cN=\tup{\sI\times \sO,S,s_0,\eta,F}$, and let $\vec{p}\in \bbN^{\sI},\vec{o}\in \bbN^{\sO}$ be Parikh vectors with $|\vec{p}|=|\vec{o}|=k$. We define the type $\tau_\cN(\vec{p},\vec{o})\in \bbB^{S\times S}$ to be $\tau_{\perm_k(\cN)}(\alpha,\beta)$ where $(\alpha,\beta)\in \sI^k\times \sO^k$ are such that $\fP(\alpha)=\vec{p}$ and $\fP(\beta)=\vec{o}$. By permutation invariance, this is well-defined, i.e. is independent of the choice of $\alpha$ and $\beta$.
+Following this, we now lift the definition of types to Parikh vectors. Consider an \gls{nfa} $\cN=\tup{\sI\times \sO,S,s_0,\eta,F}$, and let $\vec{p}\in \bbN^{\sI},\vec{o}\in \bbN^{\sO}$ be Parikh vectors with $|\vec{p}|=|\vec{o}|=k$. We define the type $\tau_\cN(\vec{p},\vec{o})\in \bbB^{S\times S}$ to be $\tau_{\perm_k(\cN)}(\alpha,\beta)$ where $(\alpha,\beta)\in \sI^k\times \sO^k$ are such that $\fP(\alpha)=\vec{p}$ and $\fP(\beta)=\vec{o}$. By permutation invariance, this is well-defined, i.e. is independent of the choice of $\alpha$ and $\beta$.
 
 Note that we use different automata to extract the type of words of different lengths. We obtain a more uniform description as follows.
 \begin{lemma}
@@ -54,28 +54,28 @@ Note that we use different automata to extract the type of words of different le
 \end{proof}
 
 \subsection*{Presburger Arithmetic}
-The first ingredient in the proof of \autoref{thm:bound_on_k} is to characterize the set of Parikh vectors whose type is some fixed matrix $\tau\in \bbB^{Q\times Q}$. For this characterization, we employ the first-order theory of the naturals with addition and order $\textrm{Th}(\bbN,0,1,+,<,=)$, commonly known as Presburger Arithmetic (\PA). We do not give a full exposition of \PA, but refer the reader to~\cite{Haase2018} (and references therein) for a survey. In the following we briefly cite the results we need.
+The first ingredient in the proof of \autoref{thm:bound_on_k} is to characterize the set of Parikh vectors whose type is some fixed matrix $\tau\in \bbB^{Q\times Q}$. For this characterization, we employ the first-order theory of the naturals with addition and order $\textrm{Th}(\bbN,0,1,+,<,=)$, commonly known as \emph{\gls{pa}}. We do not give a full exposition of \gls{pa}, but refer the reader to~\cite{Haase2018} (and references therein) for a survey. In the following we briefly cite the results we need.
 
-For our purposes, a \PA formula $\varphi(x_1,\ldots,x_d)$, where $x_1,\ldots, x_d$ are free variables, is evaluated over $\bbN^d$, and \emph{defines} the set $\{(a_1,\ldots,a_d)\in \bbN^d\ST (a_1,\ldots,a_d)\models \varphi(x_1,\ldots,x_d)\}$. For example, the formula $\varphi(x_1,x_2):=x_1< x_2\wedge \exists y. x_1=2y$ defines the set $\{(a,b)\in \bbN^2\ST a<b\wedge a \text{ is even}\}$.
+For our purposes, a \gls{pa}~formula $\varphi(x_1,\ldots,x_d)$, where $x_1,\ldots, x_d$ are free variables, is evaluated over $\bbN^d$, and \emph{defines} the set $\{(a_1,\ldots,a_d)\in \bbN^d\ST (a_1,\ldots,a_d)\models \varphi(x_1,\ldots,x_d)\}$. For example, the formula $\varphi(x_1,x_2):=x_1< x_2\wedge \exists y. x_1=2y$ defines the set $\{(a,b)\in \bbN^2\ST a<b\wedge a \text{ is even}\}$.
 
-A fundamental result about \PA is that the definable sets in \PA are exactly the semilinear sets. In particular, Parikh's Theorem states that for every \NFA $\cA$, $\fP(L(\cA))$ is \PA~definable. In fact, by~\cite{Verma2005}, one can efficiently construct a linear-sized existential \PA formula for $\fP(L(\cA))$.
-We can now show that the set of Parikh vectors whose type is $\tau$ is \PA~definable.
+A fundamental result about \gls{pa} is that the definable sets in \gls{pa} are exactly the semilinear sets. In particular, Parikh's Theorem states that for every \gls{nfa} $\cA$, $\fP(L(\cA))$ is \gls{pa}~definable. In fact, by~\cite{Verma2005}, one can efficiently construct a linear-sized existential \gls{pa}~formula for $\fP(L(\cA))$.
+We can now show that the set of Parikh vectors whose type is $\tau$ is \gls{pa}~definable.
 
 \begin{lemma}
 	\label{lem:parikh_type_definable}
-	Consider an \NFA $\cN=\tup{\sI\times \sO,S,s_0,\eta,F}$, and a type $\tau\in \bbB^{S\times S}$, then the set $\{(\vec{p},\vec{o})\in \bbN^{\sI} \times \bbN^{\sO}\ST \tau_{\cN}(\vec{p},\vec{o})=\tau\}$ is \PA~definable.
+	Consider an \gls{nfa} $\cN=\tup{\sI\times \sO,S,s_0,\eta,F}$, and a type $\tau\in \bbB^{S\times S}$, then the set $\{(\vec{p},\vec{o})\in \bbN^{\sI} \times \bbN^{\sO}\ST \tau_{\cN}(\vec{p},\vec{o})=\tau\}$ is \gls{pa}~definable.
 \end{lemma}
 \begin{proof}
 	Let $\tau\in \bbB^{S\times S}$, and consider a Parikh vector $(\vec{p},\vec{o})\in \bbN^{\sI} \times \bbN^{\sO}$ with $k=|\vec{p}|=|\vec{o}|$. By \autoref{lem:type_of_parikh}, we have that $\tau_{\cN}(\vec{p},\vec{o})=\tau$ iff the following holds for every $s_1,s_2\in S$: we have $\tau_{s_1,s_2}=1$ iff 
 	there exists a letter $(\alpha,\beta)\in \sI^k\times \sO^k$ such that $\fP(\alpha)=\vec{p},\fP(\beta)=\vec{o}$, and $s_1\runs{(\alpha,\beta)}{\cN} s_2$.
 
-	Consider $s_1,s_2\in S$ and define $\cN^{s_1}_{s_2}$ to be the \NFA obtained from $\cN$ by setting the initial state to be $s_1$ and a single accepting state $s_2$.
+	Consider $s_1,s_2\in S$ and define $\cN^{s_1}_{s_2}$ to be the \gls{nfa} obtained from $\cN$ by setting the initial state to be $s_1$ and a single accepting state $s_2$.
 	Then, we have $s_1\runs{(\alpha,\beta)}{\cN} s_2$ iff $(\alpha,\beta)\in L(\cN^{s_1}_{s_2})$. 
 	
 	Thus, $\tau_{\cN}(\vec{p},\vec{o})=\tau$ iff for every $s_1,s_2\in S$ we have that $\tau_{s_1,s_2}=1$ iff there exists a word $(\alpha,\beta)$ with $\fP(\alpha')=\vec{p}$ and $\fP(\beta')=\vec{o}$ such that $(\alpha,\beta)\in L(\cN^{s_1}_{s_2})$.
 	Equivalently, we have $\tau_{\cN}(\vec{p},\vec{o})=\tau$ iff for every $s_1,s_2\in S$ it holds that $\tau_{s_1,s_2}=1$ iff $(\vec{p},\vec{o})\in \fP(L(\cN^{s_1}_{s_2}))$.
 	
-	By Parikh's Theorem, for every $s_1,s_2\in S$ we can compute a \PA formula $\psi_{s_1,s_2}$ such that $(\vec{p},\vec{o})\models \psi_{s_1,s_2}$ iff $(\vec{p},\vec{o})\in \fP(L(\cN^{s_1}_{s_2}))$. Now we can construct a \PA formula $\Psi_{\tau}$ such that $\tau_{\cN}(\vec{p},\vec{o})=\tau$ iff $(\vec{p},\vec{o})\models \Psi_\tau$, as follows:
+	By Parikh's Theorem, for every $s_1,s_2\in S$ we can compute a \gls{pa}~formula $\psi_{s_1,s_2}$ such that $(\vec{p},\vec{o})\models \psi_{s_1,s_2}$ iff $(\vec{p},\vec{o})\in \fP(L(\cN^{s_1}_{s_2}))$. Now we can construct a \gls{pa}~formula $\Psi_{\tau}$ such that $\tau_{\cN}(\vec{p},\vec{o})=\tau$ iff $(\vec{p},\vec{o})\models \Psi_\tau$, as follows:
 	\[\Psi_\tau:= \bigwedge_{s_1,s_2\ST \tau_{s_1,s_2}=1} \psi_{s_1,s_2}\wedge \bigwedge_{s_1,s_2\ST \tau_{s_1,s_2}=0}\neg \psi_{s_1,s_2}.\]
 	
 	Finally, observe that $\Psi_\tau$ defines the set in the premise of the lemma, so we are done.
@@ -84,7 +84,7 @@ We can now show that the set of Parikh vectors whose type is $\tau$ is \PA~defin
 \subsection*{The Redundant Product Construction}
 As mentioned in~\autoref{sec:intuitive_overview}, for the remainder of the proof we want to reason about the types of $\perm_k(\tr(\cT_1)\cap \fL)$ and $\perm_k(\tr(\cT_2))$ simultaneously. In order to so, we present an auxiliary product construction.
 
-Let $\cT_1,\cT_2$ be transducers, $\fL\subseteq \sI^*$ be given by an \NFA, and let $\cD_1=\tr(\cT_1)\cap \fL$ and $\cD_2=\tr(\cT_2)$. 
+Let $\cT_1,\cT_2$ be transducers, $\fL\subseteq \sI^*$ be given by an \gls{nfa}, and let $\cD_1=\tr(\cT_1)\cap \fL$ and $\cD_2=\tr(\cT_2)$. 
 We now consider the product automaton of $\cD_1$ and $\cD_2$, and endow it with two different acceptance conditions, capturing that of $\cD_1$ and $\cD_2$, respectively. Formally, for $i\in \{1,2\}$, denote $\cD_i=\tup{\sI\times\sO,S_i,s^i_0,\eta_i,F_i}$, then the product automaton is defined as $\cB_i=\tup{\sI\times\sO,S_1\times S_2,(s^1_0,s^2_0),\eta_1\times \eta_2,G_i}$, where $G_1=F_1\times Q_2$ and $G_2=Q_1\times F_2$, and $\eta_1\times \eta_2$ denotes the standard product transition function, namely $\eta_1\times\eta_2((s_1,s_2),(\sigma,\sigma'))=(\eta_1(s_1,(\sigma,\sigma')),\eta_2(s_2,(\sigma,\sigma')))$. Thus, $\cB_i$ tracks both $\cD_1$ and $\cD_2$, but has the same acceptance condition as $\cD_i$. This seemingly ``redundant'' product construction has the following important properties, which are crucial for our proof:
 \begin{observation}
 	\label{obs:redundant_product}
@@ -100,9 +100,11 @@ Indeed, Item $1$ follows directly from the acceptance condition, and Item $2$ is
 By \autoref{obs:perm_closure_language}, $L(\perm_k(\cD_i))$ depends only on $L(\cD_i)$. We thus have the following.
 \begin{observation}
 	\label{obs:redundant_product_for_perm_automata}
-	 For every $k>0$
-	  we have 
-	 $L(\perm_k(\cB_1))=L(\perm_k(\tr(\cT_1)\cap \fL))$ and $L(\perm_k(\cB_2))=L(\perm_k(\tr(\cT_2)))$.
+	 The following holds for every $k>0$:
+	  \begin{enumerate}
+	      \item $L(\perm_k(\cB_1))=L(\perm_k(\tr(\cT_1)\cap \fL))$.
+	      \item $L(\perm_k(\cB_2))=L(\perm_k(\tr(\cT_2)))$.
+	  \end{enumerate}
 	\end{observation}
 
 \subsection*{Type Profiles}
@@ -115,9 +117,9 @@ For $k>0$, we define the \emph{$k$-th type profile} of $\cB_1$ to be $\Upsilon(\
 	We can effectively compute $K_0>0$ such that for every $k>0$ there exists $k'\le K_0$ with $\Upsilon(\cB_1,k')=\Upsilon(\cB_1,k)$.
 	\end{lemma}
 \begin{proof}
-	Consider a type $\tau$, and let $\Psi_\tau$ be the \PA formula constructed as per \autoref{lem:parikh_type_definable} for the \NFA $\cB_1$. Observe that for a Parikh vector $(\vec{p},\vec{o})$ and for $k>0$, the expression $|\vec{p}|=|\vec{o}|=k$ is \PA definable. Indeed, writing $\vec{p}=(x_1,\ldots,x_{|\sI|})$ and $\vec{q}=(y_1,\ldots,y_{|\sO|})$, the expression is defined by $x_1+\ldots+x_{|\sI|}=k \wedge y_1+\ldots+y_{|\sO|}=k$.
+	Consider a type $\tau$, and let $\Psi_\tau$ be the \gls{pa}~formula constructed as per \autoref{lem:parikh_type_definable} for the \gls{nfa} $\cB_1$. Observe that for a Parikh vector $(\vec{p},\vec{o})$ and for $k>0$, the expression $|\vec{p}|=|\vec{o}|=k$ is \gls{pa} definable. Indeed, writing $\vec{p}=(x_1,\ldots,x_{|\sI|})$ and $\vec{q}=(y_1,\ldots,y_{|\sO|})$, the expression is defined by $x_1+\ldots+x_{|\sI|}=k \wedge y_1+\ldots+y_{|\sO|}=k$.
 	
-	Let $T\subseteq \bbB^{S'\times S'}$ be a set of types (i.e., a potential type profile). We define a \PA formula $\Theta_T(z)$ over a single free variable $z$ such that $k\models \Theta_T(z)$ iff $\Upsilon(\cB_1,k)=T$, as follows.
+	Let $T\subseteq \bbB^{S'\times S'}$ be a set of types (i.e., a potential type profile). We define a \gls{pa}~formula $\Theta_T(z)$ over a single free variable $z$ such that $k\models \Theta_T(z)$ iff $\Upsilon(\cB_1,k)=T$, as follows.
 	\begin{align*}
 		\Theta_T(z)&=\left(\forall \vec{p},\vec{o}, |\vec{p}|=|\vec{o}|=z \to \bigvee_{\tau\in T}\Psi_\tau(\vec{p},\vec{o})\right)
 		\wedge \left(\bigwedge_{\tau\in T}\exists \vec{p},\vec{o}, |\vec{p}|=|\vec{o}|=z \wedge \Psi_\tau(\vec{p},\vec{o})\right)
@@ -178,18 +180,19 @@ The mapping is illustrated in \autoref{fig:type_profile}.
 	\label{fig:type_profile}
 \end{figure}
 
-Combining \autoref{lem:type_profile_bound} and \autoref{lem:profile_equality_to_simulation}, we can effectively compute $K_0$ such that if
+Combining \autoref{lem:type_profile_bound} and \autoref{lem:profile_equality_to_simulation}, we can effectively compute $K_0$ such that if \linebreak
 %$L(\cA^k_1)\subseteq L(\cA^k_2)$
-$L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$
+$L(\perm_{k}(\cB_1)) \subseteq L(\perm_{k}(\cB_2))$
 for some $k$, then this holds for some $k<K_0$. Finally, using \autoref{lem:round_equivalence_iff_perm_containment}, this concludes the proof of \autoref{thm:bound_on_k}. \qed
 
 \begin{remark}[Complexity Results for \autoref{thm:bound_on_k} and \autoref{cor:exist_k_decidable}]
 \label{rmk:complexity}
-Let $n$ be the number of states in $\cT_1\times \cT_2$. Observe that the formula $\Psi_\tau$ constructed in \autoref{lem:parikh_type_definable} comprises a conjunction of $O(n^2)$ \PA subformulas, where each subformula is either an existential \PA formula of length $O(n)$, or the negation of one. Then, the formula $\Theta_T$ in \autoref{lem:type_profile_bound} consists of a universal quantification, nesting a disjunction over $|T|$ formulas of the form $\Psi_\tau$, conjuncted with $|T|$ existential quantifications, nesting a single $\Psi_\tau$ each.
+Let $n$ be the number of states in $\cT_1\times \cT_2$. Observe that the formula $\Psi_\tau$ constructed in \autoref{lem:parikh_type_definable} comprises a conjunction of $O(n^2)$ \gls{pa}~subformulas, where each subformula is either an existential \gls{pa}~formula of length $O(n)$, or the negation of one. Then, the formula $\Theta_T$ in \autoref{lem:type_profile_bound} consists of a universal quantification, nesting a disjunction over $|T|$ formulas of the form $\Psi_\tau$, conjuncted with $|T|$ existential quantifications, nesting a single $\Psi_\tau$ each.
 Overall, this amounts to a formula of length $|T|\le 2^{n^2}$, with alternation depth 3.~\footnote{Alternation depth is usually counted with the outermost quantifier being existential, which is not the case here, hence $3$ instead of $2$.}
 
 Using quantifier elimination~\cite{Cooper1972,Oppen1978}, we can obtain a witness for the satisfiability of $\Theta_T$ of size 4-exponential in $n^2$. Then, finding the overall bound $K_0$ amounts to $2^{2^{n^2}}$ calls to find such witnesses. Finally, we need $K_0$ oracle calls to~\autoref{lem:round_equivalence_iff_perm_containment} in order to decide existential simulation, and since $K_0$ may have a 4-exponential size description, this approach yields a whopping 5\,-\,$\EXP$ algorithm. 
-This approach, however, does not exploit any of the structure of $\Theta_T$. See~\autoref{chap:future} for additional comments.
+This approach, however, does not exploit any of the structure of $\Theta_T$.
+% See~\autoref{chap:future} for additional comments.
 \end{remark}
 
 \section{Lower Bounds for Existential Round Simulation}
@@ -200,10 +203,10 @@ We start with the complexity lower bound, which applies already for round equiva
 
 \begin{theorem}
 \label{thm:existential_equivalence_PSPACE-H}
-The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$ for \emph{any} $k$, is \PSPACE-hard, even for a fixed $\fL$ (given as a 5-state \DFA).
+The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$ for \emph{any} $k$, is \PSPACE-hard, even for $\fL$ of a constant size (given as a 5-state \gls{dfa}).
 \end{theorem}
 \begin{proof}[Proof sketch]
-We present a similar reduction to that of \autoref{thm:equivalence_PSPACE-H}, from universality of \NFAs (see the full version). In order to account for the unknown value of $k$, we allow padding words with a fresh symbol $\#$, which is essentially ignored by the transducers. 
+We present a similar reduction to that of \autoref{thm:equivalence_PSPACE-H} from universality of \glspl{nfa} (see~\autoref{apx:proof_existential_PSPACE-H}). In order to account for the unknown value of $k$, we allow padding words with a fresh symbol $\#$, which is essentially ignored by the transducers. 
 \end{proof}
 
 Next, we show that the minimal value for $K_0$ can be exponential in the size of the given transducers (in particular, of $\cT_2$).

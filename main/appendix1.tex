@@ -1,32 +1,104 @@
 \chapter{$\PSPACE$ Hardness}
-\label{chap:apx3}
+\label{chap:apx}
 
 \begin{lemma}
 \label{lem:universalityofnfa}
-Universality of $\NFAs$ over alphabet $\Sigma=\{0,1\}$, where all states are accepting, and the degree of nondeterminism is at most $2$, is \PSPACE\ complete.
+Universality of \glspl{nfa} over alphabet $\Sigma=\{0,1\}$, where all states are accepting, and the degree of nondeterminism is at most $2$, is \PSPACE\ complete.
 \end{lemma}
 \begin{proof}
-In~\cite{kao2009nfas}, it is shown that universality of \NFAs remains \PSPACE\ complete even for \NFAs over alphabet $\Sigma=\{0,1\}$ and all states accepting. Thus, we only need to show that this remains the case under the restriction that $|\delta(q,\sigma)|\le 2$ for every state $q$ and letter $\sigma$.
+In~\cite{kao2009nfas}, it is shown that universality of \glspl{nfa} remains \PSPACE\ complete even for \glspl{nfa} over alphabet $\Sigma=\{0,1\}$ and all states accepting. Thus, we only need to show that this remains the case under the restriction that $|\delta(q,\sigma)|\le 2$ for every state $q$ and letter $\sigma$.
 
-To see this, we start by observing that universality remains \PSPACE\ complete for \NFAs over alphabet $\{0,1,\$\}$ with nondeterminism degree at most 2. Indeed, given an \NFA over $\{0,1\}$ with maximal nondeterminism degree $d>2$, we can replace each transition of the form\footnote{We can assume all transitions have degree exactly $d$ by adding redundant transitions} $\delta(q,\sigma)=\{q_1,\ldots, q_d\}$ with a binary tree of depth $\lceil \log d \rceil$, reading $\$$ on all transitions, which starts at $q$ and ends in $q_1,\ldots,q_d$. Thus, we introduce at most $d$ states for every transition. By marking these states as accepting, this reduction maintains universality, and requires a polynomial blowup.
+To see this, we start by observing that universality remains \PSPACE\ complete for \glspl{nfa} over alphabet $\{0,1,\$\}$ with nondeterminism degree at most 2. Indeed, given an \gls{nfa} over $\{0,1\}$ with maximal nondeterminism degree $d>2$, we can replace each transition of the form\footnote{We can assume all transitions have degree exactly $d$ by adding redundant transitions} $\delta(q,\sigma)=\{q_1,\ldots, q_d\}$ with a binary tree of depth $\lceil \log d \rceil$, reading $\$$ on all transitions, which starts at $q$ and ends in $q_1,\ldots,q_d$. Thus, we introduce at most $d$ states for every transition. By marking these states as accepting, this reduction maintains universality, and requires a polynomial blowup.
 
-Next, we observe that the reductions in~\cite[Lemma 2]{kao2009nfas} first transform an \NFA over alphabet size $k$ to an \NFA over alphabet size $k+1$ with all states accepting and with identical nondeterminism degree (indeed, the only added transitions are in fact deterministic), and then transforms an \NFA with all states accepting and alphabet size $4$ to an \NFA with all states accepting and alphabet size $2$, with an equal nondeterminism degree (essentially by encoding each of the 4 letters as two letters in $\{0,1\}$).
+Next, we observe that the reductions in~\cite[Lemma 2]{kao2009nfas} first transform an \gls{nfa} over alphabet size $k$ to an \gls{nfa} over alphabet size $k+1$ with all states accepting and with identical nondeterminism degree (indeed, the only added transitions are in fact deterministic), and then transforms an \gls{nfa} with all states accepting and alphabet size $4$ to an \gls{nfa} with all states accepting and alphabet size $2$, with an equal nondeterminism degree (essentially by encoding each of the 4 letters as two letters in $\{0,1\}$).
 
-Since we start this chain of reductions with an \NFA of nondeterminism degree at most 2, we maintain this property throughout the proof.
+Since we start this chain of reductions with an \gls{nfa} of nondeterminism degree at most 2, we maintain this property throughout the proof.
 \end{proof}
 
 \section{Proof of \autoref{thm:equivalence_PSPACE-H}}
-We show a reduction from the universality problem for $\NFAs$ over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \DFA of constant size. The former is shown to be \PSPACE-hard in~\autoref{lem:universalityofnfa}.
+\label{apx:proof_equivalence_PSPACE-H}
 
-Consider an \NFA $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
-%Set $\Sigma=\{0,1\}$ and $\Lambda=(ab+cd)^*$, and let $A=\tup{Q, \Sigma, \delta,q_0,Q}$ be an $\NFA$. 
+We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \gls{dfa} of constant size. The former is shown to be \PSPACE-hard in~\autoref{lem:universalityofnfa}.
+
+Consider an \gls{nfa} $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
+%Set $\Sigma=\{0,1\}$ and $\Lambda=(ab+cd)^*$, and let $A=\tup{Q, \Sigma, \delta,q_0,Q}$ be an \gls{nfa}. 
 We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets $\sI=\{a,b,c,d\}$ and $\sO=\{\top,\bot\}$ and $\fL\subseteq \sI^*$, such that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$. 
 %That is, iff for all $x\in \fL$ there exist $x'\req[2] x$ with $x'\in \fL$ and $x''\req[2] x$ that satisfy $\cT_1(x)\req[2] \cT_2(x')$ and $\cT_1(x'')\req[2] T_2(x)$.
 
-Set $\fL=(ab+cd)^*$ (described as a 4-state \DFA). Intuitively, our reduction encodes $\{0,1\}$ into $\{a,b,c,d\}^2$ by setting $0$ to correspond to $ab$ and to $ba$, and $1$ to $cd$ and to $dc$. Then, $\cT_1$ keeps outputting $\top$ for all inputs in $\fL$, thus mimicking ``accepting'' every word in $\{0,1\}^*$. We then construct $\cT_2$ so that every nondeterministic transition of $\cN$ on e.g., $0$ is replaced by two deterministic branches on $ab$ and on $ba$. Hence, when we are allowed to permute $ab$ and $ba$ by round equivalence, we capture the nondeterminism of $\cN$. 
+Set $\fL=(ab+cd)^*$ (described as a 4-state \gls{dfa}). Intuitively, our reduction encodes $\{0,1\}$ into $\{a,b,c,d\}^2$ by setting $0$ to correspond to $ab$ and to $ba$, and $1$ to $cd$ and to $dc$. Then, $\cT_1$ keeps outputting $\top$ for all inputs in $\fL$, thus mimicking ``accepting'' every word in $\{0,1\}^*$. We then construct $\cT_2$ so that every nondeterministic transition of $\cN$ on e.g., $0$ is replaced by two deterministic branches on $ab$ and on $ba$. Hence, when we are allowed to permute $ab$ and $ba$ by round equivalence, we capture the nondeterminism of $\cN$. 
 
-We now proceed to define the reduction formally. We construct $\cT_1$ independently of $\cN$, as depicted %It is the simple transducer denoted
-in~\autoref{fig:PSPACE_reduction_T1}, containing 4 states. For every $x\in \fL$ we have $\cT_1(x)=\top^{|x|}$, and for every other $x\notin \fL$ we have $\cT_1(x)=\top^{m}\bot^{|x|-m}$ where $m$ is the length of the maximal prefix of $x$ in $(ab+cd)^*(a+c+\epsilon)$.
+\begin{figure}[ht]
+\begin{minipage}{.33\linewidth}
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.3cm,on grid,auto]
+	    \tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=8mm, draw=black];
+ 	%   \clip (-2,0.9) rectangle (2.4, -1.3);
+		\node[state] [initial text={\,}] (q_0) [red, initial above] {$\top$}; 
+		\node[state] (q_1) [red, right=of q_0] {$\top$}; 
+		\node[state] (q_2) [red, left=of q_0] {$\top$};
+		\node[state] (q_3) [red, below=of q_0] {$\bot$};
+		
+		\path[->] 
+		(q_0)
+		 edge [bend right, swap, pos=0.6] node {$a$} (q_1)
+		 edge [bend left] node {$c$} (q_2)
+		 edge [pos=0.7] node {$b,d$} (q_3)
+		(q_1) 
+		 edge [bend right, swap] node {$b$} (q_0)
+		 edge [out=-90, in=0] node[pos=0.8,yshift=0.2cm] {$a,c,d$} (q_3)
+		(q_2)
+	     edge [bend left] node {$d$} (q_0)
+		 edge [out=-90, in=180, swap] node[pos=0.8,yshift=0.2cm] {$a,b,c$} (q_3);
+	\end{tikzpicture}
+ 	\caption{The transducer $\cT_1$ in the proof of \autoref{thm:equivalence_PSPACE-H}.}
+ 	\label{fig:PSPACE_reduction_T1}
+ \end{minipage}%
+ \hfill%
+ \begin{minipage}{.63\linewidth}
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.3cm,on grid,auto]
+		\tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=8mm, draw=black];
+		\node[state] (q_0) {$q$}; 
+		\node[state] (q_1) [above right=of q_0] {$q^{0,0}$}; 
+		\node[state] (q_2) [right=of q_0] {$q^{0,1}$}; 
+		\node[state] (q_3) [above left=of q_0] {$q^{1,0}$}; 
+		\node[state] (q_4) [left=of q_0] {$q^{1,1}$}; 
+		
+		\path[->] 
+		(q_0)
+		 edge node [pos=0.6] {$0$} (q_1)
+		 edge node [pos=0.6] {$0$} (q_2)
+		 edge node [pos=0.6, swap] {$1$} (q_3)
+		 edge node [pos=0.6, swap] {$1$} (q_4);
+	\end{tikzpicture}%
+	\hspace{0.5cm}%
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.3cm,on grid,auto]
+	    \tikzstyle{state}=[circle, inner sep=0mm, outer sep=0mm, minimum size=8mm, draw=black];
+		\node[state] (q_0) {$q$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_a$}] (q_1) [above right=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_b$}] (q_2) [right=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_c$}] (q_3) [above left=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q_d$}] (q_4) [left=of q_0] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{0,0}$}] (q_1b)[right=of q_1] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{0,1}$}] (q_2b)[right=of q_2] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{1,0}$}] (q_3b)[left=of q_3] {$\color{red} \top$}; 
+		\node[state, label={[font=\footnotesize,label distance=-.1cm]above:$q^{1,1}$}] (q_4b)[left=of q_4] {$\color{red} \top$}; 
+		
+		\path[->] 
+		(q_0)
+		 edge node [pos=0.6] {$a$} (q_1)
+		 edge node [pos=0.6] {$b$} (q_2)
+		 edge node [pos=0.6, swap] {$c$} (q_3)
+		 edge node [pos=0.6, swap] {$d$} (q_4)
+		(q_1) edge node [pos=0.6] {$b$} (q_1b)
+		(q_2) edge node [pos=0.6] {$a$} (q_2b)
+		(q_3) edge node [pos=0.6, swap] {$d$} (q_3b)
+		(q_4) edge node [pos=0.6, swap] {$c$} (q_4b);
+	\end{tikzpicture}
+ 	\caption{Every state and its 4 transitions in $\cN$ (left) turn into 8 transitions in $\cT_2$ (right). All transitions not drawn in the right figure lead to $q_\bot$, a sink state labelled $\color{red}\bot$.}
+ 	\label{fig:PSPACE_reduction_T2}
+ \end{minipage}
+\end{figure}
+
+We now proceed to define the reduction formally. We construct $\cT_1$ independently of $\cN$, as depicted in~\autoref{fig:PSPACE_reduction_T1}, containing 4 states. For every $x\in \fL$ we have $\cT_1(x)=\top^{|x|}$, and for every other $x\notin \fL$ we have $\cT_1(x)=\top^{m}\bot^{|x|-m}$ where $m$ is the length of the maximal prefix of $x$ in $(ab+cd)^*(a+c+\epsilon)$.
 
 We proceed to construct $\cT_2$. 
 %Recall that the nondeterminism degree of $\cN$ is $2$. Thus,
@@ -114,27 +186,28 @@ Observe that for every $x\in \fL$ we have $\cT_2(x)=\top^{m}\bot^{|x|-m}$ for so
 We now claim that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$.
 For the first direction, assume $L(\cN)=\{0,1\}^*$. Observe that $\cT_2\prec_{2,\fL}\cT_1$ independently: for every $x\in (ab+cd)^*$, denote $\cT_2(x)=\top^{m}\bot^{|x|-m}$, then we can construct $x'\req[2]x$ such that $\cT_1(x')=\top^{m}\bot^{|x|-m}$ by leaving $x$ unchanged $m$ steps, and then permuting the letters such that the run of $\cT_1$ moves to the sink labelled $\bot$ (indeed, observe that $m$ must be even by the construction of $\cT_2$, and hence $\cT_1$ can permute e.g., $ab$ to $ba$ in order to start outputting $\bot$ on an even step).
 
-Next, we show that $\cT_1\prec_{2,\fL}\cT_2$. Consider $x\in (ab+cd)^*$, so that $\cT_1(x)=\top^{|x|}$, and let $w\in \{0,1\}^*$ be the word obtained from $x$ by identifying $ab$ with $0$ and $cd$ with $1$. Since $L(\cN)=\{0,1\}^*$, there exists a run (and hence an accepting run) of $\cN$ on $w$, denoted $s_0,s_1,\ldots,s_n$. We now obtain $x''\req[2]x$ by identifying each letter $0$ in $x$ with either $ab$ or $ba$, and each letter $1$ with $cd$ or $dc$, such that the run of $\cT_2$ on $x''$ simulates the run of $\cN$ on $w$. Thus, $\cT_2(x'')=\top^{|x''|}$, and $x''\req[2]x$, so we are done.
+Next, we show that $\cT_1\prec_{2,\fL}\cT_2$. Consider $x\in (ab+cd)^*$, so that $\cT_1(x)=\top^{|x|}$, and let $w\in \{0,1\}^*$ be the word obtained from $x$ by identifying $ab$ with $0$ and $cd$ with $1$. Since $L(\cN)=\{0,1\}^*$, there exists a run (and hence an accepting run) of $\cN$ on $w$, denoted $s_0,s_1,\ldots,s_n$. We now obtain $x''\req[2]x$ by identifying each letter $0$ in $x$ with either $ab$ or $ba$, and each letter $1$ with $cd$ or $dc$, such that the run of $\cT_2$ on $x''$ simulates the run of $\cN$ on $w$. Thus, $\cT_2(x'')=\top^{|x''|}$, and $\cT_2(x'')\req[2]\cT_1(x)$, so we are done.
 
 Conversely, if $\cT_1\equiv_{2,\fL}\cT_2$, then in particular $\cT_1\prec_{2,\fL}\cT_2$. We claim that $L(\cN)=\{0,1\}^*$. Consider $w\in \{0,1\}^*$. Dually to the above, we obtain from $w$ a word $x\in (ab+cd)^*$ by identifying $0$ with $ab$ and $1$ with $cd$, so that $\cT_1(x)=\top^{|x|}$. 
-Since $\cT_1\equiv_{2,\fL}\cT_2$, there exists $x'\req[2]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$. In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. This gives $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, which concludes the proof.\qed
+Since $\cT_1\prec_{2,\fL}\cT_2$, there exists $x'\req[2]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$. In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. This gives $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, which concludes the proof.\qed
 
 \section{Proof of \autoref{thm:existential_equivalence_PSPACE-H}}
 \label{apx:proof_existential_PSPACE-H}
-In order to show that existential round equivalence is \PSPACE-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for $\NFAs$ over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf. \autoref{lem:universalityofnfa}), to existential round-equivalence, and with $\fL$ given as a \DFA of constant size. 
 
-Consider an \NFA $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
+In order to show that existential round equivalence is \PSPACE-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf. \autoref{lem:universalityofnfa}).
+
+Consider an \gls{nfa} $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
 We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets $\sI=\{a,b,c,d,\#\}$ and $\sO=\{\top,\bot\}$ and $\fL\subseteq \sI^*$, such that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$. 
 
 Intuitively, the idea is to use a similar encoding of $\{0,1\}$ in $\{a,b,c,d\}$ whereby $0$ corresponds to either $ab$ or $ba$ and $1$ to $cd$ or $dc$. Now, however, since $k$ is not fixed to $2$, we also allow arbitrary padding with sequences of $\#\#$.
 
-Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\cT_2$ similarly to the proof of \autoref{thm:equivalence_PSPACE-H}, by adding self-cycles of length 2 upon reading $\#\#$, from every state except the sink $q_\bot$. See \autoref{fig:existential_PSPACE_reduction_T1} and \autoref{fig:existential_PSPACE_reduction_T2} for an illustration.
+Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \gls{dfa}). We construct $\cT_1$ and $\cT_2$ similarly to the proof of \autoref{thm:equivalence_PSPACE-H}, by adding self-cycles of length 2 upon reading $\#\#$, from every state except the sink $q_\bot$. See \autoref{fig:existential_PSPACE_reduction_T1} and \autoref{fig:existential_PSPACE_reduction_T2} for an illustration.
 
 \begin{figure}[ht]
 	\centering
-	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
-	\tikzstyle{smallnode}=[circle, inner sep=0mm, outer sep=0mm, minimum size=5mm, draw=black];
-		\node[smallnode] (q_0) [initial above] {$\color{red} \top$}; 
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.6cm,on grid,auto]
+	\tikzstyle{smallnode}=[circle, inner sep=0mm, outer sep=0mm, minimum size=8mm, draw=black];
+		\node[smallnode] [initial text={}] (q_0) [initial above] {$\color{red} \top$}; 
 		\node[smallnode] (q_1) [right=of q_0] {$\color{red} \top$}; 
 		\node[smallnode] (q_2) [left=of q_0] {$\color{red} \top$};
 		\node[smallnode] (q_3) [below=of q_0] {$\color{red} \top$};
@@ -144,7 +217,7 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 		(q_0)
 		 edge [bend right, swap, pos=0.6] node {$a$} (q_1)
 		 edge [bend left, pos=0.6] node {$c$} (q_2)
-		 edge [bend left] node {$\#$} (q_3)
+		 edge [bend left=10] node {$\#$} (q_3)
 		 edge [out=-135, in=135, swap, pos=0.7] node {$b,d$} (q_4)
 		(q_1) 
 		 edge [bend right, swap] node {$b$} (q_0)
@@ -153,7 +226,7 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 	     edge [bend left] node {$d$} (q_0)
 		 edge [out=-135, in=-135, swap] node {$a,b,c,\#$} (q_4)
 		(q_3)
-		 edge [bend left] node {$\#$} (q_0)
+		 edge [bend left=10] node {$\#$} (q_0)
 		 edge [] node {$a,b,c,d$} (q_4);
 		 
 	\end{tikzpicture}
@@ -163,8 +236,8 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 
 \begin{figure}[ht]
 	\centering
-	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
-		\tikzstyle{state}=[circle, inner sep=.5mm, outer sep=0mm, minimum size=6mm, draw=black];
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.6cm,on grid,auto]
+		\tikzstyle{state}=[circle, inner sep=.5mm, outer sep=0mm, minimum size=8mm, draw=black];
 		\node[state] (q_0) {$q$}; 
 		\node[state] (q_1) [above right=of q_0] {$q^{0,0}$}; 
 		\node[state] (q_2) [right=of q_0] {$q^{0,1}$}; 
@@ -179,8 +252,8 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 		 edge node [pos=0.6,swap] {$1$} (q_4);
 	\end{tikzpicture}%
 	\hspace{2cm}%
-	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 1.5cm,on grid,auto]
-	    \tikzstyle{state}=[circle, inner sep=.5mm, outer sep=0mm, minimum size=6mm, draw=black];
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 1.6cm,on grid,auto]
+	    \tikzstyle{state}=[circle, inner sep=.5mm, outer sep=0mm, minimum size=8mm, draw=black];
 		\node[state] (q_0) {$q$}; 
 		\node[state] (q') [above=of q_0] {$q_\#$}; 
 		\node[state, label={[font=\small]above:$q_a$}] (q_1) [above right=of q_0] {$\color{red} \top$}; 
@@ -196,14 +269,14 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 		(q_0)
 		 edge node [pos=0.8] {$a$} (q_1)
 		 edge node [pos=0.8] {$b$} (q_2)
-		 edge node [pos=0.6, swap] {$c$} (q_3)
-		 edge node [pos=0.6, swap] {$d$} (q_4)
-		 edge node [bend left, pos=0.6] {$\#$} (q')
+		 edge node [pos=0.8, swap] {$c$} (q_3)
+		 edge node [pos=0.8, swap] {$d$} (q_4)
+		 edge [bend left=10, pos=0.6] node {$\#$} (q')
 		(q_1) edge node [pos=0.6] {$b$} (q_1b)
 		(q_2) edge node [pos=0.6] {$a$} (q_2b)
 		(q_3) edge node [pos=0.6, swap] {$d$} (q_3b)
 		(q_4) edge node [pos=0.6, swap] {$c$} (q_4b)
-		(q') edge [bend left] node[pos=0.5] {$\#$} (q_0);
+		(q') edge [bend left=10, pos=0.5] node {$\#$} (q_0);
 	\end{tikzpicture}
 	\caption{Every state and its 4 transitions in $\cN$ (left) turn into 10 transitions in $\cT_2$ (right). All transitions not drawn in the right figure lead to $q_\bot$, a sink state labelled $\color{red}\bot$.}
 	\label{fig:existential_PSPACE_reduction_T2}
@@ -212,22 +285,22 @@ Set $\fL=(ab+cd+\#\#)^*$ (given as a 5 state \DFA). We construct $\cT_1$ and $\c
 We claim that $L(\cN)=\{0,1\}^*$ iff there exists $k>0$ such that $\cT_1\equiv_{k,\fL}\cT_2$.
 For the first direction, assume $L(\cN)=\{0,1\}^*$, then we can show that $\cT_1\equiv_{2,\fL}\cT_2$ by following the proof of \autoref{thm:equivalence_PSPACE-H} line for line, with the addition that blocks of the form $\#\#$ leave the state of both $\cT_1$ and $\cT_2$ unchanged.
 
-For the converse direction, assume $\cT_1\equiv_{k,\fL}\cT_2$, and in fact we only assume $\cT_1\prec_{k,\fL}\cT_2$ for some $k>0$. We assume w.l.o.g. that $k$ is even, otherwise we can consider $2k$ (since we also have $\cT_1\prec_{2k,\fL}\cT_2$).
+For the converse direction, assume $\cT_1\equiv_{k,\fL}\cT_2$, and in fact we only assume $\cT_1\prec_{k,\fL}\cT_2$ for some $k>0$. We further assume w.l.o.g. that $k$ is even, otherwise we can just take $2k$ (since we also have $\cT_1\prec_{2k,\fL}\cT_2$).
 
 Consider $w\in \{0,1\}^*$. We obtain from $w$ a word $x\in (ab+cd+\#\#)^*$ by identifying $0$ with $ab\#^{k-2}$ and $1$ with $cd\#^{k-2}$. Observe that $\cT_1(x)=\top^{|x|}$, and that $x$ is indeed a $k$-round word in $\fL$, with each round being either $ab\#^{k-2}$ or $cd\#^{k-2}$. 
 
 Since $\cT_1\prec_{k,\fL}\cT_2$, there exists $x'\req[k]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$, and by shifting the location of this pair within the $\#$ symbols. Indeed, otherwise the run of $\cT_2$ on $x'$ ends in $q_{\bot}$.
 In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. Thus, $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, and the proof is concluded. \qed
 
-\begin{section}
-This a former try of proving existential. Either Appendix or drop.
+% \begin{section}
+% This a former try of proving existential. Either Appendix or drop.
 
-\begin{hypothesis}
-Let $A,B$ be two NFAs over $\Sigma$. There exists a bound $M=M(A,B)$ that satisfies the following: let $x\in \Sigma^\star$ and $x'\equiv x$ a permutation thereof. Denote $q'\in\delta_1(q,x)$ and $s'\in\delta_2(s,x')$, then there exists such an $x$ with $|x|<M$.
-\end{hypothesis}
+% \begin{hypothesis}
+% Let $A,B$ be two \glspl{nfa} over $\Sigma$. There exists a bound $M=M(A,B)$ that satisfies the following: let $x\in \Sigma^\star$ and $x'\equiv x$ a permutation thereof. Denote $q'\in\delta_1(q,x)$ and $s'\in\delta_2(s,x')$, then there exists such an $x$ with $|x|<M$.
+% \end{hypothesis}
 
-To understand how this theorem can help our cause, recall that the algorithm for checking $k$-simulation in rounds was based on a construction of a DFA $A_1^k$ and an NFA $A_2^k$ so that, if we fix $T_1$ and $T_2$ and gradually increase $k$, we will have a sequence of automata with identical states, wherein only the transitions and the alphabet change.
+% To understand how this theorem can help our cause, recall that the algorithm for checking $k$-simulation in rounds was based on a construction of a \gls{dfa} $A_1^k$ and an \gls{nfa} $A_2^k$ so that, if we fix $T_1$ and $T_2$ and gradually increase $k$, we will have a sequence of automata with identical states, wherein only the transitions and the alphabet change.
 
-If we succeed to show that for some $k_1$ and $k_2$ the two pairs of automata are identical in transitions, then by help of the theorem we can bound the difference $k_2-k_1$ and hopefully get a deterministic analysis of the values of $k$ which would work, i.e. we would solve the problem of bounding $k$.
+% If we succeed to show that for some $k_1$ and $k_2$ the two pairs of automata are identical in transitions, then by help of the theorem we can bound the difference $k_2-k_1$ and hopefully get a deterministic analysis of the values of $k$ which would work, i.e. we would solve the problem of bounding $k$.
 
-\end{section}
+% \end{section}

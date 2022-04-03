@@ -4,11 +4,17 @@
 % e.g. package uses:
 
 \usepackage{xspace}
-% \usepackage{complexity}
-\usepackage{tikz}
-\usetikzlibrary{automata,positioning,fit,calc,shapes.geometric}
+\usepackage{complexity}
 
-% and macros/command defintions:
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, fit, calc, shapes.geometric}
+
+\usepackage[capitalise, noabbrev, nameinlink]{cleveref}
+\newcommand{\crefrangeconjunction}{--}
+\newcommand{\creflastconjunction}{, and\nobreakspace}
+\crefname{observation}{Observation}{Observations}
+
+% and macros/command definitions:
 
 \newcommand{\IOo}{(2^{I\cup O})^\omega}
 \newcommand{\Io}{(2^{I})^\omega}
@@ -33,8 +39,8 @@
 \newcommand{\cC}{\mathcal{C}}
 \newcommand{\cD}{\mathcal{D}}
 \newcommand{\cN}{\mathcal{N}}
-\newcommand{\cP}{\mathcal{P}}
-\newcommand{\cS}{\mathcal{S}}
+\renewcommand{\cP}{\mathcal{P}}
+\renewcommand{\cS}{\mathcal{S}}
 \newcommand{\cT}{\mathcal{T}}
 
 \newcommand{\bbB}{\mathbb{B}}
@@ -43,13 +49,6 @@
 \newcommand{\bbQ}{\mathbb{Q}}
 \newcommand{\bbR}{\mathbb{R}}
 \newcommand{\bbZ}{\mathbb{Z}}
-
-% TODO: Replace with a text-formatted \gls acronym?
-\newcommand{\DFA}{\mbox{\rm DFA}\xspace}
-\newcommand{\NFA}{\mbox{\rm NFA}\xspace}
-\newcommand{\DFAs}{\mbox{\rm DFAs}\xspace}
-\newcommand{\NFAs}{\mbox{\rm NFAs}\xspace}
-\newcommand{\PA}{\mbox{\rm PA}\xspace}
 
 \newcommand{\lab}{\boldsymbol{\ell}}
 
@@ -65,12 +64,7 @@
 
 \newcommand{\condset}[2]{\left\{\,#1\ \middle|\ #2\,\right\}}
 
-\newcommand{\PSPACE}{\textbf{PSPACE}}
-\newcommand{\EXP}{\textbf{EXP}}
-\newcommand{\coPSPACE}{\textbf{co-PSPACE}}
-\newcommand{\coNPSPACE}{\textbf{co-NPSPACE}}
-
-% \crefname{observation}{Observation}{Observations} % For cref
+\renewcommand{\autoref}{\cref}
 
 % For this template, we'll only have one single command,
 % necessary for including graphics...

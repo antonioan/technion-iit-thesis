@@ -27,7 +27,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \edef\iitthesis@TechnionIITThesis{%
 \filedate\space\fileversion\space - Technion IIT Thesis}
-\ProvidesClass{\filename}[\iitthesis@TechnionIITThesis]
+\ProvidesClass{misc/\filename}[\iitthesis@TechnionIITThesis]
 
 %--------------------------------
 
