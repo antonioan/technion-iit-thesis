@@ -5,7 +5,7 @@ Consider two $k$-round words $x,y\in \Sigma^{kR}$ with the same number of rounds
 
 \begin{example}[Round-equivalence for words]
 \label{example:word-req}
-Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sigma=\{a,b\}$. Looking at the words as $3$-round words, one can see in \autoref{tab:word-req-3} that the 3-rounds in $y$ are all permutations of those in $x$, which gives $x\req[3] y$. However, looking at $x,y$ as $4$-round words, the number of occurrences of $b$ already in the first 4-round of $x$ and of $y$ is different, so $x\not\req[4] y$, as illustrated in \autoref{tab:word-req-4}.\qed
+Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sigma=\{a,b\}$. Looking at the words as $3$-round words, one can see in~\cref{tab:word-req-3} that the 3-rounds in $y$ are all permutations of those in $x$, which gives $x\req[3] y$. However, looking at $x,y$ as $4$-round words, the number of occurrences of $b$ already in the first 4-round of $x$ and of $y$ is different, so $x\not\req[4] y$, as illustrated in~\cref{tab:word-req-4}.
 \begin{table}[!htb]
 \begin{minipage}{.5\linewidth}
     \centering
@@ -35,7 +35,7 @@ Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sig
 Let $\sI$ and $\sO$ be input and output alphabets, let $\fL\subseteq \sI^*$ be a regular language, and let $k>0$. Consider two $\sI/\sO$ transducers $\cT_1$ and $\cT_2$. We say that \emph{$\cT_2$ $k$-round simulates $\cT_1$ restricted to $\fL$}, denoted $\cT_1\prec_{k,\fL} \cT_2$, if for every $k$-round word $x\in \fL$ there exists a $k$-round word $x'\in \sI^*$ such that $x\req[k] x'$ and $\cT_1(x)\req[k] \cT_2(x')$. 
 
 Intuitively, $\cT_1\prec_{k,\fL} \cT_2$ if for every input word $x\in \fL$, we can permute each $k$-round of $x$ to obtain a new word $x'$, such that the $k$-rounds of the outputs of $\cT_1$ on $x$ and of $\cT_2$ on $x'$ are permutations of each other. 
-Note that the definition is not symmetric: the input $x$ for $\cT_1$ is universally quantified, while $x'$ is chosen according to $x$. We illustrate this in \autoref{example:def-asymmetric}.
+Note that the definition is not symmetric: the input $x$ for $\cT_1$ is universally quantified, while $x'$ is chosen according to $x$. We illustrate this in~\cref{example:def-asymmetric}.
 
 If $\cT_1\prec_{k,\fL} \cT_2$ and $\cT_2\prec_{k,\fL} \cT_1$ we say that $\cT_1$ and $\cT_2$ are \emph{$k$-round equivalent restricted to $\fL$}, denoted $\cT_1\equiv_{k,\fL} \cT_2$. 
 In the special case where $\fL=\sI^*$ (i.e., when we require the simulation to hold for every input), we omit it from the subscript and write e.g., $\cT_1\prec_k \cT_2$.
@@ -43,7 +43,7 @@ In the special case where $\fL=\sI^*$ (i.e., when we require the simulation to h
 \begin{example}[Round Robin]
 \label{example:transducer-req}
 We consider a simple version of the \gls{rr} scheduler for three processes $\cP=\{0,1,2\}$. In each time step, the scheduler outputs either a singleton set containing the ID of the process whose request is granted, or an empty set if the process whose turn it is did not make a request. 
-Depending on the ID $i\in \{0,1,2\}$ of the first process, we model the scheduler as a $2^{\cP}/2^{\cP}$ transducer $\cT_i = \tup{2^\cP, 2^\cP, Q, q_{(i-1)\%3}, \delta, \lab}$ depicted in \autoref{fig:RR}, where \% is the $\bmod$ operator, $Q=\left\{q_0,q_1,q_2,q'_0,q'_1,q'_2\right\}$, $\delta(q_i, \sigma)=q_{(i+1)\%3}$ if $i+1\in\sigma$ and $\delta(q_i,\sigma)=q'_{(i+1)\%3}$ otherwise, $\lab(q_i)=\{i\}$ and $\lab(q'_i)=\emptyset$.
+Depending on the ID $i\in \{0,1,2\}$ of the first process, we model the scheduler as a $2^{\cP}/2^{\cP}$ transducer $\cT_i = \tup{2^\cP, 2^\cP, Q, q_{(i-1)\%3}, \delta, \lab}$ depicted in~\cref{fig:RR}, where \% is the $\bmod$ operator, $Q=\left\{q_0,q_1,q_2,q'_0,q'_1,q'_2\right\}$, $\delta(q_i, \sigma)=q_{(i+1)\%3}$ if $i+1\in\sigma$ and $\delta(q_i,\sigma)=q'_{(i+1)\%3}$ otherwise, $\lab(q_i)=\{i\}$ and $\lab(q'_i)=\emptyset$.
 \begin{figure}[ht]
 	\centering
 	\small
@@ -82,7 +82,7 @@ We argue that, if we allow reordering of the input letters, then the set of proc
 
 \begin{example}[Round simulation is not symmetric]
 \label{example:def-asymmetric}
-Consider the $\sI/\sO$ transducers $\cT_1$ and $\cT_2$ over the alphabet $\sI=\{a,b\}$ and $\sO=\{0,1\}$, depicted in \autoref{fig:def-asymmetry}. 
+Consider the $\sI/\sO$ transducers $\cT_1$ and $\cT_2$ over the alphabet $\sI=\{a,b\}$ and $\sO=\{0,1\}$, depicted in~\cref{fig:def-asymmetry}. 
 \begin{figure}[ht]
 	\centering
 	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 2cm,on grid,auto,initial text = {}]
@@ -122,7 +122,7 @@ Consider the $\sI/\sO$ transducers $\cT_1$ and $\cT_2$ over the alphabet $\sI=\{
 		edge [bend left=15] node {$b$} (q_0)
 		(q_sink) edge [loop right] node {$a,b$} ();
 	\end{tikzpicture}%
-	\caption{Transducers $\cT_1$ (left) and $\cT_2$ (right) illustrate the asymmetry in the definition of round equivalence (see \autoref{example:def-asymmetric}).}
+	\caption{Transducers $\cT_1$ (left) and $\cT_2$ (right) illustrate the asymmetry in the definition of round equivalence (see~\cref{example:def-asymmetric}).}
 	\label{fig:def-asymmetry}
 \end{figure}
 We claim that $\cT_1\prec_2 \cT_2$ but $\cT_2\not\prec_2 \cT_1$. Starting with the latter, observe that $\cT_2(ab)=00$, but $\cT_1(ab)=\cT_1(ba)=01$. Since $00\not\req[2]01$, we have $\cT_2\not\prec_2 \cT_1$. 
@@ -151,4 +151,4 @@ A slightly more careful examination shows that the same approach can be taken to
 Now, given an algorithm that decides, given $\cT_1,\cT_2$ and $\fL$, whether there exists $k>0$ such that $\cT_1\prec_{k,\fL} \cT_2$, we can decide whether $\cT_1\equiv_{k,\fL} \cT_2$ by using the algorithm twice to decide whether there exists $k_1$ such that $\cT_1\prec_{k_1,\fL} \cT_2$ and $k_2$ such that $\cT_2\prec_{k_2,\fL} \cT_1$ hold. If there are no such $k_1,k_2$, then clearly $\cT_1 \not\equiv_{k,\fL} \cT_2$. However, if there are such $k_1,k_2$, then by the observation above we have $\cT_1\equiv_{k_1k_2,\fL}\cT_2$ (we can also take $\lcm(k_1,k_2)$ instead of $k_1k_2$).
 \end{proof}
  
-By \autoref{lem:reduce_equiv_to_simulation}, for the purpose of upper-bounds, we focus henceforth on round simulation.
+By~\cref{lem:reduce_equiv_to_simulation}, for the purpose of upper-bounds, we focus henceforth on round simulation.

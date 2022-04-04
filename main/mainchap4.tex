@@ -1,8 +1,8 @@
 \chapter{From Process Symmetry to Round Equivalence}
 \label{chap:application}
 
-As mentioned in \autoref{chap:intro}, our original motivation for studying round simulation comes from process symmetry. We present process symmetry with an example before introducing the formal model.
-Recall the \gls{rr} scheduler from \autoref{example:transducer-req}. There, at each time step, the scheduler receives as input the IDs of processes in $\cP=\{0,1,2\}$ that are making a request, and it responds with the IDs of those that are granted (either a singleton $\{i\}$ or $\emptyset$).
+As mentioned in~\cref{chap:intro}, our original motivation for studying round simulation comes from process symmetry. We present process symmetry with an example before introducing the formal model.
+Recall the \gls{rr} scheduler from~\cref{example:transducer-req}. There, at each time step, the scheduler receives as input the IDs of processes in $\cP=\{0,1,2\}$ that are making a request, and it responds with the IDs of those that are granted (either a singleton $\{i\}$ or $\emptyset$).
 
 In \emph{process symmetry}, we consider a setting where the identities of the processes may be permuted. This corresponds to the IDs representing, for instance, ports, and the processes not knowing which port they are plugged into. Thus, the input received may be any permutation of the actual identities of the processes. Then, a transducer is \emph{process symmetric} if the outputs are permuted similarly to the inputs. For example, in the \gls{rr} scheduler, the output corresponding to input $\{1,2\}\{3\}\{3\}$ is $\{1\}\emptyset\{3\}$. However, if we permute the inputs by swapping $1$ and $3$, the output for $\{3,2\}\{1\}\{1\}$ is $\emptyset\emptyset\emptyset$, so \gls{rr} is not process symmetric.
 
@@ -14,14 +14,15 @@ Consider a set of processes $\cP=\{1,\dots,m\}$ and $k>0$. For a permutation $\p
 A $2^\cP/2^\cP$ transducer $\cT=\tup{2^\cP,2^\cP,Q,q_0,\delta,\lab}$ is \emph{$k$-round symmetric} if for every permutation $\pi$ of $\cP$ for and every $k$-round word $x\in (2^{\cP})^*$ there exists a $k$-round word $x' \in (2^{\cP})^*$ such that $\pi(x)\req[k] x'$ and $\pi(\cT(x))\req[k] \cT(x')$.
 We say that $\cT$ is $k$-round symmetric w.r.t.\! $\pi$ if the above holds for a certain permutation $\pi$.
 
-Here, too, we consider two main decision problems: \emph{fixed round symmetry} (where $k$ is fixed) and \emph{existential round symmetry} (where we decide whether there exists $k>0$ for which this holds). The algorithm from \autoref{chap:deciding_fixed_round_sim} has given a way to check $k$-round symmetry of a transducer $T$ w.r.t.\! any family of permutations $\Pi$ in \PSPACE. This is for cases like \gls{rr} where the round length is given or understood from the description of the system. However, when we are interested in checking for the symmetry of a transducer, $k$ is not necessarily given. \autoref{chap:deciding_existential_round_sim} has shown that, to check for round symmetry with any round length, we need only check a finite number of possibilities for $k$. Observe that $\fL=(2^{\cP})^*$, and is therefore ignored. (Ant: Note that RSym without a suffix is all-permutations RSym ...)
+Here, too, we consider two main decision problems: \emph{fixed round symmetry} (where $k$ is fixed) and \emph{existential round symmetry} (where we decide whether there exists $k>0$ for which this holds). The algorithm from~\cref{chap:deciding_fixed_round_sim} has given a way to check $k$-round symmetry of a transducer $T$ w.r.t.\! any family of permutations $\Pi$ in \PSPACE. This is for cases like \gls{rr} where the round length is given or understood from the description of the system. However, when we are interested in checking for the symmetry of a transducer, $k$ is not necessarily given.~\cref{chap:deciding_existential_round_sim} has shown that, to check for round symmetry with any round length, we need only check a finite number of possibilities for $k$. Observe that $\fL=(2^{\cP})^*$, and is therefore ignored.
+% (Ant: Note that RSym without a suffix is all-permutations RSym ...)
 
 \subsection*{From Round Symmetry to Round Simulation}
 \label{sec:symmetry_to_simulation}
 In order to solve the decision problems above, we reduce them to the respective problems about round symmetry. We start with the case where the permutation $\pi$ is given.
 
 Given the transducer $\cT$ as above, we obtain from $\cT$ a new transducer $\cT^\pi$ which is identical to $\cT$ except that it acts on a letter $\sigma\in 2^\cP$ as $\cT$ would act on $\pi^{-1}(\sigma)$, and it outputs $\sigma$ where $\cT$ would output $\pi^{-1}(\sigma)$. Formally, $\cT^{\pi}=\tup{2^\cP,2^\cP,Q,q_0,\delta^{\pi},\lab^{\pi}}$ where $\delta^{\pi}(q,\sigma)=\delta(q,\pi^{-1}(\sigma))$ and $\lab^{\pi}(q)=\pi(\lab(q))$. It is easy to verify that for every $x\in (2^{\cP})^*$ we have $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$.
-As we now show, once we have $\cT^\pi$, round symmetry is equivalent to round simulation, so we can use the tools developed in \autoref{chap:deciding_fixed_round_sim} and \autoref{chap:deciding_existential_round_sim} to solve the problems at hand (see the full version for the proof).
+As we now show, once we have $\cT^\pi$, round symmetry is equivalent to round simulation, so we can use the tools developed in~ \cref{chap:deciding_fixed_round_sim,chap:deciding_existential_round_sim} to solve the problems at hand.
 \begin{lemma}
     \label{lem:symmetry_to_simulation}
     For a permutation $\pi$ and $k>0$, $\cT$ is $k$-round symmetric w.r.t.\! $\pi$ iff $\cT^{\pi}\prec_k \cT$.
@@ -35,7 +36,7 @@ As we now show, once we have $\cT^\pi$, round symmetry is equivalent to round si
 \end{proof}
 
 \subsection*{Closure Under Composition}
-In order to deal with the general problem of symmetry under all permutations, one could naively check for symmetry against each of the $m!$ permutations. We show, however, that the definition above is closed under composition of permutations (see the full version for the proof). 
+In order to deal with the general problem of symmetry under all permutations, one could naively check for symmetry against each of the $m!$ permutations. We show, however, that the definition above is closed under composition of permutations. 
 \begin{lemma}
     \label{lem:closure_composition}
     Consider two permutations $\pi,\chi$. If $\cT^\pi\prec_k \cT$ and $\cT^\chi \prec_k \cT$ then $\cT^{\pi\circ \chi} \prec_k \cT$.
@@ -44,14 +45,14 @@ In order to deal with the general problem of symmetry under all permutations, on
     Using the first definition of round symmetry, let $x\in (2^{\cP})^*$, then there exists $x'\req[k] \pi(x)$ such that $\cT(x')\req[k] \pi(\cT(x))$. Moreover, there exists $x''\req[k] \chi(x') \req[k] \chi(\pi(x))$ such that $\cT(x'')\req[k] \chi(\cT(x'))\req[k] \chi(\pi(\cT(x)))$, and we are done.
 \end{proof}
 
-Recall that the group of all permutations of $\cP$ is generated by two permutations: the transposition $(1\ 2)$ and the cycle $(1\ 2\ \ldots\ m)$~\cite{Cameron1999}. By \autoref{lem:closure_composition} it is sufficient to check symmetry for these two generators in order to obtain symmetry for every permutation. Note that for the existential variant of the problem, even if every permutation requires a different $k$, by taking the product of the different values we conclude that there is a uniform $k$ for all permutations.
+Recall that the group of all permutations of $\cP$ is generated by two permutations: the transposition $(1\ 2)$ and the cycle $(1\ 2\ \ldots\ m)$~\cite{Cameron1999}. By~\cref{lem:closure_composition} it is sufficient to check symmetry for these two generators in order to obtain symmetry for every permutation. Note that for the existential variant of the problem, even if every permutation requires a different $k$, by taking the product of the different values we conclude that there is a uniform $k$ for all permutations.
 We thus have the following.
 \begin{theorem}
 \label{thm:symmetry_decidable}
 Both fixed and existential round symmetry are decidable. Moreover, fixed round symmetry is in \PSPACE.
 \end{theorem}
 
-Finally, the reader may notice that our definition of round symmetry w.r.t. $\pi$ is not symmetric, as was the case with round simulation compared to round equivalence. However, when we consider round symmetry w.r.t. to all permutations, the definition becomes inherently symmetric, as a consequence of \autoref{lem:closure_composition}.
+Finally, the reader may notice that our definition of round symmetry w.r.t. $\pi$ is not symmetric, as was the case with round simulation compared to round equivalence. However, when we consider round symmetry w.r.t.\! to all permutations, the definition becomes inherently symmetric, as a consequence of~\cref{lem:closure_composition}.
 \begin{lemma}
 \label{lem:round_symmetry_commutative}
     In the notations above, if $\cT^{\pi}\prec_k \cT$ then $\cT\prec_k \cT^\pi$.
@@ -59,7 +60,7 @@ Finally, the reader may notice that our definition of round symmetry w.r.t. $\pi
 \begin{proof}
     Recall that for every permutation $\pi$ we have $\pi^{m!}=\mathtt{id}$, where $\mathtt{id}$ is the identity permutation. In particular, $\pi^{m!-1}=\pi^{-1}$. 
 
-    By \autoref{lem:closure_composition}, we now have that if $\cT^{\pi}\prec_k \cT$, then $\cT^{\pi^{m!-1}}\prec_k \cT$, so $\cT^{\pi^{-1}}\prec_k \cT$. Applying $\pi$ to both sides gives us $\cT\prec_k \cT^{\pi}$.
+    By~\cref{lem:closure_composition}, we now have that if $\cT^{\pi}\prec_k \cT$, then $\cT^{\pi^{m!-1}}\prec_k \cT$, so $\cT^{\pi^{-1}}\prec_k \cT$. Applying $\pi$ to both sides gives us $\cT\prec_k \cT^{\pi}$.
 \end{proof}
 
 Thus, for symmetry, the notions of round simulation and round equivalence coincide.

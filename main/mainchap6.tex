@@ -18,7 +18,7 @@ Set $\RSTYPES=\{p, s, u, g\}$, where $p$, $s$, $u$ and $g$ stand for Parikh, sym
 \label{example:parikh_not_symbolwise}
 Set $\pi=(0\ 1)$ and let $k$ be given as a parameter. Let also $m\geq 3$. We construct a transducer that is Parikh $k$-round symmetric, but not symbol-wise $k'$-round symmetric for any $k'$.
 
-Construct the deterministic transducer $\cT=\tup{I,O,S,s_0,\delta,\lab}$ as in~\autoref{fig:example_parikh_not_symbolwise}, where $I=O=[m]=\{0,\cdots, m-1\}$ (so the input and output alphabets are $2^I=2^O$).
+Construct the deterministic transducer $\cT=\tup{I,O,S,s_0,\delta,\lab}$ as in~\cref{fig:example_parikh_not_symbolwise}, where $I=O=[m]=\{0,\cdots, m-1\}$ (so the input and output alphabets are $2^I=2^O$).
 % \begin{gather*}
 %     S = \{ s_0, \mathrm{sink}, 
 %         s_1, \dots, s_{k-1}, 
@@ -75,16 +75,16 @@ Construct the deterministic transducer $\cT=\tup{I,O,S,s_0,\delta,\lab}$ as in~\
         (p_ellipsis) edge [] node {$\sI$} (p_k-1)
         (p_k-1) edge [] node {$\sI$} (p_k);
     \end{tikzpicture}
-	\caption{Something about \autoref{example:parikh_not_symbolwise}.}
+	\caption{Something about~\cref{example:parikh_not_symbolwise}.}
 	\label{fig:example_parikh_not_symbolwise}
 \end{figure}
 
-Observe that every round starts at $q_0$. There are three possible forms for the output of each round depending on the input, as summarized in~\autoref{tab:example_parikh_not_symbolwise}.
+Observe that every round starts at $q_0$. There are three possible forms for the output of each round depending on the input, as summarized in~\cref{tab:example_parikh_not_symbolwise}.
 % Note that the sets $\{0\}$ and $\{1,2\}$ are letters from the input alphabet.
 
 \begin{table}[!htb]
     \centering
-    \caption{Something about~\autoref{example:parikh_not_symbolwise}.}
+    \caption{Something about~\cref{example:parikh_not_symbolwise}.}
     \vspace{2mm}
     \def\arraystretch{1.3}
     \begin{tabular}{c|c}
@@ -116,7 +116,7 @@ In terms of round simulation, take \gls{rr} once more as an example, and recall 
 
 Naturally, any type of round symmetry can also be generalized to round simulation in the same manner as we did in symbol-wise round symmetry. However, more can be considered. A system developer might be interested in simulation that permutes the input rounds according to one of the described \emph{modes of permutation} (Parikh, symbol-wise, uniform and global), while permuting the output rounds according to another mode.
 
-Following this motivation, we say a transducer $\cT_1$ is $\tup{\eta, \eta', k}$-round simulated by transducer $\cT_2$ if for any input word $x$, there exists an $\eta$-permutation $x'$ such that $\cT_2(x')$ is an $\eta'$-permutation of $\cT_1(x)$. We denote this by $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$ (for simplicity, we do not consider restriction languages in this section).
+Following this motivation, we say a transducer $\cT_1$ is $\tup{\eta, \eta', k}$-round simulated by transducer $\cT_2$ if for any input word $x$, there exists an $\eta$-permutation $x'$ such that $\cT_2(x')$ is an $\eta'$-permutation of $\cT_1(x)$. We denote this by $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$ (for simplicity, we do not consider restriction languages in this chapter).
 
 We go a step further and define a partial order on the set of all types of round simulation according to this definition, i.e. the set $\RSTUPS:=\condset{\tup{\eta, \eta', k}}{\eta,\eta'\in \RSTYPES}$ for a fixed $k>0$. First, we define an order on the elements of $\RSTYPES$ as such: $p\leq s\leq u\leq g$. A simple observation of the definitions gives the following.
 
@@ -132,9 +132,9 @@ The above lemma gives the semantic meaning ``implied-by'' to the order on $\RSTY
 \end{lemma}
 We furthermore show that these implications are strict.
 
-Recall the transducer $\cT$ from~\autoref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi$ as we did back in~\autoref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By similar reasoning as in the symbol-wise, this gives $\cT\prec^{p,p}_k \cT^\pi$. However, it does not hold that $\cT\prec^{s,p}_k \cT^\pi$, since the permuted input had to move a single signal between letters in some cases (see~\autoref{example:parikh_not_symbolwise}).
+Recall the transducer $\cT$ from~\cref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi$ as we did back in~\cref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By similar reasoning as in the symbol-wise, this gives $\cT\prec^{p,p}_k \cT^\pi$. However, it does not hold that $\cT\prec^{s,p}_k \cT^\pi$, since the permuted input had to move a single signal between letters in some cases (see~\cref{example:parikh_not_symbolwise}).
 
-The former result establishes the gap\footnote{Inequality clearly holds between the two tuples. However, we use the notation of equality (and strict inequality) between elements in $\RSTUPS$ to mean the implication of round simulation (or lack of it) between these types, as in~\autoref{lemma:partial_order_tups}.} $\tup{p, p, k}\lneq\tup{s, p, k}$, illustrated in~\autoref{fig:p-diagram}. For the gap $\tup{p, p, k}\lneq\tup{p, s, k}$, we will have to use a different pair of transducers. Here, too, we use a process-symmetric approach.
+The former result establishes the gap\footnote{Inequality clearly holds between the two tuples. However, we use the notation of equality (and strict inequality) between elements in $\RSTUPS$ to mean the implication of round simulation (or lack of it) between these types, as in~\cref{lemma:partial_order_tups}.} $\tup{p, p, k}\lneq\tup{s, p, k}$, illustrated in~\cref{fig:p-diagram}. For the gap $\tup{p, p, k}\lneq\tup{p, s, k}$, we will have to use a different pair of transducers. Here, too, we use a process-symmetric approach.
 
 \begin{figure}[ht]
 	\centering
@@ -150,13 +150,13 @@ The former result establishes the gap\footnote{Inequality clearly holds between 
 		(left)   edge node [] {} (bottom)
 		(right)  edge node [] {} (bottom);
 	\end{tikzpicture}
-	\caption{A diagram for the partial order on $\RSTUPS$ ($\alpha\rightarrow\beta$ implies $\alpha\leq \beta$). In this section we show that all ordered pairs are strict.}
+	\caption{A diagram for the partial order on $\RSTUPS$ ($\alpha\rightarrow\beta$ implies $\alpha\leq \beta$). We show that all ordered pairs are strict.}
 	\label{fig:p-diagram}
 \end{figure}
 
 \begin{example}[The Other Gap]
 \label{example:gap}
-At first glance, the transducer $\cT$ in~\autoref{fig:example_gap} might look intimidating. However, it is in fact simple, and its round-by-round behaviour can once more be summarized in a table (see~\autoref{tab:example_gap}). The proof for $\cT$ being Parikh round symmetric is left for the reader. To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \emptyset$. The output of $\cT$ on $x$ is $0\emptyset 2$. All permutations $x'$ of $x$ either start with $\{1\}$ or $\emptyset$, their respective outputs being either $\{1,2\}\emptyset\emptyset$ or $\emptyset^3$. In all cases, we have $T(x')\not\equiv_s \pi(T(x))$.
+At first glance, the transducer $\cT$ in~\cref{fig:example_gap} might look intimidating. However, it is in fact simple, and its round-by-round behaviour can once more be summarized in a table (see~\cref{tab:example_gap}). The proof for $\cT$ being Parikh round symmetric is left for the reader. To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \emptyset$. The output of $\cT$ on $x$ is $0\emptyset 2$. All permutations $x'$ of $x$ either start with $\{1\}$ or $\emptyset$, their respective outputs being either $\{1,2\}\emptyset\emptyset$ or $\emptyset^3$. In all cases, we have $T(x')\not\equiv_s \pi(T(x))$.
 
 \begin{figure}[ht]
 	\centering
@@ -192,13 +192,13 @@ At first glance, the transducer $\cT$ in~\autoref{fig:example_gap} might look in
         (t_1) edge [] node {$\Sigma$} (p_1)
         (t_2) edge [] node {$\Sigma$} (p_2);
     \end{tikzpicture}
-	\caption{Something about \autoref{example:gap}. The transitions $i\in\sigma$ and $i\notin\sigma$ mean all letters from $\sI$ that, respectively, contain or do not contain $i$.}
+	\caption{Something about~\cref{example:gap}. The transitions $i\in\sigma$ and $i\notin\sigma$ mean all letters from $\sI$ that, respectively, contain or do not contain $i$.}
 	\label{fig:example_gap}
 \end{figure}
 
 \begin{table}[!htb]
     \centering
-    \caption{Something about~\autoref{example:gap}.}
+    \caption{Something about~\cref{example:gap}.}
     \vspace{2mm}
     \def\arraystretch{1.3}
     \begin{tabular}{c|c}
@@ -222,7 +222,7 @@ At first glance, the transducer $\cT$ in~\autoref{fig:example_gap} might look in
 \end{table}
 \end{example}
 
-The machines used in~\autoref{example:parikh_not_symbolwise} and~\autoref{example:gap} have established two gaps from~\autoref{fig:p-diagram} already. In fact, these same machines give the other two gaps as well: the former satisfies $\tup{s,p,k}$-round simulation with its corresponding $\cT^\pi$, the latter satisfies $\tup{p,s,k}$-round simulation, and neither of them satisfies $\tup{s,s,k}$-round simulation (they are not symbol-wise round symmetric).
+The machines used in~\cref{example:parikh_not_symbolwise} and~\cref{example:gap} have established two gaps from~\cref{fig:p-diagram} already. In fact, these same machines give the other two gaps as well: the former satisfies $\tup{s,p,k}$-round simulation with its corresponding $\cT^\pi$, the latter satisfies $\tup{p,s,k}$-round simulation, and neither of them satisfies $\tup{s,s,k}$-round simulation (they are not symbol-wise round symmetric).
 
 Note that our examples rely on the fact that permutations $x'$ can move signals around even if they are not touched by the permutation $\pi$ of round symmetry (they are not in $\mathrm{supp}(\pi)$). We keep the rest of the implications in $\RSTUPS$ for the reader to experiment with.
 

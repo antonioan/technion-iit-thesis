@@ -7,7 +7,7 @@ Consider the mapping $\psi_{\cT_1,\cT_2}: x\mapsto x'$ that maps every input wor
 \begin{example}
 \label{example:mapping}
 
-Let $\sI=\{a,b\}$, $\sO=\{0,1\}$ and $\cT_1$ be a transducer that expects to see either $ab$ or $ba$ in every round, outputting $00$ in both cases, and otherwise outputs $01$ in that round. Let also $\cT_2$ be a transducer that expects the first round to be $ab$ and the second to be $ba$, otherwise outputs $01$ in the round not meeting expectations; and beginning from the third round, it behaves like $\cT_1$ (see~\autoref{fig:example_mapping}). We have that $\cT_1\prec_{2}\cT_2$ by a permutation that corrects the order of the letters in the first two rounds of the input. Moreover, we have $\psi(ab)= \psi(ba)=ab$ whereas $\psi(abba)=abba \neq \psi(ab) \cdot \psi(ba)$.
+Let $\sI=\{a,b\}$, $\sO=\{0,1\}$ and $\cT_1$ be a transducer that expects to see either $ab$ or $ba$ in every round, outputting $00$ in both cases, and otherwise outputs $01$ in that round. Let also $\cT_2$ be a transducer that expects the first round to be $ab$ and the second to be $ba$, otherwise outputs $01$ in the round not meeting expectations; and beginning from the third round, it behaves like $\cT_1$ (see~\cref{fig:example_mapping}). We have that $\cT_1\prec_{2}\cT_2$ by a permutation that corrects the order of the letters in the first two rounds of the input. Moreover, we have $\psi(ab)= \psi(ba)=ab$ whereas $\psi(abba)=abba \neq \psi(ab) \cdot \psi(ba)$.
 
 \begin{figure}[ht]
 	\centering
@@ -66,7 +66,7 @@ Let $\sI=\{a,b\}$, $\sO=\{0,1\}$ and $\cT_1$ be a transducer that expects to see
         (q_f)   edge [bend left=10] node {$a$} (q_ab)
         (q_f)   edge [bend left=10] node {$b$} (q_ba);
     \end{tikzpicture}
-	\caption{The transducers $\cT_1$ (left) and $\cT_2$ (right) in \autoref{example:mapping}. The states of $\cT_2$ in red, green and blue manage the first, second and later rounds, respectively.}
+	\caption{The transducers $\cT_1$ (left) and $\cT_2$ (right) in~\cref{example:mapping}. The states of $\cT_2$ in red, green and blue manage the first, second and later rounds, respectively.}
 	\label{fig:example_mapping}
 \end{figure}
 \end{example}
@@ -75,7 +75,7 @@ The above example shows that $\psi$ is not a homomorphism: it does not satisfy $
 
 \begin{example}
 \label{example:lookahead}
-Set $\Lambda=L[ab\cdot (cc)^\star\cdot (ab+ba)]$ and $k=2$, and let $\cT_1$ and $\cT_2$ be the transducers in~\autoref{fig:example_lookahead}, satisfying $\cT_1\prec_{k,\Lambda} \cT_2$. Denote the equivalence mapping by $\psi^\star: (\Sigma_I^k)^\star \rightarrow (\Sigma_I^k)^\star$.
+Set $\Lambda=L[ab\cdot (cc)^\star\cdot (ab+ba)]$ and $k=2$, and let $\cT_1$ and $\cT_2$ be the transducers in~\cref{fig:example_lookahead}, satisfying $\cT_1\prec_{k,\Lambda} \cT_2$. Denote the equivalence mapping by $\psi^\star: (\Sigma_I^k)^\star \rightarrow (\Sigma_I^k)^\star$.
 
 \begin{figure}[ht]
 	\centering
@@ -124,7 +124,7 @@ Set $\Lambda=L[ab\cdot (cc)^\star\cdot (ab+ba)]$ and $k=2$, and let $\cT_1$ and 
         (q'_a) edge [] node {$b$} (q'_ab)
         (q'_b) edge [] node {$a$} (q'_ba);
     \end{tikzpicture}
-	\caption{Something about \autoref{example:lookahead}.}
+	\caption{Something about~\cref{example:lookahead}.}
 	\label{fig:example_lookahead}
 \end{figure}
 
