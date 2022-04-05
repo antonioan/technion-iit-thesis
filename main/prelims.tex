@@ -33,6 +33,8 @@ $\fP:\Sigma^*\to \bbN^\Sigma$ maps every word $w\in \Sigma^*$ to a \emph{Parikh 
 
 For $\vec{p}\in \bbN^\Sigma$ (in the following we consistently denote vectors in $\bbN^\Sigma$ by bold letters) we write $|\vec{p}|=\sum_{\sigma\in \Sigma}\vec{p}(\sigma)$. In particular, for a word $w\in \Sigma^*$ we have $|\fP(w)|=|w|$.
 
-By Parikh's theorem~\cite{Parikh1966}, for every \gls{nfa} $\cA$ we have that $\fP(L(\cA))$ is a \emph{semilinear set} -- that is, a finite union of sets of the form $\{\vec{p}+\lambda_1 \vec{s_1}+\ldots+\lambda_1 \vec{s_m}\ST \lambda_1,\ldots,\lambda_m\in \bbN\}$ where $\vec{p},\vec{s_1},\ldots,\vec{s_m}\in \bbN^d$.
+By Parikh's theorem~\cite{Parikh1966}, for every \gls{nfa} $\cA$ we have that $\fP(L(\cA))$ is a \emph{semilinear set} -- that is, a finite union of sets of the form
+$\condset{\vec{p}+\lambda_1 \vec{s_1}+\ldots+\lambda_1 \vec{s_m}}{\lambda_1,\ldots,\lambda_m\in \bbN}$
+where $\vec{p},\vec{s_1},\ldots,\vec{s_m}\in \bbN^d$.
 
 Consider words $x,y\in \Sigma^*$, we say that $x$ is a \emph{permutation} of $y$ if $\fP(x)=\fP(y)$ (indeed, in this case $y$ can be obtained from $x$ by permuting its letters). Note that in particular this implies $|x|=|y|$.

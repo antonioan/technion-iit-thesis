@@ -4,12 +4,17 @@
 % e.g. package uses:
 
 \usepackage{xspace}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{caption}
 \usepackage{thmtools}
 
-\usepackage[bold,basic,small]{complexity}
+% \usepackage[bold,basic,small]{complexity}
 \newclass{\coNPSPACE}{coNPSPACE}
-\newclass{\EEEEXP}{4-EXP}
+\newclass{\EEEEEXP}{%
+    {
+        \ComplexityFont{5}\text{-}\ComplexityFont{EXP}
+    }
+}
 
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning, fit, calc, shapes.geometric}
@@ -18,6 +23,8 @@
 \newcommand{\crefrangeconjunction}{--}
 \newcommand{\creflastconjunction}{, and\nobreakspace}
 \crefname{observation}{Observation}{Observations}
+
+\usepackage[most]{tcolorbox}
 
 % and macros/command definitions:
 
@@ -38,6 +45,8 @@
 
 \newcommand{\tup}[1]{\left< #1\right>}
 \newcommand{\ST}{\, :\, }
+\newcommand{\WRT}{w.r.t.\! }
+\newcommand{\condset}[2]{\left\{\,#1\ \middle|\ #2\,\right\}}
 
 \newcommand{\cA}{\mathcal{A}}
 \newcommand{\cB}{\mathcal{B}}
@@ -66,10 +75,6 @@
 \newcommand{\runs}[2]{\stackrel{#1}{\longrightarrow}_{#2}}
 \newcommand{\tr}{{\mathtt{Tr}}}
 \newcommand{\perm}{{\mathtt{Perm}}}
-
-\newcommand{\condset}[2]{\left\{\,#1\ \middle|\ #2\,\right\}}
-
-\renewcommand{\autoref}{\cref}
 
 % For this template, we'll only have one single command,
 % necessary for including graphics...

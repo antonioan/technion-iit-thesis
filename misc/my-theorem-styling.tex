@@ -1,64 +1,48 @@
-\definecolor{darkgray}{rgb}{0.31,0.31,0.33}
-\definecolor[named]{lipicsGray}{rgb}{0.31,0.31,0.33}
-\definecolor[named]{lipicsBulletGray}{rgb}{0.60,0.60,0.61}
-\definecolor[named]{lipicsLineGray}{rgb}{0.51,0.50,0.52}
-\definecolor[named]{lipicsLightGray}{rgb}{0.85,0.85,0.86}
-\definecolor[named]{lipicsYellow}{rgb}{0.99,0.78,0.07}
+\colorlet{bulletColor}{BrickRed}
+\renewcommand\bullet{\textcolor{bulletColor}{\ensuremath{\blacktriangleright}}}
+\renewcommand\qedsymbol{\textcolor{bulletColor}{\ensuremath{\blacktriangleleft}}}
 
 \makeatletter
 \thm@headfont{%
-  \textcolor{lipicsGray}{$\blacktriangleright$}\nobreakspace\sffamily\bfseries}
+  \bullet\nobreakspace%
+  \sffamily\bfseries%
+}
+
 \def\th@remark{%
   \thm@headfont{%
-    \textcolor{lipicsGray}{$\blacktriangleright$}\nobreakspace\sffamily}%
+    \bullet\nobreakspace%
+    \sffamily\bfseries%
+    }%
   \normalfont % body font
   \thm@preskip\topsep \divide\thm@preskip\tw@
   \thm@postskip\thm@preskip
 }
-\def\@endtheorem{\endtrivlist}%\@endpefalse
-\renewcommand\qedsymbol{\textcolor{lipicsGray}{\ensuremath{\blacktriangleleft}}}
+\def\@endtheorem{\endtrivlist}
+
 \renewenvironment{proof}[1][\proofname]{\par
   \pushQED{\qed}%
   \normalfont \topsep6\p@\@plus6\p@\relax
   \trivlist
   \item[\hskip\labelsep
-        \color{lipicsGray}\sffamily\bfseries
+        \sffamily\bfseries
     #1\@addpunct{.}]\ignorespaces
 }{%
-  \popQED\endtrivlist%\@endpefalse
+  \popQED\endtrivlist
 }
-\newcommand{\claimqedhere}{\renewcommand\qedsymbol{\textcolor{lipicsGray}{\ensuremath{\vartriangleleft}}}%
-\qedhere%
-\renewcommand\qedsymbol{\textcolor{lipicsGray}{\ensuremath{\blacktriangleleft}}}}
-\newenvironment{claimproof}[1][\proofname]{
-  \pushQED{\qed}%
-  \normalfont \topsep6\p@\@plus6\p@\relax
-  \trivlist
-  \item[\hskip\labelsep
-        \color{lipicsGray}\sffamily
-    #1\@addpunct{.}]\ignorespaces
-}{%
-  \renewcommand\qedsymbol{\textcolor{lipicsGray}{\ensuremath{\vartriangleleft}}}
-  \popQED\endtrivlist%\@endpefalse
-  \renewcommand\qedsymbol{\textcolor{lipicsGray}{\ensuremath{\blacktriangleleft}}}
-}
-% inspired by qed of amsthm class
-\DeclareRobustCommand{\lipicsEnd}{%
-	\leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
-	\quad\hbox{$\lrcorner$}%
-}
-\makeatother
 
 \newtheoremstyle{claimstyle}{\topsep}{\topsep}{}{0pt}{\sffamily}{. }{5pt plus 1pt minus 1pt}%
-  {$\vartriangleright$ \thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
-  
+  {\bullet \thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}%
+}
+
 \theoremstyle{plain}
+
 \newtheorem{theorem}{Theorem}
-\ifx\numberwithinsect\relax
-  \@addtoreset{theorem}{section}
+% \ifx\numberwithinsect\relax
+  \@addtoreset{theorem}{chapter}
   \expandafter\def\expandafter\thetheorem\expandafter{%
-    \expandafter\thesection\expandafter\@thmcountersep\thetheorem}
-\fi
+    \expandafter\thechapter\expandafter\@thmcountersep\thetheorem}
+% \fi
+\makeatother
 
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -67,18 +51,33 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newtheorem{observation}[theorem]{Observation}
+
 \theoremstyle{definition}
 \newtheorem{example}[theorem]{Example}
+
 \theoremstyle{remark}
 \newtheorem{note}[theorem]{Note}
 \newtheorem*{note*}{Note}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem*{remark*}{Remark}
+
 \theoremstyle{claimstyle}
 \newtheorem{claim}[theorem]{Claim}
 \newtheorem*{claim*}{Claim}
-% \theoremstyle{plain}
-
-% \AtEndEnvironment{example}{\qed}
 
 \captionsetup[table]{labelfont=bf}
+
+%%% UNUSED BELOW %%%
+
+\newtcolorbox{mybox}{
+enhanced,
+boxrule=0pt,frame hidden,
+borderline west={4pt}{0pt}{green!75!black},
+% colback=green!10!white,
+sharp corners
+}
+
+\newenvironment{coloredtheorem}%
+    {\begin{mybox}\begin{theorem}}%
+    {\end{theorem}\end{mybox}}
+

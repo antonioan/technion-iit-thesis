@@ -56,14 +56,14 @@ Note that we use different automata to extract the type of words of different le
 \subsection*{Presburger Arithmetic}
 The first ingredient in the proof of~\cref{thm:bound_on_k} is to characterize the set of Parikh vectors whose type is some fixed matrix $\tau\in \bbB^{Q\times Q}$. For this characterization, we employ the first-order theory of the naturals with addition and order $\textrm{Th}(\bbN,0,1,+,<,=)$, commonly known as \emph{\gls{pa}}. We do not give a full exposition of \gls{pa}, but refer the reader to~\cite{Haase2018} (and references therein) for a survey. In the following we briefly cite the results we need.
 
-For our purposes, a \gls{pa}~formula $\varphi(x_1,\ldots,x_d)$, where $x_1,\ldots, x_d$ are free variables, is evaluated over $\bbN^d$, and \emph{defines} the set $\{(a_1,\ldots,a_d)\in \bbN^d\ST (a_1,\ldots,a_d)\models \varphi(x_1,\ldots,x_d)\}$. For example, the formula $\varphi(x_1,x_2):=x_1< x_2\wedge \exists y. x_1=2y$ defines the set $\{(a,b)\in \bbN^2\ST a<b\wedge a \text{ is even}\}$.
+For our purposes, a \gls{pa}~formula $\varphi(x_1,\ldots,x_d)$, where $x_1,\ldots, x_d$ are free variables, is evaluated over $\bbN^d$, and \emph{defines} the set $\condset{(a_1,\ldots,a_d)\in \bbN^d}{(a_1,\ldots,a_d)\models \varphi(x_1,\ldots,x_d)}$. For example, the formula $\varphi(x_1,x_2):=x_1< x_2\wedge \exists y. x_1=2y$ defines the set $\condset{(a,b)\in \bbN^2}{a<b\wedge a \text{ is even}}$.
 
 A fundamental result about \gls{pa} is that the definable sets in \gls{pa} are exactly the semilinear sets. In particular, Parikh's theorem states that for every \gls{nfa} $\cA$, $\fP(L(\cA))$ is \gls{pa}~definable. In fact, by~\cite{Verma2005}, one can efficiently construct a linear-sized existential \gls{pa}~formula for $\fP(L(\cA))$.
 We can now show that the set of Parikh vectors whose type is $\tau$ is \gls{pa}~definable.
 
 \begin{lemma}
 	\label{lem:parikh_type_definable}
-	Consider an \gls{nfa} $\cN=\tup{\sI\times \sO,S,s_0,\eta,F}$, and a type $\tau\in \bbB^{S\times S}$, then the set $\{(\vec{p},\vec{o})\in \bbN^{\sI} \times \bbN^{\sO}\ST \tau_{\cN}(\vec{p},\vec{o})=\tau\}$ is \gls{pa}~definable.
+	Consider an \gls{nfa} $\cN=\tup{\sI\times \sO,S,s_0,\eta,F}$, and a type $\tau\in \bbB^{S\times S}$, then the set $\condset{(\vec{p},\vec{o})\in \bbN^{\sI} \times \bbN^{\sO}}{\tau_{\cN}(\vec{p},\vec{o})=\tau}$ is \gls{pa}~definable.
 \end{lemma}
 \begin{proof}
 	Let $\tau\in \bbB^{S\times S}$, and consider a Parikh vector $(\vec{p},\vec{o})\in \bbN^{\sI} \times \bbN^{\sO}$ with $k=|\vec{p}|=|\vec{o}|$. By~\cref{lem:type_of_parikh}, we have that $\tau_{\cN}(\vec{p},\vec{o})=\tau$ iff the following holds for every $s_1,s_2\in S$: we have $\tau_{s_1,s_2}=1$ iff 
@@ -108,9 +108,9 @@ By~\cref{obs:perm_closure_language}, $L(\perm_k(\cD_i))$ depends only on $L(\cD_
 	\end{observation}
 
 \subsection*{Type Profiles}
-We now consider the set of types induced by the redundant product constructions $\cB_1$ and $\cB_2$ on Parikh vectors of words of length $k$. By Item 2 of~\cref{obs:redundant_product}, it's enough to consider $\cB_1$. 
+We now consider the set of types induced by the redundant product constructions $\cB_1$ and $\cB_2$ on Parikh vectors of words of length $k$. By Item 2 of~\cref{obs:redundant_product}, it is enough to consider $\cB_1$. 
 
-For $k>0$, we define the \emph{$k$-th type profile} of $\cB_1$ to be $\Upsilon(\cB_1,k)=\{\tau_{\cB_1}(\fP(\alpha),\fP(\beta))\ST (\alpha,\beta)\in \sI^k \times \sO^k\}$, i.e., the set of all types of Parikh vectors $(\vec{p},\vec{o})$ with $|\vec{p}|=|\vec{o}|=k$ that are induced by $\cB_1$. Clearly there is only a finite number of type profiles, as $\Upsilon(\cB_1,k)\subseteq \bbB^{S'\times S'}$, where $S'$ is the state space of $\cB_1$. Therefore, as $k$ increases, after some finite $K_0$, every type profile that is ever attained will have been encountered already before $K_0$. We now place an upper bound on $K_0$.
+For $k>0$, we define the \emph{$k$-th type profile} of $\cB_1$ to be the set of all types of Parikh vectors $(\vec{p},\vec{o})$ with $|\vec{p}|=|\vec{o}|=k$ that are induced by $\cB_1$, i.e. it is the set $\Upsilon(\cB_1,k)=\condset{\tau_{\cB_1}(\fP(\alpha),\fP(\beta))}{(\alpha,\beta)\in \sI^k \times \sO^k}$. Clearly there is only a finite number of type profiles, as $\Upsilon(\cB_1,k)\subseteq \bbB^{S'\times S'}$, where $S'$ is the state space of $\cB_1$. Therefore, as $k$ increases, after some finite $K_0$, every type profile that is ever attained will have been encountered already before $K_0$. We now place an upper bound on $K_0$.
 
 \begin{lemma}
 	\label{lem:type_profile_bound}
@@ -126,7 +126,7 @@ For $k>0$, we define the \emph{$k$-th type profile} of $\cB_1$ to be $\Upsilon(\
 	\end{align*}
 Intuitively, $\Theta_T(z)$ states that every Parikh vector $(\vec{p},\vec{o})$ with $|\vec{p}|=|\vec{o}|=z$ has a type within $T$, and that all the types in $T$ are attained by some such Parikh vector.
 
-By~\cite{Fischer1974,Borosh1976}, we can effectively determine for every $T$ whether $\Theta_T(z)$ is satisfiable and, if it is, find a witness $M_T$ such that $M_T\models \Theta_T(z)$. By doing so for every set $T\subseteq \bbB^{S'\times S'}$, we can set $K_0=\max\{M_T\ST \Theta_T(z) \text{ is satisfiable}\}$. Then, for every $k>K_0$ if $\Upsilon(\cB_1,k)=T$, then $T$ has already been encountered at $M_T\le K_0$, as required. 
+By~\cite{Fischer1974,Borosh1976}, we can effectively determine for every $T$ whether $\Theta_T(z)$ is satisfiable and, if it is, find a witness $M_T$ such that $M_T\models \Theta_T(z)$. By doing so for every set $T\subseteq \bbB^{S'\times S'}$, we can set $K_0=\max\condset{M_T}{\Theta_T(z) \text{ is satisfiable}}$. Then, for every $k>K_0$ if $\Upsilon(\cB_1,k)=T$, then $T$ has already been encountered at $M_T\le K_0$, as required. 
 \end{proof}
 
 The purpose of the bound $K_0$ obtained in~\cref{lem:type_profile_bound} is to bound the minimal $k$ for which $\cT_1\prec_{k,\fL} \cT_2$, or equivalently $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$ (by~\cref{lem:round_equivalence_iff_perm_containment,obs:redundant_product_for_perm_automata}).
@@ -180,17 +180,17 @@ The mapping is illustrated in~\cref{fig:type_profile}.
 	\label{fig:type_profile}
 \end{figure}
 
-Combining~\cref{lem:type_profile_bound,lem:profile_equality_to_simulation}, we can effectively compute $K_0$ such that if \linebreak
+Combining~\cref{lem:type_profile_bound,lem:profile_equality_to_simulation}, we can effectively compute $K_0$ such that if it holds that
 %$L(\cA^k_1)\subseteq L(\cA^k_2)$
 $L(\perm_{k}(\cB_1)) \subseteq L(\perm_{k}(\cB_2))$
-for some $k$, then this holds for some $k<K_0$. Finally, using~\cref{lem:round_equivalence_iff_perm_containment}, this concludes the proof of~\cref{thm:bound_on_k}. \qed
+for some $k$, then this also holds for some $k<K_0$. Finally, using~\cref{lem:round_equivalence_iff_perm_containment}, this concludes the proof of~\cref{thm:bound_on_k}. \qed
 
 \begin{remark}[Complexity Results for~\cref{thm:bound_on_k,cor:exist_k_decidable}]
 \label{rmk:complexity}
 Let $n$ be the number of states in $\cT_1\times \cT_2$. Observe that the formula $\Psi_\tau$ constructed in~\cref{lem:parikh_type_definable} comprises a conjunction of $O(n^2)$ \gls{pa}~subformulas, where each subformula is either an existential \gls{pa}~formula of length $O(n)$, or the negation of one. Then, the formula $\Theta_T$ in~\cref{lem:type_profile_bound} consists of a universal quantification, nesting a disjunction over $|T|$ formulas of the form $\Psi_\tau$, conjuncted with $|T|$ existential quantifications, nesting a single $\Psi_\tau$ each.
 Overall, this amounts to a formula of length $|T|\le 2^{n^2}$, with alternation depth 3.~\footnote{Alternation depth is usually counted with the outermost quantifier being existential, which is not the case here, hence $3$ instead of $2$.}
 
-Using quantifier elimination~\cite{Cooper1972,Oppen1978}, we can obtain a witness for the satisfiability of $\Theta_T$ of size 4-exponential in $n^2$. Then, finding the overall bound $K_0$ amounts to $2^{2^{n^2}}$ calls to find such witnesses. Finally, we need $K_0$ oracle calls to~\cref{lem:round_equivalence_iff_perm_containment} in order to decide existential simulation, and since $K_0$ may have a 4-exponential size description, this approach yields a whopping 5\,-\,$\EXP$ algorithm. 
+Using quantifier elimination~\cite{Cooper1972,Oppen1978}, we can obtain a witness for the satisfiability of $\Theta_T$ of size 4-exponential in $n^2$. Then, finding the overall bound $K_0$ amounts to $2^{2^{n^2}}$ calls to find such witnesses. Finally, we need $K_0$ oracle calls to~\cref{lem:round_equivalence_iff_perm_containment} in order to decide existential simulation, and since $K_0$ may have a 4-exponential size description, this approach yields a whopping $\EEEEEXP$ algorithm. 
 This approach, however, does not exploit any of the structure of $\Theta_T$.
 % See~\cref{chap:future} for additional comments.
 \end{remark}
@@ -203,7 +203,7 @@ We start with the complexity lower bound, which applies already for round equiva
 
 \begin{theorem}
 \label{thm:existential_equivalence_PSPACE-H}
-The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$ for \emph{any} $k$, is \PSPACE-hard, even for $\fL$ of a constant size (given as a 5-state \gls{dfa}).
+The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$ for \emph{any} $k$, is $\PSPACE$-hard, even for $\fL$ of a constant size (given as a 5-state \gls{dfa}).
 \end{theorem}
 \begin{proof}[Proof sketch]
 We present a similar reduction to that of~\cref{thm:equivalence_PSPACE-H} from universality of \glspl{nfa} (see~\cref{apx:proof_existential_PSPACE-H}). In order to account for the unknown value of $k$, we allow padding words with a fresh symbol $\#$, which is essentially ignored by the transducers. 

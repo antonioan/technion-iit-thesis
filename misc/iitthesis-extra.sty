@@ -114,7 +114,7 @@
 % Note there are all sorts of constraints on package loading order. For
 % example, hyperref must load after algorithmicx, but before ntheorem
 
-\RequirePackage{complexity} % trying to load it before hyperref
+\RequirePackage[bold,basic,small]{complexity} % must be loaded before hyperref
 \RequirePackage{hyperref}
 % \RequirePackage[hyperref,thmmarks]{ntheorem} % must be loaded before bidi
 \RequirePackage{amssymb} % for \blacksquare
@@ -569,34 +569,34 @@
 % sign.
 
 \makeatletter
-\newenvironment{proofof}[1][]
-{%
- \def\firstargument{#1}
- \def\noargumentspecified{}
- \ifx\firstargument\noargumentspecified
-  \begin{proof}
- \else
-  \begin{proof}[Proof of \autoref{#1}]
-  \label{proof:#1}
- \fi
- {}
-} %
-{\end{proof} }
+% \newenvironment{proofof}[1][]
+% {%
+%  \def\firstargument{#1}
+%  \def\noargumentspecified{}
+%  \ifx\firstargument\noargumentspecified
+%   \begin{proof}
+%  \else
+%   \begin{proof}[Proof of \autoref{#1}]
+%   \label{proof:#1}
+%  \fi
+%  {}
+% } %
+% {\end{proof} }
 
-\newenvironment{proofsketchof}[1][]
-{%
- \def\firstargument{#1}
- \def\noargumentspecified{}
- \ifx\firstargument\noargumentspecified
-  \begin{proofsketch}
- \else
-  \begin{proofsketch}[Proof Sketch for \autoref{#1}]
-  \label{proofsketch:#1}
- \fi
- {}
-} %
-{\end{proofsketch} }
-\let\proofsketchfor=\proofsketchof
+% \newenvironment{proofsketchof}[1][]
+% {%
+%  \def\firstargument{#1}
+%  \def\noargumentspecified{}
+%  \ifx\firstargument\noargumentspecified
+%   \begin{proofsketch}
+%  \else
+%   \begin{proofsketch}[Proof Sketch for \autoref{#1}]
+%   \label{proofsketch:#1}
+%  \fi
+%  {}
+% } %
+% {\end{proofsketch} }
+% \let\proofsketchfor=\proofsketchof
 
 %\newenvironment{envof}[2]
 %{%

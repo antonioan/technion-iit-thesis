@@ -14,7 +14,7 @@
 % Additionally, you must specify the degree for which you're writing
 % your thesis (MSc/PhD/MArch etc.)
 %
-\documentclass[MSc, beforeDefense, fullpageDraft]{misc/iitthesis}
+\documentclass[MSc,beforeDefense,fullpageDraft]{misc/iitthesis}
 
 
 % Definitions of info fields for the thesis - subject, advisor,
@@ -101,6 +101,11 @@
 \appendix
 %\noappendicestocpagenum
 %\addappheadtotoc
+
+% Antonio: The following makes the Lemma numbering A.1 and not 1.1.
+\makeatletter
+\edef\thetheorem{\expandafter\noexpand\thesection\@thmcountersep\@thmcounter{theorem}}
+\makeatother
 
 \include{main/appendix1}
 

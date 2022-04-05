@@ -12,7 +12,7 @@ We now turn to give the details of the construction of these \glspl{nfa}.
 \paragraph{The Trace \bf DFA} Consider a transducer $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$, we define its \emph{trace \gls{dfa}} $\tr(\cT)=\tup{\sI\times\sO,Q\cup\{q_{\bot}\},q_0,\eta,Q}$ where for $q\in Q$ and $(\sigma,\sigma')\in \sI\times \sO$ we define $\eta(q,(\sigma,\sigma'))=\delta(q,\sigma)$ if $\cT^{q}(\sigma)=\sigma'$ and $\eta(q,(\sigma,\sigma'))=q_{\bot}$ otherwise.
 $q_\bot$ is a rejecting sink. 
 
-$\tr(\cT)$ captures the behaviour of $\cT$ in that $L(\tr(\cT))=\{(x,y)\in (\sI\times \sO)^*\ST \cT(x)=y\}$. 
+$\tr(\cT)$ captures the behaviour of $\cT$ in that $L(\tr(\cT))=\condset{(x,y)\in (\sI\times \sO)^*}{\cT(x)=y}$. 
 
 \paragraph{The Permutation-Closure \bf NFA}
 Consider an \gls{nfa} $\cN=\tup{\sI\times\sO,S,s_0,\eta,F}$, and let $k>0$. 
@@ -20,7 +20,7 @@ We obtain from $\cN$ an \gls{nfa} $\perm_k(\cN)=\tup{\sI^k \times \sO^k,S, s_0, 
 where the alphabet is $\sI^k\times \sO^k$, and the transition function $\mu$ is defined as follows. For a letter $(\alpha,\beta)\in \sI^k \times \sO^k$ and a state $s\in S$, we think of $(\alpha,\beta)$ as a word in $(\sI\times \sO)^*$. Then we have
 \begin{equation}
 \label{test}
-    \mu(s,(\alpha,\beta))=\bigcup\{\eta^*(s,(\alpha',\beta')) \ST \fP(\alpha')=\fP(\alpha) \wedge \fP(\beta)=\fP(\beta')\}.
+    \mu(s,(\alpha,\beta))=\bigcup\condset{\eta^*(s,(\alpha',\beta'))}{\fP(\alpha')=\fP(\alpha) \wedge \fP(\beta)=\fP(\beta')}.
 \end{equation}
 
 That is, upon reading $(\alpha,\beta)$, $\perm_k(\cN)$ can move to any state $s'$ that is reachable in $\cN$ from $s$
@@ -40,10 +40,11 @@ Since the transition function of $\perm_k(\cN)$ is only defined using permutatio
 Given a transducer $\cT$, we apply the permutation closure to the trace \gls{dfa} of $\cT$. In order to account for the restriction given by $\fL\subseteq \sI^*$, we identify it with $\fL \subseteq \sI^*\times \sO^*$. We remind that $\fL$ denotes both a language and a corresponding \gls{nfa} (or \gls{dfa}), so what this means is that the \gls{nfa}, reading input from $\sI^*\times \sO^*$, simply ignores the second component.
 \begin{lemma}
 	\label{lem:permutation_closure_construction}
-	Consider transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$ and $k>0$. Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ (where the intersection implies the product \gls{nfa} construction) and $\cA_2^k=\perm_k(\tr(\cT_2))$, then
+	Consider transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$ and $k>0$. Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap\fL)$ (where the intersection implies the product \gls{nfa} construction) and $\cA_2^k=\perm_k(\tr(\cT_2))$, then 
+	\small
 	\begin{flalign*}
-	L(\cA_1^k)&=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x,\ \cT_1(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN \wedge x'\in \fL\},&\\
-	L(\cA_2^k)&=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x,\ \cT_2(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN\}.&
+	    L(\cA_1^k) &= \condset{(x,y)\in \sI^*\times \sO^*}{\exists x'\req[k] x,\ \cT_1(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN \wedge x'\in \fL}, & \\
+	    L(\cA_2^k) &= \condset{(x,y)\in \sI^*\times \sO^*}{\exists x'\req[k] x,\ \cT_2(x')\req[k] y\ \wedge\ |x|=|y|=kR \text{ where }R\in \bbN}. &
 	\end{flalign*}
 \end{lemma}
 \begin{proof}
@@ -55,7 +56,7 @@ We now reduce round simulation to the containment of permutation-closure \glspl{
 \begin{lemma}
 \label{lem:round_equivalence_iff_perm_containment}
 	Consider transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$ and $k>0$. Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap\fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$,
-	then, $\cT_1\prec_{k,\fL} \cT_2$ iff $L(\cA^k_1)\subseteq L(\cA^k_2)$.
+	then $\cT_1\prec_{k,\fL} \cT_2$ iff $L(\cA^k_1)\subseteq L(\cA^k_2)$.
 \end{lemma}
 \begin{proof}
 	For the first direction, assume $\cT_1\prec_{k,\fL} \cT_2$, and let $(x,y)\in L(\cA^k_1)$. By~\cref{lem:permutation_closure_construction}, $x$ and $y$ are $k$-round words, and there exists a word $x'\in \fL$ such that $x\req x'$ and $\cT_1(x')\req y$. Since $\cT_1\prec_{k,\fL} \cT_2$, then applying the definition on $x'$ yields that there exists a $k$-round word $x''$ such that $x'\req x''$ and such that $\cT_1(x')\req \cT_2(x'')$. Since $\req$ is an equivalence relation, it follows that $x\req x''$ and $\cT_2(x'')\req y$, so again by~\cref{lem:permutation_closure_construction} we have $(x,y)\in L(\cA^k_2)$.
@@ -71,7 +72,7 @@ The proof of~\cref{lem:round_equivalence_iff_perm_containment} does not require 
 \autoref{lem:round_equivalence_iff_perm_containment} shows that deciding fixed round equivalence amounts to deciding containment of \glspl{nfa}. By analyzing the size of the \glspl{nfa}, we obtain the following.
 \begin{theorem}
 	\label{thm:fixed_re_PSPACE}
-	Given transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$, and $k>0$ in unary, the problem of deciding whether $\cT_1\prec_{k,\fL}\cT_2$ is in \PSPACE.
+	Given transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$, and $k>0$ in unary, the problem of deciding whether $\cT_1\prec_{k,\fL}\cT_2$ is in $\PSPACE$.
 \end{theorem}
 \begin{proof}
 	Let $\cA_1^k=\perm_k(\tr(\cT_1)\cap \fL)$ and $\cA_2^k=\perm_k(\tr(\cT_2))$. By~\cref{lem:round_equivalence_iff_perm_containment}, deciding whether $\cT_1\prec_{k,\fL} \cT_2$ amounts to deciding whether $L(\cA^k_1)\subseteq L(\cA^k_2)$. Looking at the dual problem, recall that for two \glspl{nfa} $\cN_1, \cN_2$ we have that $L(\cN_1)\not\subseteq L(\cN_2)$ iff 
@@ -82,15 +83,15 @@ The proof of~\cref{lem:round_equivalence_iff_perm_containment} does not require 
 	By Savitch's theorem we have that $\coNPSPACE=\PSPACE$, and the proof is concluded.
 \end{proof}
 
-We now establish a \PSPACE-hardness lower bound, thus concluding that the problem is \PSPACE-complete. In fact, we show a lower bound for round equivalence. Does this entail a lower bound for round simulation by~\cref{lem:reduce_equiv_to_simulation}? Not immediately so, since the reduction there is a Turing reduction. Nevertheless, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.
+We now establish a $\PSPACE$-hardness lower bound, thus concluding that the problem is $\PSPACE$-complete. In fact, we show a lower bound for round equivalence. Does this entail a lower bound for round simulation by~\cref{lem:reduce_equiv_to_simulation}? Not immediately so, since the reduction there is a Turing reduction. Nevertheless, our $\PSPACE$-hardness proof actually explicitly shows the hardness of both simulation and equivalence.
 
-% We now give a \PSPACE-hardness lower bound, thus concluding the problem is \PSPACE-complete. Actually, following~\cref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound for round equivalence.\footnote{The reduction in~\cref{lem:reduce_equiv_to_simulation} is a Turing reduction, so a mere lower bound for round equivalence does not establish a bound for round simulation. Thankfully, our \PSPACE-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
+% We now give a $\PSPACE$-hardness lower bound, thus concluding the problem is $\PSPACE$-complete. Actually, following~\cref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound for round equivalence.\footnote{The reduction in~\cref{lem:reduce_equiv_to_simulation} is a Turing reduction, so a mere lower bound for round equivalence does not establish a bound for round simulation. Thankfully, our $\PSPACE$-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
 \begin{theorem}
 \label{thm:equivalence_PSPACE-H}
-The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$, is \PSPACE-hard, even for $k=2$ and $\fL$ of constant size (given as a 4-state \gls{dfa}).
+The problem of deciding, given transducers $\cT_1,\cT_2$, whether $\cT_1\equiv_{k,\fL} \cT_2$, is $\PSPACE$-hard, even for $k=2$ and $\fL$ of constant size (given as a 4-state \gls{dfa}).
 \end{theorem}
 \begin{proof}[Proof sketch]
-We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2. See~\cref{chap:apx} for a proof of \PSPACE-hardness of this problem and for the full reduction.
+We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2. See~\cref{chap:apx} for a proof of $\PSPACE$-hardness of this problem and for the full reduction.
 
 Consider an \gls{nfa} $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$. Set $\fL=(ab+cd)^*$. We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets $\sI=\{a,b,c,d\}$ and $\sO=\{\top,\bot\}$ such that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$. 
 
@@ -104,5 +105,5 @@ permuting a word $w\in \fL$ essentially amounts to choosing an accepting run of 
 
 \begin{corollary}
 \label{cor:PSPACE-C}
-Given transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$, and $k>0$ in unary, the problem of deciding whether $\cT_1\prec_{k,\fL}\cT_2$ is \PSPACE-complete.
+Given transducers $\cT_1,\cT_2$, an \gls{nfa} $\fL$, and $k>0$ in unary, the problem of deciding whether $\cT_1\prec_{k,\fL}\cT_2$ is $\PSPACE$-complete.
 \end{corollary}

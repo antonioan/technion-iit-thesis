@@ -1,13 +1,13 @@
 \chapter{Other Notions of Symmetry}
 \label{chap:other_notions}
 
-\section{Variations of round symmetry}
+\section{Variations of Round Symmetry}
 \newcommand{\RSTYPES}{\ensuremath{\mathbf{Typ}_1}}
 \newcommand{\RSTUPS}{\ensuremath{\mathbf{Typ}_2}}
 
 A stronger variation of the symmetry we described is to demand that all rounds be permuted in the same manner. We call this \emph{uniform round symmetry}. If there exists a global permutation that works for all input words, this becomes \emph{global round symmetry}.
 
-Conversely, a weaker notion of symmetry than the initial is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of the signal set $I$, a permutation in Parikh round symmetry can not only move letters but also signals, as long as the Parikh image of the round w.r.t.\! $I$ is unchanged (i.e. every $i\in I$ appears the same number of times in the round as originally).
+Conversely, a weaker notion of symmetry than the initial is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of the signal set $I$, a permutation in Parikh round symmetry can not only move letters but also signals, as long as the Parikh image of the round \WRT $I$ is unchanged (i.e. every $i\in I$ appears the same number of times in the round as originally).
 
 The original notion of round symmetry is hereby called \emph{symbol-wise round symmetry}.
 Set $\RSTYPES=\{p, s, u, g\}$, where $p$, $s$, $u$ and $g$ stand for Parikh, symbol-wise, uniform and global. When two words $x$ and $y$ are permutations of each other according to a type $\eta \in \RSTYPES$, we say they are $\eta$-permutations and write $x\equiv_\eta y$.
@@ -112,7 +112,7 @@ Consider the \gls{rr} scheduler. The permutation of the output round depends onl
 
 In terms of round simulation, take \gls{rr} once more as an example, and recall the variations of \gls{rr} with different initial states. Observe that for such a variation, a single permutation needs to be performed on all rounds of all input words to have a corresponding input for the variant system. It follows that a notion of global round simulation is exhibited. We therefore extend the variations of round symmetry to round simulation.
 
-\subsection{Extension to round simulation}
+\subsection{Extension to Round Simulation}
 
 Naturally, any type of round symmetry can also be generalized to round simulation in the same manner as we did in symbol-wise round symmetry. However, more can be considered. A system developer might be interested in simulation that permutes the input rounds according to one of the described \emph{modes of permutation} (Parikh, symbol-wise, uniform and global), while permuting the output rounds according to another mode.
 
@@ -226,14 +226,14 @@ The machines used in~\cref{example:parikh_not_symbolwise} and~\cref{example:gap}
 
 Note that our examples rely on the fact that permutations $x'$ can move signals around even if they are not touched by the permutation $\pi$ of round symmetry (they are not in $\mathrm{supp}(\pi)$). We keep the rest of the implications in $\RSTUPS$ for the reader to experiment with.
 
-\section{Symmetry over infinite words}
+\section{Symmetry over Infinite Words}
 
 Consider a deterministic transducer over infinite words $\cT=\tup{I,O,S,s_0,\delta,\lab}$ with input and output signals $I=\{i_1,\ldots,i_k\}$ and $O=\{o_1,\ldots,o_k\}$. We say that $\cT$ is \emph{ultimately symmetric} if for every permutation $\pi\in \cS_k$ and for every $x\in \Io$, there exists $k\ge 0$ such that $\cT(\pi(x))[k:\infty]=\pi(\cT(x))[k:\infty]$. That is, for every word $x$, apart from some finite prefix, the output of $\cT$ on $\pi(x)$ is identical to the permuted output $\pi(\cT(x))$.
 
 The setting of infinite words is common in formal verification; it arises from the idea that a system is sometimes expected to read input indefinitely, and symmetry in such systems would either span over all the input that has been read already or extend into the future. Ultimate symmetry captures a kind of symmetry that achieves the latter case.
 
 \begin{theorem}
-	The problem of deciding whether a transducer $\cT$ is ultimately symmetric w.r.t.\! $\pi$ can be solved in polynomial time.
+	The problem of deciding whether a transducer $\cT$ is ultimately symmetric \WRT $\pi$ can be solved in polynomial time.
 \end{theorem}
 \begin{proof}
 	We obtain from $\cT$ a deterministic co-B\"uchi automaton $\cC_{\cT,\pi}=\tup{Q,\tI,\mu,q_0,\alpha}$ as follows. Intuitively, $\cC_{\cT,\pi}$ simulates two copies of $\cT$, where the second copy is permuted by $\pi$ (i.e., when seeing the input $\vec{i}\in \tI$ it actually simulates the transition of $\cT$ with $\pi(\vec{i})$). Then, each state $(q,r)$ is marked as accepting if the permuted labelling of $q$ is the same as the labelling of $r$. 
@@ -243,4 +243,4 @@ The setting of infinite words is common in formal verification; it arises from t
 	Then, it holds that $x\in L(\cC)$ iff $\inf(\cC(x))\subseteq \alpha$, iff there exists $k>0$ such that $\cC(x)[k:\infty]\in \alpha^\star$, iff there exists $k>0$ such that $\pi(\cT(x))[k:\infty]=\cT(\pi(x))[k:\infty]$. The required result follows.
 \end{proof}
 
-Observe that, like round symmetry, ultimate symmetry is closed under composition of permutations: if $\cT$ is ultimately symmetric w.r.t.\! permutations $\pi$ and $\tau$ then it is also ultimately symmetric w.r.t.\! $\pi\circ\tau$.
+Observe that, like round symmetry, ultimate symmetry is closed under composition of permutations: if $\cT$ is ultimately symmetric \WRT permutations $\pi$ and $\tau$ then it is also ultimately symmetric \WRT $\pi\circ\tau$.

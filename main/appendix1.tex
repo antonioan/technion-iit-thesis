@@ -1,14 +1,14 @@
-\chapter{\PSPACE Hardness}
+\chapter{PSPACE Hardness}
 \label{chap:apx}
 
 \begin{lemma}
 \label{lem:universalityofnfa}
-Universality of \glspl{nfa} over alphabet $\Sigma=\{0,1\}$, where all states are accepting, and the degree of nondeterminism is at most $2$, is \PSPACE-complete.
+Universality of \glspl{nfa} over alphabet $\Sigma=\{0,1\}$, where all states are accepting, and the degree of nondeterminism is at most $2$, is $\PSPACE$-complete.
 \end{lemma}
 \begin{proof}
-In~\cite{kao2009nfas}, it is shown that universality of \glspl{nfa} remains \PSPACE\ complete even for \glspl{nfa} over alphabet $\Sigma=\{0,1\}$ and all states accepting. Thus, we only need to show that this remains the case under the restriction that $|\delta(q,\sigma)|\le 2$ for every state $q$ and letter $\sigma$.
+In~\cite{kao2009nfas}, it is shown that universality of \glspl{nfa} remains $\PSPACE$-complete even for \glspl{nfa} over alphabet $\Sigma=\{0,1\}$ and all states accepting. Thus, we only need to show that this remains the case under the restriction that $|\delta(q,\sigma)|\le 2$ for every state $q$ and letter $\sigma$.
 
-To see this, we start by observing that universality remains \PSPACE\ complete for \glspl{nfa} over alphabet $\{0,1,\$\}$ with nondeterminism degree at most 2. Indeed, given an \gls{nfa} over $\{0,1\}$ with maximal nondeterminism degree $d>2$, we can replace each transition of the form\footnote{We can assume all transitions have degree exactly $d$ by adding redundant transitions} $\delta(q,\sigma)=\{q_1,\ldots, q_d\}$ with a binary tree of depth $\lceil \log d \rceil$, reading $\$$ on all transitions, which starts at $q$ and ends in $q_1,\ldots,q_d$. Thus, we introduce at most $d$ states for every transition. By marking these states as accepting, this reduction maintains universality, and requires a polynomial blowup.
+To see this, we start by observing that universality remains $\PSPACE$-complete for \glspl{nfa} over alphabet $\{0,1,\$\}$ with nondeterminism degree at most 2. Indeed, given an \gls{nfa} over $\{0,1\}$ with maximal nondeterminism degree $d>2$, we can replace each transition of the form\footnote{We can assume all transitions have degree exactly $d$ by adding redundant transitions} $\delta(q,\sigma)=\{q_1,\ldots, q_d\}$ with a binary tree of depth $\lceil \log d \rceil$, reading $\$$ on all transitions, which starts at $q$ and ends in $q_1,\ldots,q_d$. Thus, we introduce at most $d$ states for every transition. By marking these states as accepting, this reduction maintains universality, and requires a polynomial blowup.
 
 Next, we observe that the reductions in~\cite[Lemma 2]{kao2009nfas} first transform an \gls{nfa} over alphabet size $k$ to an \gls{nfa} over alphabet size $k+1$ with all states accepting and with identical nondeterminism degree (indeed, the only added transitions are in fact deterministic), and then transforms an \gls{nfa} with all states accepting and alphabet size $4$ to an \gls{nfa} with all states accepting and alphabet size $2$, with an equal nondeterminism degree (essentially by encoding each of the 4 letters as two letters in $\{0,1\}$).
 
@@ -18,7 +18,7 @@ Since we start this chain of reductions with an \gls{nfa} of nondeterminism degr
 \section{Proof of~\cref{thm:equivalence_PSPACE-H}}
 \label{apx:proof_equivalence_PSPACE-H}
 
-We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \gls{dfa} of constant size. The former is shown to be \PSPACE-hard in~\cref{lem:universalityofnfa}.
+We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \gls{dfa} of constant size. The former is shown to be $\PSPACE$-hard in~\cref{lem:universalityofnfa}.
 
 Consider an \gls{nfa} $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
 %Set $\Sigma=\{0,1\}$ and $\Lambda=(ab+cd)^*$, and let $A=\tup{Q, \Sigma, \delta,q_0,Q}$ be an \gls{nfa}. 
@@ -194,7 +194,7 @@ Since $\cT_1\prec_{2,\fL}\cT_2$, there exists $x'\req[2]x$ such that $\cT_2(x')=
 \section{Proof of~\cref{thm:existential_equivalence_PSPACE-H}}
 \label{apx:proof_existential_PSPACE-H}
 
-In order to show that existential round equivalence is \PSPACE-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf.~\cref{lem:universalityofnfa}).
+In order to show that existential round equivalence is $\PSPACE$-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf.~\cref{lem:universalityofnfa}).
 
 Consider an \gls{nfa} $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
 We construct two transducers $\cT_1$ and $\cT_2$ over input and output alphabets $\sI=\{a,b,c,d,\#\}$ and $\sO=\{\top,\bot\}$ and $\fL\subseteq \sI^*$, such that $L(\cN)=\{0,1\}^*$ iff $\cT_1\equiv_{2,\fL}\cT_2$. 
