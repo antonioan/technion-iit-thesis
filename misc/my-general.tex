@@ -3,6 +3,9 @@
 % (regardless of its class and style files used),
 % e.g. package uses:
 
+% to remove warning from babel/polyglossia
+\usepackage{csquotes}
+
 \usepackage{xspace}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{caption}
@@ -10,11 +13,9 @@
 
 % \usepackage[bold,basic,small]{complexity}
 \newclass{\coNPSPACE}{coNPSPACE}
-\newclass{\EEEEEXP}{%
-    {
-        \ComplexityFont{5}\text{-}\ComplexityFont{EXP}
-    }
-}
+\newclass{\EEEEEXP}{{
+    \ComplexityFont{5}\text{-}\ComplexityFont{EXP}
+}}
 
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning, fit, calc, shapes.geometric}
@@ -28,16 +29,8 @@
 
 % and macros/command definitions:
 
-\newcommand{\IOo}{(2^{I\cup O})^\omega}
 \newcommand{\Io}{(2^{I})^\omega}
 \newcommand{\Oo}{(2^{O})^\omega}
-\newcommand{\IOs}{(2^{I\cup O})^*}
-\newcommand{\Is}{(2^{I})^*}
-\newcommand{\Os}{(2^{O})^*}
-\newcommand{\IOp}{(2^{I\cup O})^+}
-\newcommand{\Ip}{(2^{I})^+}
-\newcommand{\Op}{(2^{O})^+}
-\newcommand{\tIO}{2^{I\cup O}}
 \newcommand{\tI}{2^{I}}
 \newcommand{\tO}{2^{O}}
 \newcommand{\sI}{\Sigma_{I}}
@@ -58,23 +51,24 @@
 \newcommand{\cT}{\mathcal{T}}
 
 \newcommand{\bbB}{\mathbb{B}}
-\newcommand{\bbE}{\mathbb{E}}
 \newcommand{\bbN}{\mathbb{N}}
-\newcommand{\bbQ}{\mathbb{Q}}
-\newcommand{\bbR}{\mathbb{R}}
-\newcommand{\bbZ}{\mathbb{Z}}
 
 \newcommand{\lab}{\boldsymbol{\ell}}
 
 \newcommand{\fL}{\Lambda}
 \newcommand{\fP}{\mathfrak{P}}
-\newcommand{\num}{\#}
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 \newcommand{\req}[1][]{\asymp_{#1}}
 \newcommand{\lcm}{{\rm lcm}}
 \newcommand{\runs}[2]{\stackrel{#1}{\longrightarrow}_{#2}}
 \newcommand{\tr}{{\mathtt{Tr}}}
 \newcommand{\perm}{{\mathtt{Perm}}}
+
+% \newcommand\permute{shuffle }
+% \newcommand\permuting{shuffling }
+% \newcommand\permuted{shuffled }
+% \newcommand\permutation{shuffle }
+% \newcommand\permutations{shuffles }
 
 % For this template, we'll only have one single command,
 % necessary for including graphics...

@@ -102,10 +102,10 @@
 %\noappendicestocpagenum
 %\addappheadtotoc
 
-% Antonio: The following makes the Lemma numbering A.1 and not 1.1.
-\makeatletter
-\edef\thetheorem{\expandafter\noexpand\thesection\@thmcountersep\@thmcounter{theorem}}
-\makeatother
+% Antonio: If the lemma in the Appendix has numbering 1.1 then use the following code to turn it into A.1
+% \makeatletter
+% \edef\thetheorem{\expandafter\noexpand\thesection\@thmcountersep\@thmcounter{theorem}}
+% \makeatother
 
 \include{main/appendix1}
 
@@ -126,6 +126,7 @@
 % in the file will be the last page of the abstract, and the
 % Hebrew cover page will be the last page of the file.
 %
+\appto\bibfont{\setlength{\emergencystretch}{.3em}} % Antonio: resolve overfull boxes in the bibliography
 \makebackmatter
 
 % The resulting PDF can be printed and taken straight to binding,

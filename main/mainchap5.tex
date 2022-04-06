@@ -1,8 +1,8 @@
 \chapter{The Equivalence Mapping}
 \label{chap:equiv_mapping}
 
-Another question that is worth getting into is the following. Say we are given two transducers $\cT_1$ and $\cT_2$ such that $\cT_1 \prec_{k} \cT_2$, and an input word $x\in \left(\Sigma^k\right)^\star$. This means, of course, that there is a way to permute the rounds in $x$ to obtain a matching word $x'$ for $\cT_2$.
-Consider the mapping $\psi_{\cT_1,\cT_2}: x\mapsto x'$ that maps every input word $x$ to a corresponding permutation $x'$ (and we drop the subscript when the transducers are implied from the context). We call this the \emph{equivalence mapping}. What can we say about it? Specifically, is it regular? We begin with an example.
+Another question that is worth getting into is the following. Say we are given two transducers $\cT_1$ and $\cT_2$ such that $\cT_1 \prec_{k} \cT_2$, and an input word $x\in \left(\sI^k\right)^\star$. This means, of course, that there is a way to permute the rounds in $x$ to obtain a matching word $x'$ for $\cT_2$.
+Consider the mapping $\psi_{\cT_1,\cT_2}: x\mapsto x'$ that maps every input word $x$ to a corresponding round equivalent word $x'$ (and we drop the subscript when the transducers are implied from the context). We call this the \emph{equivalence~mapping between $\cT_1$ and $\cT_2$}. What can we say about it? Specifically, is it regular? We begin with an example.
 
 \begin{example}
 \label{example:mapping}
@@ -71,11 +71,11 @@ Let $\sI=\{a,b\}$, $\sO=\{0,1\}$ and $\cT_1$ be a transducer that expects to see
 \end{figure}
 \end{example}
 
-The above example shows that $\psi$ is not a homomorphism: it does not satisfy $\psi(xy)=\psi(x)\psi(y)$. Next, we show that $\psi$ cannot be described by a look-ahead machine. We use an example of round simulation with restriction; however, we have tested and confirmed that it is possible to get rid of the restriction language $\Lambda$. Moreover, the example uses a round length of $k=3$, but it can be extended to any round length $k>0$ in a similar manner.
+The above example shows that $\psi$ is not a homomorphism: it does not satisfy $\psi(xy)=\psi(x)\psi(y)$. Next, we show that $\psi$ cannot be described by a look-ahead machine, i.e. one that reads a ``compound'' of rounds or part-rounds in every step. We use an example of round simulation with restriction; however, it is indeed possible to get rid of the restriction language $\fL$ -- it was kept for clarity. Moreover, the example uses a round length of $k=3$, but it can be extended to any round length $k>0$ in a similar manner.
 
 \begin{example}
 \label{example:lookahead}
-Set $\Lambda=L[ab\cdot (cc)^\star\cdot (ab+ba)]$ and $k=2$, and let $\cT_1$ and $\cT_2$ be the transducers in~\cref{fig:example_lookahead}, satisfying $\cT_1\prec_{k,\Lambda} \cT_2$. Denote the equivalence mapping by $\psi^\star: (\Sigma_I^k)^\star \rightarrow (\Sigma_I^k)^\star$.
+Set $\fL=L[ab\cdot (cc)^\star\cdot (ab+ba)]$ and $k=2$, and let $\cT_1$ and $\cT_2$ be the transducers in~\cref{fig:example_lookahead}, satisfying $\cT_1\prec_{k,\fL} \cT_2$. Denote the equivalence mapping by $\psi^\star: (\sI^k)^\star \rightarrow (\sI^k)^\star$.
 
 \begin{figure}[ht]
 	\centering
@@ -124,24 +124,21 @@ Set $\Lambda=L[ab\cdot (cc)^\star\cdot (ab+ba)]$ and $k=2$, and let $\cT_1$ and 
         (q'_a) edge [] node {$b$} (q'_ab)
         (q'_b) edge [] node {$a$} (q'_ba);
     \end{tikzpicture}
-	\caption{Something about~\cref{example:lookahead}.}
+	\caption{The transducers $\cT_1$ (left) and $\cT_2$ (right) in~\cref{example:lookahead}.}
 	\label{fig:example_lookahead}
 \end{figure}
 
-We claim that for any $r$, there exists no look-ahead machine that defines a function $\psi_r: (\Sigma_I^{rk})^\star \rightarrow (\Sigma_I^{rk})^\star$ such that $\psi^\star(x)=\psi(x)$ for all input words $x$.
+We claim that for any $r$, there exists no look-ahead machine that defines a function $\psi_r: (\sI^{rk})^\star \rightarrow (\sI^{rk})^\star$ such that $\psi^\star(x)=\psi(x)$ for all input words $x$.
 
-Indeed, let $r$ be given, and assume by contradiction that such $\psi_r$ exists. Now consider the input word $x=ab\cdot c^{rk-2}$. $\psi_r(x)$ must start with either $ab$ or $ba$. Without loss of generality, assume the former, and consider the input word $x':=x\cdot ba\cdot c^{rk-2}$. $\psi_r$ works on $r$ rounds each time, so that the first $r$ rounds are fixed when it reads the $(r+1)$-th round. Since $\psi_r(x')$ must induce a valid path in $\cT_2$, the only option for the $(r+1)$-th round of $\psi_r(x')$ is $ab$. Hence, the output of $\cT_1$ on $x'$ is different from the output of $\cT_2$ on $\psi(x')$, and we have a contradiction.
+Indeed, let $r$ be given, and assume by contradiction that such $\psi_r$ exists. Now consider the input word $x=ab\cdot c^{rk-2}$. $\psi_r(x)$ must start with either $ab$ or $ba$. Without loss of generality, assume the former, and consider the input word $x':=x\cdot ba\cdot c^{rk-2}$. Since $\psi_r$ works on $r$ rounds each time, the first $r$ rounds are fixed when it reads the $(r+1)$-th round. Further, since $\psi_r(x')$ must induce a valid path in $\cT_2$, the only option for the $(r+1)$-th round of $\psi_r(x')$ is $ab$. Hence, the output of $\cT_1$ on $x'$ is different from the output of $\cT_2$ on $\psi(x')$, and we have a contradiction.
 \end{example}
 
 % This example only works if we assume that $\psi_r$ is ``ignorant'' of the fact that, actually, we will \emph{never} want to shuffle the very first round to be $ba$. This is a piece of knowledge so simple that it might not be practically reasonable to have it hidden from $\psi_r$.
 
-% The example can be extended to any round length $k$; and it is possible to get rid of the restriction language $\Lambda$, as well. See the generalized transducers below (``Dec 21$^\text{st}$'').
+% The example can be extended to any round length $k$; and it is possible to get rid of the restriction language $\fL$, as well. See the generalized transducers below (``Dec 21$^\text{st}$'').
 
-We saw that a look-ahead (actually, a ``compound'' of rounds or part-rounds) of $r$ rounds does not work, for any $r$. Also, it is clear that a look-ahead of a number not divisible by $k$ will not work either, since we must at least read the whole round to know the correct way to shuffle. Hence, no look-ahead machine can define $\psi^\star$.
+We showed that a look-ahead of $r$ rounds does not work for any $r$. A look-ahead of a number not divisible by $k$ will not work either, since we must at least read the whole round to know the correct way to shuffle. Moreover, a sliding-window variation of the former, in which at any given round the machine can read $r-1$ additional rounds in the future, would not work either, with the same counter-example. Indeed, even if we know the future beforehand, it does not permit us to rewrite the past, so a wrong choice in the first round would not be fixed. Hence, no look-ahead or sliding-window machine can define $\psi^\star$.
 
-A sliding-window variation of the former, in which at any given round, we can see $r-1$ additional rounds in the future, would not work either, with the same counter-example. Indeed, even if we know the future beforehand, it does not permit us to rewrite the past, so a wrong choice in the first round would not be fixed.
+In fact, the problem of finding a sub-Turing description of $\psi$ remains open.
 
-In fact, it would be possible to effectively ``rewrite'' the past by permitting delayed output. A finite-state machine supporting delayed output would be enough for the $\psi^\star$ of the last example: the machine would read the input round-by-round, searching for two rounds of the form $a^{k-2}\left(ab+ba\right)$ (not necessarily consecutive). Once they are detected, it would decide the output for the \emph{first} of them according to the second. Deciding the remainder of the output is simple.
-
-% \includegraphics[width=\linewidth]{graphics/wb6.jpg}
-% \includegraphics[width=\linewidth]{graphics/dec21.jpeg}
+% In fact, it would be possible to effectively ``rewrite'' the past by permitting delayed output. A finite-state machine supporting delayed output would be enough for the $\psi^\star$ of the last example: the machine would read the input round-by-round, searching for two rounds of the form $a^{k-2}\left(ab+ba\right)$ (not necessarily consecutive). Once they are detected, it would decide the output for the \emph{first} of them according to the second. Deciding the remainder of the output is simple.

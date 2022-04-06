@@ -1,11 +1,11 @@
 \chapter{Preliminaries}
 \label{chap:prelims}
 
-\section*{Automata}
+\paragraph*{Automata.}
 A \emph{\gls{dfa}} is $\cA=\tup{\Sigma,Q,q_0,\delta,F}$, where $Q$ is a finite set of states, $q_0 \in Q$ is an initial state, $\delta: Q\times \Sigma \to Q$ is a transition function, and $F\subseteq Q$ is the set of accepting states. 
 
-The run of $\cA$ on a word $w=\sigma_0 \cdot \sigma_2 \cdots \sigma_{n-1}\in \Sigma^*$ is a sequence of states $q_0,q_1,\ldots,q_n$ such that $q_{i+1} = \delta(q_i,\sigma_{i})$ for all $0\le i<n$. 
-The run is \emph{accepting} if $q_n\in F$. A word $w \in \Sigma^*$ is accepted by $\cA$ if the run of $\cA$ on $w$ is accepting. The language of $\cA$, denoted $L(\cA)$, is the set of words that $\cA$ accepts. 
+The \emph{run} of $\cA$ on a word $w=\sigma_0 \cdot \sigma_2 \cdots \sigma_{n-1}\in \Sigma^*$ is a sequence of states $q_0,q_1,\ldots,q_n$ such that $q_{i+1} = \delta(q_i,\sigma_{i})$ for all $0\le i<n$. 
+The run is \emph{accepting} if $q_n\in F$. A word $w \in \Sigma^*$ is \emph{accepted} by $\cA$ if the run of $\cA$ on $w$ is accepting. The \emph{language} of $\cA$, denoted $L(\cA)$, is the set of words that $\cA$ accepts. 
 We also consider \emph{\glspl{nfa}}, where $\delta:Q\times \Sigma\to 2^Q$. Then, a run of $\cA$ on a word $w\in \Sigma^*$ as above is a sequence of states $q_0,q_1,\ldots,q_n$ such that $q_{i+1} \in \delta(q_i,\sigma_{i})$ for all $0\le i<n$. The language of $\cA$ is defined analogously to the deterministic setting.
 We denote by $|\cA|$ the number of states of $\cA$.
 
@@ -14,22 +14,22 @@ For states $q,q'$ and $w\in \Sigma^*$, we write $q\runs{w}{\cA}q'$ if $q'\in \de
 
 An \gls{nfa} $\cA$ can be viewed as a morphism from $\Sigma^*$ to the monoid $\bbB^{Q\times Q}$ of $Q\times Q$ Boolean matrices, where we associate with a letter $\sigma\in \Sigma$ its \emph{type} $\tau_{\cA}(\sigma)\in \bbB^{Q\times Q}$ defined by $(\tau_{\cA}(\sigma))_{q,q'}=1$ if $q\runs{\sigma}{\cA}q'$, and $(\tau_{\cA}(\sigma))_{q,q'}=0$ otherwise. We extend this to $\Sigma^*$ by defining, for a word $w=\sigma_1\cdots \sigma_n\in \Sigma^*$, its type as $\tau_{\cA}(w)=\tau_{\cA}(\sigma_1)\cdots \tau_{\cA}(\sigma_n)$ where the concatenation denotes Boolean matrix product. It is easy to see that $(\tau_{\cA}(w))_{q,q'}=1$ iff $q\runs{w}{\cA}q'$.
 
-\section*{Transducers}
-Consider two sets $\sI$ and $\sO$ representing Input and Output alphabets, respectively. An \emph{$\sI/\sO$ transducer} is $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$ where $Q$, $q_0\in Q$, and $\delta:Q\times \sI\to Q$ are as in a \gls{dfa}, and $\lab:Q\to \sO$ is a labelling function. For a word $w\in \sI^*$, consider the run $\rho=q_0,\ldots,q_n$ of $\cT$ on $w$. We define its output $\lab(\rho)=\lab(q_1)\cdots\lab(q_n)\in \sO^*$, and we define the output of $\cT$ on $w$ to be $\cT(w)=\lab(\rho)$. Observe that we ignore the labelling of the initial state in the run, so that the length of the output matches that of the input.
+\paragraph*{Transducers.}
+Consider two sets $\sI$ and $\sO$ representing input and output alphabets, respectively. A \emph{$\sI/\sO$ transducer} is $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$ where $Q$, $q_0\in Q$, and $\delta:Q\times \sI\to Q$ are as in a \gls{dfa}, and $\lab:Q\to \sO$ is a labelling function on the states. For a word $w\in \sI^*$, consider the run $\rho=q_0,\ldots,q_n$ of $\cT$ on $w$. We define its output $\lab(\rho)=\lab(q_1)\cdots\lab(q_n)\in \sO^*$, and we define the output of $\cT$ on $w$ to be $\cT(w)=\lab(\rho)$. Observe that we ignore the labelling of the initial state in the run, so that the length of the output matches that of the input.
 
 % For a transducer $\cT$ and a state $s$, we denote by $\cT^s$ the transducer $\cT$ with  initial \nolinebreak state \nolinebreak $s$.
 
-\section*{Words and Rounds}
+\paragraph*{Words and rounds.}
 Consider a word $w=\sigma_0\cdots \sigma_{n-1}\in \Sigma^*$. We denote its length by $|w|$, and for $0\le i\le j< |w|$ we define $w[i:j]=\sigma_i\cdots \sigma_j$. 
-For $k>0$, we say that $w$ is a \emph{$k$-round word} if $|w|=kR$ for some $R\in \bbN$. Then, for every $0\le r<R$, we refer to $w[rk:r(k+1)-1]$ as the \emph{$r$-th round} in $w$, and we write $w=\gamma_0\cdots \gamma_{R-1}$ where $\gamma_r$ is the $r$-th round. We emphasize that $k$ indicates the length of each round, not the number of rounds.
+For $k>0$, if $|w|=kR$ for some $R\in \bbN$, then for every $0\le r<R$ we refer to $w[rk:r(k+1)-1]$ as the \emph{$r$-th round} in $w$ (of length $k$), and we write $w=\gamma_0\cdots \gamma_{R-1}$ where $\gamma_r$ is the $r$-th round. We emphasize that $k$ indicates the length of each round, not the number of rounds.
 
-In particular, throughout this work we consider $k$-round words $(x,y)\in (\sI^k\times \sO^k)^*$. In such cases, we sometimes use the natural embedding of $(\sI^k\times \sO^k)^*$ in $(\sI\times \sO)^*$ and in $\sI^*\times \sO^*$, and refer to these sets interchangeably.
+In particular, throughout this work we consider words $(x,y)\in (\sI^k\times \sO^k)^*$ and their rounds of length $k$. In such cases, we sometimes use the natural embedding of $(\sI^k\times \sO^k)^*$ in $(\sI\times \sO)^*$ and in $\sI^*\times \sO^*$, and refer to these sets interchangeably.
 
-\section*{Parikh Vectors and Permutations}
-Consider an alphabet $\Sigma$. For a word $w\in \Sigma^*$ and a letter $\sigma\in \Sigma$, we denote by $\num_\sigma(w)$ the number of occurrences of $\sigma$ in $w$. 
-The Parikh map
+\paragraph*{Parikh vectors and permutations.}
+Consider an alphabet $\Sigma$. For a word $w\in \Sigma^*$ and a letter $\sigma\in \Sigma$, we denote by $\#_\sigma(w)$ the number of occurrences of $\sigma$ in $w$. 
+The \emph{Parikh map}
 %\footnote{We use $\bbN^\Sigma$ rather than $\bbN^{|\Sigma|}$ to emphasize that the vector's indices are the letters in $\Sigma$.}
-$\fP:\Sigma^*\to \bbN^\Sigma$ maps every word $w\in \Sigma^*$ to a \emph{Parikh vector} $\fP(w)\in \bbN^\Sigma$, where $\fP(w)(\sigma)=\num_\sigma(w)$. We lift this to languages by defining, for $L\subseteq \Sigma^*$, $\fP(L)=\{\fP(w):w\in L\}$. 
+$\fP:\Sigma^*\to \bbN^\Sigma$ maps every word $w\in \Sigma^*$ to a \emph{Parikh vector} $\fP(w)\in \bbN^\Sigma$, where $\fP(w)(\sigma)=\#_\sigma(w)$. We lift this to languages by defining, for $L\subseteq \Sigma^*$, $\fP(L)=\{\fP(w):w\in L\}$. 
 
 For $\vec{p}\in \bbN^\Sigma$ (in the following we consistently denote vectors in $\bbN^\Sigma$ by bold letters) we write $|\vec{p}|=\sum_{\sigma\in \Sigma}\vec{p}(\sigma)$. In particular, for a word $w\in \Sigma^*$ we have $|\fP(w)|=|w|$.
 
@@ -37,4 +37,4 @@ By Parikh's theorem~\cite{Parikh1966}, for every \gls{nfa} $\cA$ we have that $\
 $\condset{\vec{p}+\lambda_1 \vec{s_1}+\ldots+\lambda_1 \vec{s_m}}{\lambda_1,\ldots,\lambda_m\in \bbN}$
 where $\vec{p},\vec{s_1},\ldots,\vec{s_m}\in \bbN^d$.
 
-Consider words $x,y\in \Sigma^*$, we say that $x$ is a \emph{permutation} of $y$ if $\fP(x)=\fP(y)$ (indeed, in this case $y$ can be obtained from $x$ by permuting its letters). Note that in particular this implies $|x|=|y|$.
+Consider words $x,y\in \Sigma^*$. We say that $x$ is a \emph{permutation} of $y$ if $\fP(x)=\fP(y)$ (indeed, in this case $y$ can be obtained from $x$ by permuting its letters). In particular this implies $|x|=|y|$.

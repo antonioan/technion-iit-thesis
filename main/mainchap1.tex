@@ -5,11 +5,11 @@ Consider two $k$-round words $x,y\in \Sigma^{kR}$ with the same number of rounds
 
 \begin{example}[Round-equivalence for words]
 \label{example:word-req}
-Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sigma=\{a,b\}$. Looking at the words as $3$-round words, one can see in~\cref{tab:word-req-3} that the 3-rounds in $y$ are all permutations of those in $x$, which gives $x\req[3] y$. However, looking at $x,y$ as $4$-round words, the number of occurrences of $b$ already in the first 4-round of $x$ and of $y$ is different, so $x\not\req[4] y$, as illustrated in~\cref{tab:word-req-4}.
+Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sigma=\{a,b\}$. Looking at the words as $3$-round words, one can see in~\cref{tab:word-req-3} that rounds of length 3 in $y$ are all permutations of those in $x$, which gives $x\req[3] y$. However, looking at the rounds of length 4 of $x,y$, the number of occurrences of $b$ already in the first round of $x$ and of $y$ is different, so $x\not\req[4] y$, as illustrated in~\cref{tab:word-req-4}.
 \begin{table}[!htb]
 \begin{minipage}{.5\linewidth}
     \centering
-    \caption{$x$ and $y$ are $3$-round equivalent}
+    \caption{$x$ and $y$ are 3-round equivalent}
     \vspace{2mm}
     \begin{tabular}{c||c|c|c|c}
         $x$ & aba & abb & abb & baa \\
@@ -20,7 +20,7 @@ Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sig
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
     \centering
-    \caption{$x$ and $y$ are not $4$-round equivalent}
+    \caption{$x$ and $y$ are not 4-round equivalent}
     \vspace{2mm}
     \begin{tabular}{c||c|c|c}
         $x$ & \emph{abaa} & bbab & bbaa \\
@@ -34,11 +34,11 @@ Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sig
 
 Let $\sI$ and $\sO$ be input and output alphabets, let $\fL\subseteq \sI^*$ be a regular language, and let $k>0$. Consider two $\sI/\sO$ transducers $\cT_1$ and $\cT_2$. We say that \emph{$\cT_2$ $k$-round simulates $\cT_1$ restricted to $\fL$}, denoted $\cT_1\prec_{k,\fL} \cT_2$, if for every $k$-round word $x\in \fL$ there exists a $k$-round word $x'\in \sI^*$ such that $x\req[k] x'$ and $\cT_1(x)\req[k] \cT_2(x')$. 
 
-Intuitively, $\cT_1\prec_{k,\fL} \cT_2$ if for every input word $x\in \fL$, we can permute each $k$-round of $x$ to obtain a new word $x'$, such that the $k$-rounds of the outputs of $\cT_1$ on $x$ and of $\cT_2$ on $x'$ are permutations of each other. 
+Intuitively, $\cT_1\prec_{k,\fL} \cT_2$ if for every input word $x\in \fL$, we can permute each round of length $k$ in $x$ to obtain a new word $x'$, such that the outputs of $\cT_1$ on $x$ and of $\cT_2$ on $x'$ are $k$-round equivalent.
 Note that the definition is not symmetric: the input $x$ for $\cT_1$ is universally quantified, while $x'$ is chosen according to $x$. We illustrate this in~\cref{example:def-asymmetric}.
 
 If $\cT_1\prec_{k,\fL} \cT_2$ and $\cT_2\prec_{k,\fL} \cT_1$ we say that $\cT_1$ and $\cT_2$ are \emph{$k$-round equivalent restricted to $\fL$}, denoted $\cT_1\equiv_{k,\fL} \cT_2$. 
-In the special case where $\fL=\sI^*$ (i.e., when we require the simulation to hold for every input), we omit it from the subscript and write e.g., $\cT_1\prec_k \cT_2$.
+In the special case where $\fL=\sI^*$ (i.e., when we require the simulation to hold for every input), we omit it from the subscript and write $\cT_1\prec_k \cT_2$.
 
 \begin{example}[Round Robin]
 \label{example:transducer-req}
@@ -77,7 +77,7 @@ Depending on the ID $i\in \{0,1,2\}$ of the first process, we model the schedule
 
 Technically, the initial state changes the behaviour of $\cT_i$ significantly (e.g. $\cT_0(\{0\}\{2\}\{1\})=\{0\}\emptyset\emptyset$ whereas $\cT_1(\{0\}\{2\}\{1\})=\emptyset\{2\}\emptyset$). Conceptually, however, changing the initial state does not alter the behaviour, as long as the requests are permuted accordingly. This is captured by round equivalence, as follows.
 
-We argue that, if we allow reordering of the input letters, then the set of processes whose requests are granted in each round is independent of the start state. This is equivalent to saying $\cT_0 \equiv_k \cT_j$ for $j\in \{1,2\}$, which indeed holds: if $j=1$ then we permute all rounds of the form $\sigma_0 \sigma_1 \sigma_2$ to $\sigma_1 \sigma_2 \sigma_0$, and similarly if $j=2$ then we permute all rounds to $\sigma_2 \sigma_0 \sigma_1$. It is easy to see that the run of $\cT_i$ on the permuted input grants outputs that are permutations of the output of $\cT_0$ on the non-permuted input. 
+We argue that, if we allow permutation of the input letters, then the set of processes whose requests are granted in each round is independent of the start state. This is equivalent to saying $\cT_0 \equiv_k \cT_j$ for $j\in \{1,2\}$, which indeed holds: if $j=1$ then we permute all rounds of the form $\sigma_0 \sigma_1 \sigma_2$ to $\sigma_1 \sigma_2 \sigma_0$, and similarly if $j=2$ then we permute all rounds to $\sigma_2 \sigma_0 \sigma_1$. It is easy to see that the run of $\cT_i$ on the permuted input grants outputs that $k$-round equivalent to the output of $\cT_0$ on the non-permuted input.
 \end{example}
 
 \begin{example}[Round simulation is not symmetric]
@@ -146,7 +146,7 @@ We start by showing that deciding equivalence (both fixed and existential) is re
 \begin{proof}
 First, we can clearly reduce fixed round equivalence to fixed round simulation: given an algorithm that decides, given $\cT_1,\cT_2$, $\fL$ and $k>0$, whether $\cT_1\prec_{k,\fL} \cT_2$, we can decide whether $\cT_1\equiv_{k,\fL} \cT_2$ by using it twice to decide whether both $\cT_1\prec_{k,\fL} \cT_2$ and $\cT_1\prec_{k,\fL} \cT_2$ hold. 
 
-A slightly more careful examination shows that the same approach can be taken to reduce existential round equivalence to existential round simulation, using the following observation: if $\cT_1\prec_{k,\fL} \cT_2$, then for every $m\in \bbN$ it holds that $\cT_1\prec_{mk,\fL}\cT_2$. Indeed, we can simply group every $m$ rounds of length $k$ and treat them as a single $mk$-round.
+A slightly more careful examination shows that the same approach can be taken to reduce existential round equivalence to existential round simulation, using the following observation: if $\cT_1\prec_{k,\fL} \cT_2$, then for every $m\in \bbN$ it holds that $\cT_1\prec_{mk,\fL}\cT_2$. Indeed, we can simply group every $m$ rounds of length $k$ and treat them as a single round of length $mk$.
 
 Now, given an algorithm that decides, given $\cT_1,\cT_2$ and $\fL$, whether there exists $k>0$ such that $\cT_1\prec_{k,\fL} \cT_2$, we can decide whether $\cT_1\equiv_{k,\fL} \cT_2$ by using the algorithm twice to decide whether there exists $k_1$ such that $\cT_1\prec_{k_1,\fL} \cT_2$ and $k_2$ such that $\cT_2\prec_{k_2,\fL} \cT_1$ hold. If there are no such $k_1,k_2$, then clearly $\cT_1 \not\equiv_{k,\fL} \cT_2$. However, if there are such $k_1,k_2$, then by the observation above we have $\cT_1\equiv_{k_1k_2,\fL}\cT_2$ (we can also take $\lcm(k_1,k_2)$ instead of $k_1k_2$).
 \end{proof}

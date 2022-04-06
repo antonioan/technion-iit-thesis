@@ -15,7 +15,7 @@ Next, we observe that the reductions in~\cite[Lemma 2]{kao2009nfas} first transf
 Since we start this chain of reductions with an \gls{nfa} of nondeterminism degree at most 2, we maintain this property throughout the proof.
 \end{proof}
 
-\section{Proof of~\cref{thm:equivalence_PSPACE-H}}
+\section{Proof of Theorem~\ref{thm:equivalence_PSPACE-H}}
 \label{apx:proof_equivalence_PSPACE-H}
 
 We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \gls{dfa} of constant size. The former is shown to be $\PSPACE$-hard in~\cref{lem:universalityofnfa}.
@@ -191,7 +191,7 @@ Next, we show that $\cT_1\prec_{2,\fL}\cT_2$. Consider $x\in (ab+cd)^*$, so that
 Conversely, if $\cT_1\equiv_{2,\fL}\cT_2$, then in particular $\cT_1\prec_{2,\fL}\cT_2$. We claim that $L(\cN)=\{0,1\}^*$. Consider $w\in \{0,1\}^*$. Dually to the above, we obtain from $w$ a word $x\in (ab+cd)^*$ by identifying $0$ with $ab$ and $1$ with $cd$, so that $\cT_1(x)=\top^{|x|}$. 
 Since $\cT_1\prec_{2,\fL}\cT_2$, there exists $x'\req[2]x$ such that $\cT_2(x')=\top^{|x|}$. Observe that $x'$ must be obtained from $x$ by (possibly) changing each $ab$ to $ba$ and each $cd$ to $dc$. In particular, the run of $\cT_2$ on $x'$ induces a run of $\cN$ on $w$ by identifying both $ab$ and $ba$ as 0 and both $cd$ and $dc$ as 1. This gives $w\in L(\cN)$, so $L(\cN)=\{0,1\}^*$, which concludes the proof. \qed
 
-\section{Proof of~\cref{thm:existential_equivalence_PSPACE-H}}
+\section{Proof of Theorem~\ref{thm:existential_equivalence_PSPACE-H}}
 \label{apx:proof_existential_PSPACE-H}
 
 In order to show that existential round equivalence is $\PSPACE$-hard, we build upon the reduction in the proof of Theorem~\ref{thm:equivalence_PSPACE-H}: we again show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2 (cf.~\cref{lem:universalityofnfa}).

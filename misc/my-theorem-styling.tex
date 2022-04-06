@@ -1,3 +1,8 @@
+% \usepackage[dvipsnames]{xcolor}
+% \usepackage{caption}
+% \usepackage{thmtools}
+% \usepackage[most]{tcolorbox}
+
 \colorlet{bulletColor}{BrickRed}
 \renewcommand\bullet{\textcolor{bulletColor}{\ensuremath{\blacktriangleright}}}
 \renewcommand\qedsymbol{\textcolor{bulletColor}{\ensuremath{\blacktriangleleft}}}
@@ -66,6 +71,7 @@
 \newtheorem*{claim*}{Claim}
 
 \captionsetup[table]{labelfont=bf}
+\captionsetup{labelfont=bf}
 
 %%% UNUSED BELOW %%%
 
@@ -80,4 +86,3 @@ sharp corners
 \newenvironment{coloredtheorem}%
     {\begin{mybox}\begin{theorem}}%
     {\end{theorem}\end{mybox}}
-

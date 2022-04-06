@@ -176,6 +176,10 @@
  % see: https://tex.stackexchange.com/a/141437/5640
  \def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
  \def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+ 
+ \begin{hyphenrules}{hebrew}
+  \hyphenation{וכשב-השתעשעויות-יהם}
+ \end{hyphenrules}
 }
 
 %--------------------------------

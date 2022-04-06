@@ -4,17 +4,16 @@
 In this chapter we show decidability of fixed round simulation (and, by~\cref{lem:reduce_equiv_to_simulation}, fixed round equivalence). The tools we develop will be used in~\cref{chap:deciding_existential_round_sim} to handle the existential variant.
 
 Let $\sI$ and $\sO$ be input and output alphabets. Consider two $\sI/\sO$ transducers $\cT_1$ and $\cT_2$, and let $\fL\subseteq \sI^*$ and $k>0$.
-In order to decide whether $\cT_1\prec_{k,\fL} \cT_2$, we proceed as follows. First, we cast the problem to a problem about deterministic automata. Then, we translate $k$-rounds into letters, by working over the alphabets $\sI^k$ and $\sO^k$. We construct an \gls{nfa}, dubbed the \emph{permutation closure}, for each transducer $\cT$, that captures the behaviour of $\cT$ on words and their permutations. Intuitively, the \gls{nfa} takes as input a word $(x,y)\in (\sI^{k}\times \sO^k)^*$, guesses a round-equivalent word $x'\req x$, and verifies that $\cT(x')\req \cT(x)$. We then show that round-simulation amounts to deciding the containment of these \glspl{nfa}.
+In order to decide whether $\cT_1\prec_{k,\fL} \cT_2$, we proceed as follows. First, we cast the problem to a problem about deterministic automata. Then, we translate rounds into letters, by working over the alphabets $\sI^k$ and $\sO^k$. We construct an \gls{nfa}, dubbed the \emph{permutation closure}, for each transducer $\cT$, that captures the behaviour of $\cT$ on words and their permutations. Intuitively, the \gls{nfa} takes as input a word $(x,y)\in (\sI^{k}\times \sO^k)^*$, guesses a round equivalent word $x'\req x$, and verifies that $\cT(x')\req \cT(x)$. We then show that round simulation amounts to deciding the containment of these \glspl{nfa}.
 
-% \section*{Construction of tools}
 We now turn to give the details of the construction of these \glspl{nfa}.
 
-\paragraph{The Trace \bf DFA} Consider a transducer $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$, we define its \emph{trace \gls{dfa}} $\tr(\cT)=\tup{\sI\times\sO,Q\cup\{q_{\bot}\},q_0,\eta,Q}$ where for $q\in Q$ and $(\sigma,\sigma')\in \sI\times \sO$ we define $\eta(q,(\sigma,\sigma'))=\delta(q,\sigma)$ if $\cT^{q}(\sigma)=\sigma'$ and $\eta(q,(\sigma,\sigma'))=q_{\bot}$ otherwise.
+\paragraph{The trace \glsentryshort{dfa}.} Consider a transducer $\cT=\tup{\sI,\sO,Q,q_0,\delta,\lab}$, we define its \emph{trace \gls{dfa}} $\tr(\cT)=\tup{\sI\times\sO,Q\cup\{q_{\bot}\},q_0,\eta,Q}$ where for $q\in Q$ and $(\sigma,\sigma')\in \sI\times \sO$ we define $\eta(q,(\sigma,\sigma'))=\delta(q,\sigma)$ if $\cT^{q}(\sigma)=\sigma'$ and $\eta(q,(\sigma,\sigma'))=q_{\bot}$ otherwise.
 $q_\bot$ is a rejecting sink. 
 
 $\tr(\cT)$ captures the behaviour of $\cT$ in that $L(\tr(\cT))=\condset{(x,y)\in (\sI\times \sO)^*}{\cT(x)=y}$. 
 
-\paragraph{The Permutation-Closure \bf NFA}
+\paragraph{The permutation closure \glsentryshort{nfa}.}
 Consider an \gls{nfa} $\cN=\tup{\sI\times\sO,S,s_0,\eta,F}$, and let $k>0$. 
 We obtain from $\cN$ an \gls{nfa} $\perm_k(\cN)=\tup{\sI^k \times \sO^k,S, s_0, \mu, F}$
 where the alphabet is $\sI^k\times \sO^k$, and the transition function $\mu$ is defined as follows. For a letter $(\alpha,\beta)\in \sI^k \times \sO^k$ and a state $s\in S$, we think of $(\alpha,\beta)$ as a word in $(\sI\times \sO)^*$. Then we have
@@ -22,17 +21,16 @@ where the alphabet is $\sI^k\times \sO^k$, and the transition function $\mu$ is 
 \label{test}
     \mu(s,(\alpha,\beta))=\bigcup\condset{\eta^*(s,(\alpha',\beta'))}{\fP(\alpha')=\fP(\alpha) \wedge \fP(\beta)=\fP(\beta')}.
 \end{equation}
-
 That is, upon reading $(\alpha,\beta)$, $\perm_k(\cN)$ can move to any state $s'$ that is reachable in $\cN$ from $s$
 by reading a permutation of $\alpha,\beta$ (denoted $\alpha',\beta'$).
-Recall that for two words $x,x'$ we have that $x\req[k]x'$ if for every two corresponding $k$-rounds $\alpha,\alpha'$ in $x$ and $x'$ we have $\fP(\alpha)=\fP(\alpha')$. 
+Recall that for two words $x,x'$ we have that $x\req[k]x'$ if for every two corresponding rounds $\alpha,\alpha'$ in $x$ and $x'$ we have $\fP(\alpha)=\fP(\alpha')$. 
 Thus, we have the following.
 \begin{observation}
 	\label{obs:perm_closure_language}
-	In the notations above, it holds that $L(\perm_k(\cN))=\{(x,y)\in \sI^*\times \sO^* \ST \exists x'\req[k] x, y'\req[k] y, (x',y')\in L(\cN) \wedge\ |x|=|y|=kR \text{ for some }R\in \bbN\}$.
+	In the notations above, it holds that $L(\perm_k(\cN))=\{(x,y)\in \sI^*\times \sO^* \mid \exists x'\req[k] x, y'\req[k] y, (x',y')\in L(\cN) \wedge\ |x|=|y|=kR \text{ for some }R\in \bbN\}$.
 	\end{observation}
 Since the transition function of $\perm_k(\cN)$ is only defined using permutations of its input letters, we have the following property, which we refer to as \emph{permutation invariance}:
-\begin{observation}[Permutation Invariance]
+\begin{observation}[Permutation invariance]
 	\label{obs:perm_invariance}
 	For every state $s\in S$ and letters $(\alpha,\beta), (\alpha',\beta')\in \sI^k \times \sO^k$, if $\fP(\alpha)=\fP(\alpha')$ and $\fP(\beta)=\fP(\beta')$ then $\mu(s,(\alpha,\beta))=\mu(s,(\alpha',\beta'))$.
 \end{observation}
@@ -51,7 +49,7 @@ Given a transducer $\cT$, we apply the permutation closure to the trace \gls{dfa
 	Recall that $\tr(\cT)$ accepts a word $(x',y')$ iff $\cT(x')=y'$. The claim then follows from~\cref{obs:perm_closure_language}, by replacing the expression $y\req y' \wedge (x',y')\in L(\tr(\cT))$ with the equivalent expression $\cT(x')\req[k] y$.
 \end{proof}
 
-We now reduce round simulation to the containment of permutation-closure \glspl{nfa}.
+We now reduce round simulation to the containment of permutation closure \glspl{nfa}.
 
 \begin{lemma}
 \label{lem:round_equivalence_iff_perm_containment}
