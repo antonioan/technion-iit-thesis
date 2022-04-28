@@ -17,68 +17,167 @@
 %   present in the English; it is not just a translation.
 
 \abstractEnglish{
-In model checking, we work toward deciding whether a system satisfies a given specification. Often, a system exhibits some type of symmetry in its structure or in its behaviour. Such symmetries can be exploited by a designer to alleviate some of the complexity of model checking, as well as to gain insight into the behaviour of the system. Thus, we want to decide whether a given system exhibits symmetry.
+% For a nicer bullet in itemize
+\renewcommand\textbullet{\textcolor{BrickRed}{\ensuremath{\bigstar}}}
 
-Symmetry is not a well-defined concept and might come in various forms, each capturing a different characteristic behaviour. In this work, we introduce a notion of semantic symmetry in transducers, and demonstrate the definitions and the behaviours it captures, as well as pose the algorithmic questions pertaining to it and their solutions.
+Model checking is a verification paradigm for systems, where we are given a system and a specification and we check whether every possible computation of the system satisfies the specification.
 
-In particular, we present the notion of simulation by rounds, whose usefulness is in that it can be applied to process symmetry.
-In this setting, words are partitioned into rounds, and
-% OPTION 1 %
-% a transducer is round simulated by another if for every input word, we can shuffle the letters within each round such that the output of the simulating transducer on the shuffled word is itself a shuffle of the output of the simulated transducer.
-% OPTION 2 %
-a transducer $\cT_1$ is $k$-round simulated by transducer $\cT_2$ if for every input word $x$, we can permute (i.e. reorder) the letters within each round in $x$, such that the output of $\cT_2$ on the permuted word is itself a permutation of the output of $\cT_1$ on $x$.
-% END OF OPTIONS %
-Finally, two transducers are round equivalent if they simulate each other.
+Often, systems over multiple processes exhibit some type of symmetry in their structure or their behaviour. Symmetry is also commonly manifested in the specifications of multiple process systems.
+When such symmetries are present in the system or the specification, they can be exploited by the designer and the verification algorithm to alleviate some of the complexity of model checking, as well as to gain insight into the behaviour of the system. For instance, symmetric systems enable the designer to use only representative specifications where iteration over the process identities was formerly needed.
+Thus, we want to decide whether a given system or specification exhibits symmetry.
 
-We solve two main decision problems, namely whether $\cT_2$ $k$-round simulates $\cT_1$ (1) when $k$ is given as input, and (2) for an existentially quantified $k$.
-We then show that the problem of round symmetry can be reduced to round simulation and solved as such.
+Symmetry is not a well-defined concept and might come in various forms, each capturing a different characteristic behaviour. In this work, we focus on \emph{process symmetry}, where every process $j$ has a corresponding input and output signal $i_j$ and $o_j$, and the input and output alphabets of the model are $\tI$ and $\tO$ respectively.
+Process symmetry addresses the scenario where the identities of the processes may be scrambled -- that is, permuted.
+For example, if the input $\{i_1,i_2\}$ is generated, the system might actually receive an input $\{i_7,i_4\}$.
+Then, a system exhibits process symmetry if, intuitively, its outputs are permuted in a similar way to the inputs.
+Unfortunately, deterministic systems that are process symmetric are extremely naive, as process symmetry is too restrictive for them.
 
-Several more notions are then presented and discussed, including variations of round symmetry, and symmetry in the setting of infinite words.
+In our setting, each of the system and the specification are modelled by a finite-state machine called a \emph{transducer}. In addition, words are partitioned into rounds, and a transducer $\cT$ is \emph{$k$-round symmetric} if for every permutation $\pi$ of the signals and for every input word $x$, we can scramble the letters within each round in $\pi(x)$ to obtain $x'$, such that the output of $\cT$ on $x'$ is itself a scramble of the output of $\cT$ on $x$. In other words, when $\cT$ is round symmetric, there is a way to scramble the permuted input, so that the resulting output is a scramble of the permuted output (i.e. the ``expected'' output in process symmetry).
+
+Round symmetry is \emph{semantic}: it does not consider the structure, rather the behaviour of the system. Round symmetry gives rise to the following decision problems:
+\begin{itemize}
+	\item In \emph{fixed round symmetry} we are given a transducer $\cT$ and $k>0$, and we need to decide whether $\cT$ is $k$-round symmetric.
+	\item In \emph{existential round symmetry} we are given a transducer $\cT$, and we need to decide whether there exists $k>0$ such that $\cT$ is $k$-round symmetric.
+\end{itemize}
+
+Notice that round symmetry defines a property of a transducer. The way we approach the decision problems is by first translating the definition of symmetry to a definition of a relation between two transducers, called \emph{round simulation}, then showing that round symmetry can be reduced to round simulation, we solve it as such.
+
+A transducer $\cT_2$ \emph{$k$-round simulates} transducer $\cT_1$ if for every input word $x$, we can scramble the letters within each round in $x$, such that the output of $\cT_2$ on the scrambled word is itself a scramble of the output of $\cT_1$ on $x$.
+In fact, we consider a somewhat more elaborate setting, by also allowing the inputs to $\cT_1$ to be restricted to some regular language $\fL$.
+
+The mapping between the input words for $\cT_1$ and the scrambled input for $\cT_2$ is called the \emph{simulation mapping} and is also studied in the continuation of this work.
+
+Round symmetry and round simulation -- the decision problems and their solutions, upper and lower bounds and the simulation mapping -- are the main contribution of this work.
+Additionally, several more notions of symmetry are presented and discussed, including variations of round symmetry, and symmetry in the setting of infinite words.
 
 We use tools and techniques from logic, algebra and automata theory.
 } % end of English abstract
 
-
 \abstractHebrew{
-בעולם של בדיקת מודלים, אנו פועלים להכרעה האם מערכת עומדת במפרט נתון. לעתים קרובות, מערכת מפגינה סוג כלשהו של סימטריה במבנה שלה או בהתנהגות שלה. סימטריות כאלה יכולות להיות מנוצלות על ידי מעצב התוכנה כדי להקל חלק מהמורכבות של בדיקת מודלים, כמו גם כדי לקבל תובנה לגבי התנהגות המערכת. לפיכך, אנו מעוניינים להחליט אם מערכת נתונה מפגינה סימטריה.
+בדיקת מודלים היא פרדיגמת אימות למערכות, בה אנו פועלים להכרעה האם מערכת עומדת במפרט נתון.
+% לעתים קרובות, מערכת מפגינה סוג כלשהו של סימטריה במבנה שלה או בהתנהגות שלה. סימטריות כאלה יכולות להיות מנוצלות על ידי מעצב התוכנה כדי להקל חלק מהמורכבות של בדיקת מודלים, כמו גם כדי לקבל תובנה לגבי התנהגות המערכת. לפיכך, אנו מעוניינים להחליט אם מערכת נתונה מפגינה סימטריה.
+לעתים קרובות, מערכות מרובות תהליכים מפגינות סוג כלשהו של סימטריה במבנה שלהן או בהתנהגות שלהן. סימטריה מתבטאת בדרך כלל גם במפרטים של מערכות מרובות תהליכים.
+כאשר קיימת סימטריה במערכת או במפרט, היא יכולה להיות מנוצלת על ידי המעצב ואלגוריתם האימות כדי להקל חלק מהמורכבות של בדיקת מודלים, כמו גם כדי לקבל תובנה לגבי התנהגות המערכת. לדוגמה, מערכות סימטריות מאפשרות למעצב להשתמש רק במפרטים מייצגים שבהם היה צורך בעבר באיטרציה על זהויות התהליכים.
+לפיכך, אנו מעוניינים להחליט אם מערכת נתונה מפגינה סימטריה.
 
-סימטריה אינה מושג מוגדר היטב ועשויה לבוא בצורות שונות, שכל אחת מהן תופסת התנהגות אופיינית אחרת. בעבודה זו, אנו מציגים מושג של סימטריה סמנטית במודל החישובי הנקרא משרן
-(\textenglish{transducer}),
-ומדגימים את ההגדרות וההתנהגויות שהוא לוכד, כמו גם מציגים את הבעיות האלגוריתמיות הרלוונטיות ואת הפתרונות שלהן.
-בפרט, אנו מציגים את הרעיון של 
-\emph{סימולציה בסיבובים}, 
-שתועלתו היא בכך שניתן ליישם אותה בתחום הסימטריה של תהליכים, למשל במערכות תזמון
-(\textenglish{schedulers}).
+סימטריה אינה מושג מוגדר היטב ועשויה לבוא בצורות שונות, שכל אחת מהן תופסת התנהגות אופיינית אחרת.
+בעבודה זו, אנו מתמקדים
+ב\emph{סימטריית תהליכים},
+איפה שלכל תהליך
+$j$
+יש אות קלט ופלט מקבילים
+$i_j$ ו- $o_j$,
+ואלפבית הקלט והפלט של המודל הם
+$\tI$ ו- $\tO$
+בהתאמה.
+סימטריית תהליכים מתייחסת לתרחיש שבו זהויות התהליכים עשויות להיות מעורבבות 
+\textenglish{--}
+כלומר, עברו התמרה.
+לדוגמה, אם הקלט
+$\{i_1,i_2\}$
+נוצר, המערכת עשויה לקבל למעשה קלט
+$\{i_7,i_4\}$.
+לאחר מכן, מערכת מפגינה סימטריית תהליכים אם, באופן אינטואיטיבי, הפלטים שלה עוברים התמרה בצורה דומה לקלטים.
+לרוע המזל, מערכות דטרמיניסטיות שמפגינות סימטריית תהליכים הן תמימות ביותר, שכן סימטריית תהליכים מגבילה מדי עבורן.
 
-\emph{משרן}
-הינו מכונת מצבים הדומה לאוטומט סופי דטרמיניסטי, פרט לכך שלכל מצב מוצמדת אות פלט, וריצה של משרן על מילת קלט
-$w$
-מחזירה פלט באותו אורך, לפי המצבים שהמילה
-$w$
-עברה בהם. בניגוד לאוטומטים, אין משמעות לקבלה של מילים במשרן.
+% אנו מציגים מושג של סימטריה סמנטית במודל החישובי הנקרא משרן
+% (\textenglish{transducer}),
+% ומדגימים את ההגדרות וההתנהגויות שהוא לוכד, כמו גם מציגים את הבעיות האלגוריתמיות הרלוונטיות ואת הפתרונות שלהן.
+% בפרט, אנו מציגים את הרעיון של 
+% \emph{סימולציה בסיבובים}, 
+% שתועלתו היא בכך שניתן ליישם אותה בתחום הסימטריה של תהליכים, למשל במערכות תזמון
+% (\textenglish{schedulers}).
 
-בסימולציה שאנו מגדירים, סימולציה בסיבובים, מילת הקלט של המשרן מחולקת לתתי מילים זרות באורך קבוע שנקראות סיבובים, ונאמר שמשרן
-$\cT_1$
-\emph{מסומלץ בסיבובים של 
-$k$
-על ידי משרן }
-$\cT_2$
-אם עבור כל מילת קלט 
-$x$
-נוכל לבצע תמורה על האותיות בכל סיבוב ב-
-$x$
--- כלומר, שינוי הסדר של האותיות במילה --
-כך שהפלט של 
-$\cT_2$
-על המילה המתקבלת לאחר התמורה הוא בעצמו תמורה של הפלט של 
-$\cT_1$
-על 
+בהגדרה שלנו, המערכת ואף המפרט ממודלים על ידי מכונת מצבים סופית הנקראת
+\emph{משרן}.
+בנוסף,
+% בסימטריה שאנו מגדירים, סימטריה בסיבובים, 
+מילת הקלט של המשרן מחולקת לתתי מילים זרות באורך קבוע שנקראות סיבובים, ונאמר שמשרן
+$\cT$
+הינו
+\emph{סימטרי בסיבובים של 
+$k$}
+אם עבור כל תמורה של אותות
+$\pi$,
+וכל מילת קלט 
+$x$,
+נוכל לערבב את האותיות בכל סיבוב ב-
+$\pi(x)$
+כדי לקבל $x'$,
+כך שהפלט של
+$\cT$
+על
+$x'$
+הוא עצמו ערבוב של תוצאת התמורה על הפלט של
+$\cT$
+על
 $x$.
-לבסוף, שני משרנים נקראים שקולים בסיבובים של 
-$k$
-אם הם מסמלצים זה את זה.
+במילים אחרות, כאשר
+$\cT$
+הוא סימטרי בסיבובים, יש דרך לערבב את הקלט המתומר, כך שהפלט המתקבל הוא ערבוב של הפלט המתומר
+(כלומר הפלט ”הצפוי“ בסימטריית תהליכים).
 
-אנו פותרים שתי בעיות הכרעה עיקריות, שהן האם 
+סימטריה בסיבובים היא
+\emph{סמנטית}
+בכך שהיא לא מתחשבת במבנה, אלא בהתנהגות המערכת.
+סימטריה בסיבובים מובילה לבעיות ההכרעה הבאות:
+\begin{itemize}
+\item
+בבעיה 
+\emph{הקבועה}
+של סימטריה בסיבובים, 
+ניתן לנו משרן
+$\cT$ וקבוע $k>0$,
+ועלינו להחליט אם
+$\cT$ 
+הוא סימטרי בסיבובים של
+$k$.
+\item
+בבעיה 
+\emph{הקיומית}
+של סימטריה בסיבובים, 
+ניתן לנו משרן
+$\cT$,
+וצריך להחליט אם קיים
+$k>0$
+כך ש-
+$\cT$
+הוא סימטרי בסיבובים של
+$k$.
+\end{itemize}
+
+שימו לב שסימטריה בסיבובים מגדירה תכונה של משרן.
+הדרך בה אנו ניגשים לבעיות ההחלטה היא על ידי תרגום תחילה את ההגדרה של סימטריה להגדרה של קשר בין שני משרנים, הנקרא
+\emph{סימולציה בסיבובים},
+ואז, לאחר שנראה כי ניתן לצמצם סימטריה בסיבובים לסימולציה בסיבובים, אנו פותרים אותה ככזו.
+
+משרן
+$\cT_2$
+\emph{מסמלץ}
+משרן
+$\cT_1$
+\emph{בסיבובים של
+$k$}
+אם עבור כל מילת קלט
+$x$, 
+נוכל לערבב את האותיות בכל סיבוב ב-
+$x$,
+כך שהפלט של
+$\cT_2$
+על המילה לאחר הערבוב היא עצמה ערבוב של הפלט של
+$\cT_1$
+על
+$x$.
+% לבסוף, שני משרנים נקראים
+% \emph{שקולים בסיבובים של 
+% $k$}
+% אם הם מסמלצים זה את זה.
+למעשה, אנו נותנים הגדרה קצת יותר משוכללת, בכך שאנו מאפשרים גם לכניסות ל-
+$\cT_1$
+להיות מוגבלות לשפה רגולרית נתונה
+$\fL$.
+
+בהתאם, בעיות ההכרעה הנוצרות מההגדרה של סימולציה בסיבובים הן האם 
 $\cT_2$
 מסמלץ את
 $\cT_1$
@@ -90,9 +189,37 @@ $k$
 $k$
 בכמת קיומי (קרי, עבור
 $k$
- כלשהו). אנו גם מספקים חסמים תחתונים לבעיות (חלקם עם פערים שנותרו), ולאחר מכן אנו מראים שניתן לצמצם את בעיית הסימטריה בסיבובים לסימולציה בסיבובים ולפתור אותה ככזו.
+כלשהו).
+% אנו גם מספקים חסמים תחתונים לבעיות (חלקם עם פערים שנותרו), 
+% ולאחר מכן אנו מראים שניתן לצמצם את בעיית הסימטריה בסיבובים לסימולציה בסיבובים ולפתור אותה ככזו.
+
+המיפוי בין מילות הקלט עבור
+$\cT_1$
+לבין הקלט המעורבב עבור
+$\cT_2$
+נקרא
+\emph{מיפוי הסימולציה}
+והוא נדון בהמשך עבודה זו.
+
+סימטריה בסיבובים וסימולציה בסיבובים 
+\textenglish{--}
+בעיות ההחלטה ופתרונותיהן, הגבול העליון והתחתון ומיפוי הסימולציה
+\textenglish{--}
+הם התרומה העיקרית של עבודה זו.
+בנוסף, מוצגים ונדונים עוד כמה מושגים של סימטריה, כולל וריאציות של סימטריה עגולה וסימטריה בהגדרה של אינסוף מילים.
 
 \subsection*{\texthebrew{תקציר לפתרון של בעיות ההכרעה}}
+
+נגדיר תחילה את המודל העיקרי שאיתו אנו עובדים.
+\emph{משרן}
+(\textenglish{transducer})
+הינו מכונת מצבים הדומה לאוטומט סופי דטרמיניסטי, פרט לכך שלכל מצב מוצמדת אות פלט, וריצה של משרן על מילת קלט
+$w$
+מחזירה פלט באותו אורך, לפי המצבים שהמילה
+$w$
+עברה בהם. בניגוד לאוטומטים, אין משמעות לקבלה של מילים במשרן.
+
+כאמור, אנו פותרים את בעיות ההכרעה של סימולציה בסיבובים, ומכאן גם נקבל פתרון עבור בעיית הסימטריה בסיבובים.
 
 הבעיה הראשונה היא המקרה הקל מבין שניהם. אנו מתחילים לפתור אותה בהגדרת כלי שהוא אוטומט סופי אי-דטרמיניסטי שאנו מכנים סגור-תמורות 
 (\textenglish{Permutation Closure}).
@@ -113,7 +240,7 @@ $k$
 $\cT_1$, $\cT_2$
 ואורך סיבוב
 $k$,
- סימולציה בסיבובים מתקיימת בין
+סימולציה בסיבובים מתקיימת בין
 $\cT_1$
 ו-
 $\cT_2$
@@ -183,11 +310,21 @@ $\pi(\cT(x))$,
 
 \subsection*{\texthebrew{הצעות לעבודת המשך}}
 
-חשוב לציין כי סימולציה בסיבובים, ובמיוחד היישום שלה על סימטריה בסיבובים, הינה רק דוגמה של מסגרת כללית יותר של סימטריה, שבאמצעותה אנו מודדים את היציבות של משרנים תחת שינויים מקומיים בקלט. בפרט, אנו מקווים שמה שהתחלנו בעבודה זו מושך יותר סטודנטים וחוקרים, ושהם תורמים את חלקם בחקר מושגי סימטריה וסימולציה, ומרחיבים אותו להגדרות אחרות. אנו מעודדים את הקורא המתעניין לבחון את הרעיון של סימולציה בחלונות, שבה אנו משתמשים בחלון הזזה באורך
+חשוב לציין כי סימולציה בסיבובים, ובמיוחד היישום שלה על סימטריה בסיבובים, הינה רק דוגמה של מסגרת כללית יותר של סימטריה, שבאמצעותה אנו מודדים את היציבות של משרנים תחת שינויים מקומיים בקלט.
+בפרט,
+% אנו מקווים שמה שהתחלנו בעבודה זו מושך יותר סטודנטים וחוקרים, ושהם תורמים את חלקם בחקר מושגי סימטריה וסימולציה, ומרחיבים אותו להגדרות אחרות.
+יש מקום לחקור מושגים נוספים של סימטריה וסימולציה,
+ולהרחיב את הקיימים. 
+כמה גרסאות כאלה הוצגו ונדונו בעבודה.
+כיוון אפשרי הוא הרעיון של סימולציה בחלונות, שבה אנו משתמשים בחלון הזזה באורך
 $k$
 במקום סיבובים זרים, וסימטריה בסיבובים ע״פ פריך המתוארת מעלה. בנוסף, יש עניין לסביבה של מילים אינסופיות, איפה שהגדרנו סימולציה אולטימטיבית. לבסוף, סוגים אחרים של משרנים עשויים לדרוש גרסאות שונות של סימולציה, כגון משרנים הסתברותיים. 
 
-מלבד הרחבת החקר במושגים השונים של סימטריה, נעודד את הקורא לסגור את הפערים שנותרו פתוחים לאורך מחקר זה. פער אחד ניכר הינו הניתוח הנאיבי של הסיבוכיות והחסם התחתון לאלגוריתמים שהוצגו.
+מלבד הרחבת החקר במושגים השונים של סימטריה,
+נותרו כמה פערים פתוחים לאורך מחקר זה.
+פער אחד ניכר הינו הניתוח הנאיבי של הסיבוכיות והחסם התחתון לאלגוריתמים שהוצגו.
+יתרה מזאת, 
+הצגנו את מיפוי הסימולציה שממפה כל מילת קלט למילה מתאימה למשרן המסמלץ, ונשאלת השאלה האם נוכל למצוא מודל תת-טיורינג שמגדיר את המיפוי.
 
 אנו משתמשים בכלים וטכניקות מעולם הלוגיקה, האלגברה, תורת המספרים ותורת האוטומטים. כלים נבחרים כוללים חשבון פרסבורגר
 (\textenglish{Presburger arithmetic})

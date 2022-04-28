@@ -80,6 +80,8 @@ Technically, the initial state changes the behaviour of $\cT_i$ significantly (e
 We argue that, if we allow permutation of the input letters, then the set of processes whose requests are granted in each round is independent of the start state. This is equivalent to saying $\cT_0 \equiv_k \cT_j$ for $j\in \{1,2\}$, which indeed holds: if $j=1$ then we permute all rounds of the form $\sigma_0 \sigma_1 \sigma_2$ to $\sigma_1 \sigma_2 \sigma_0$, and similarly if $j=2$ then we permute all rounds to $\sigma_2 \sigma_0 \sigma_1$. It is easy to see that the run of $\cT_i$ on the permuted input grants outputs that $k$-round equivalent to the output of $\cT_0$ on the non-permuted input.
 \end{example}
 
+In~\cref{example:transducer-req}, the transducers satisfied not only round simulation, but also round equivalence. We now show that this is not always the case for simulating transducers.
+
 \begin{example}[Round simulation is not symmetric]
 \label{example:def-asymmetric}
 Consider the $\sI/\sO$ transducers $\cT_1$ and $\cT_2$ over the alphabet $\sI=\{a,b\}$ and $\sO=\{0,1\}$, depicted in~\cref{fig:def-asymmetry}. 
@@ -133,7 +135,7 @@ The case where $x\in (ab+ba)^m\cdot aa\cdot w$ is handled similarly. We conclude
 
 Round simulation and round equivalence give rise to the following decision problems: 
 \begin{itemize}
-	\item In \emph{fixed round simulation} (resp. \emph{fixed round equivalence}) we are given transducers $\cT_1,\cT_2$, an \gls{nfa} for the language $\fL$, and $k>0$, and we need to decide whether $\cT_1\prec_{k,\fL} \cT_2$ (resp. whether $\cT_1\equiv_{k,\fL}\cT_2$).
+	\item In \emph{fixed round simulation} (resp. \emph{fixed round equivalence}) we are given transducers $\cT_1,\cT_2$, an \gls{nfa} for the language $\fL$, and $k>0$ in unary, and we need to decide whether $\cT_1\prec_{k,\fL} \cT_2$ (resp. whether $\cT_1\equiv_{k,\fL}\cT_2$).
 	\item In \emph{existential round simulation} (resp. \emph{existential round equivalence}) we are given transducers $\cT_1,\cT_2$ and an \gls{nfa} for the language $\fL$, and we need to decide whether there exists $k>0$ such that $\cT_1\prec_{k,\fL} \cT_2$ (resp. $\cT_1\equiv_{k,\fL}\cT_2$). 
 \end{itemize}
 In the following we identify $\fL$ with an \gls{nfa} (or \gls{dfa}) for it, as we do not explicitly rely on its description.
@@ -141,7 +143,7 @@ In the following we identify $\fL$ with an \gls{nfa} (or \gls{dfa}) for it, as w
 We start by showing that deciding equivalence (both fixed and existential) is reducible, in polynomial time, to the respective simulation problem.
 \begin{lemma}
 	\label{lem:reduce_equiv_to_simulation}
-    Fixed (resp. existential) round equivalence is reducible in polynomial time to fixed (resp. existential) round simulation.
+    Fixed (resp. existential) round equivalence is Turing reducible in polynomial time to fixed (resp. existential) round simulation.
 \end{lemma}
 \begin{proof}
 First, we can clearly reduce fixed round equivalence to fixed round simulation: given an algorithm that decides, given $\cT_1,\cT_2$, $\fL$ and $k>0$, whether $\cT_1\prec_{k,\fL} \cT_2$, we can decide whether $\cT_1\equiv_{k,\fL} \cT_2$ by using it twice to decide whether both $\cT_1\prec_{k,\fL} \cT_2$ and $\cT_1\prec_{k,\fL} \cT_2$ hold. 

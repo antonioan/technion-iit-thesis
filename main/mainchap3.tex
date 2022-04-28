@@ -17,12 +17,12 @@ Recall that by~\cref{lem:round_equivalence_iff_perm_containment}, we have that $
 Intuitively, one could hope that if $\perm_k(\tr(\cT_i))$ and $\perm_{k'}(\tr(\cT_i))$ have the same type profile, for each $i\in \{1,2\}$, then $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$ iff $L(\perm_{k'}(\tr(\cT_1)))\subseteq L(\perm_{k'}(\tr(\cT_2)))$. Then, if one can bound the index $k$ after which no further type profiles are encountered, then the problem reduces to checking a finite number of containments.
 
 Unfortunately, this is not the case, the reason being
-that the mapping of letters induced by the equal type profiles $\perm_k(\tr(\cT_1))$ and $\perm_{k'}(\tr(\cT_1))$ may differ from the mapping induced by $\perm_k(\tr(\cT_2))$ and $\perm_{k'}(\tr(\cT_2))$, and thus one cannot translate language containment between the two pairs. We overcome this difficulty, however, by working from the start with product automata that capture the structure of both $\cT_1$ and $\cT_2$ simultaneously, and thus unify the letter mapping. We call them redundant product automata for their apparent redundancy.
+that the mapping of letters induced by the equal type profiles $\perm_k(\tr(\cT_1))$ and $\perm_{k'}(\tr(\cT_1))$ may differ from the mapping induced by $\perm_k(\tr(\cT_2))$ and $\perm_{k'}(\tr(\cT_2))$, and thus one cannot translate language containment between the two pairs. We overcome this difficulty, however, by working from the start with product automata that capture the structure of both $\cT_1$ and $\cT_2$ simultaneously, and thus unify the letter mapping. We dub them \emph{redundant product automata} for their apparent redundancy.
 
 We are now left with the problem of bounding the minimal $k$ after which 
 %all type profiles have been exhausted.
 no new type profiles appear.
-In order to provide this bound, we show that for every type profile, the set of indices in which it occurs is semilinear. Then, by finding a bound for each type profile, we attain the overall bound. 
+In order to provide this bound, we show that for every type profile, the set of indices in which it occurs is semilinear. Then, by finding a bound for each type profile, we obtain the overall bound. 
 The main result of this chapter is the following.
 \begin{theorem}
 \label{thm:bound_on_k}	
@@ -37,6 +37,46 @@ Existential round simulation is decidable.
 We prove~\cref{thm:bound_on_k} in~\cref{sec:proof_of_bound}, organized as follows. We start by lifting the definition of types in an \gls{nfa} to Parikh vectors, and show how these relate to the \gls{nfa} (in \cref{lem:type_of_parikh}). We then introduce \glsentrylong{pa} and its relation to Parikh's theorem. In~\cref{lem:parikh_type_definable} we show that the set of Parikh vectors that share a type $\tau$ is definable in \glsentrylong{pa}, which provides the first main step towards our bound.
 
 We then proceed to define the redundant product automata mentioned above, which serve to unify the types between $\cT_1$ and $\cT_2$. In~\cref{obs:redundant_product,obs:redundant_product_for_perm_automata} we formalize the connection of these products to the transducers $\cT_1$ and $\cT_2$. Then, we formally define the type profiles and prove in~\cref{lem:type_profile_bound} that they exhibit a semilinear behaviour. Finally, in~\cref{lem:profile_equality_to_simulation} we prove that when two redundant product automata have the same type profile, then the containment mentioned above can be shown. Combining these results, we obtain~\cref{thm:bound_on_k}.
+
+A flow diagram for the proof is illustrated in~\cref{fig:flow}.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1cm and 2.7cm,on grid,auto]
+	    \node (text_tr) [align=center] {trace \glsentryshort{dfa}};
+	    \node (text_redundant) [align=center, below=of text_tr] {redundant products};
+	    \node (text_types) [align=center, below=of text_redundant] {types of Parikh vectors};
+	    \node (text_typeprof) [align=center, below=of text_types] {type profiles};
+	    \node (text_Theta) [align=center, below=of text_typeprof] {defined by \glsentryshort{pa}};
+	    
+		\node (tr2) [align=center, left=of text_tr] {$\cD_2=\tr(\cT_2)$}; 
+		\node (redundant) [align=center, below left=of tr2] {$\cB_1, \cB_2 = \cD_1\times\cD_2$};
+		\node (tr1) [align=center, above left=of redundant] {$\cD_1=\tr(\cT_1)\cap\fL$}; 
+		\node (types) [below=of redundant, align=center] {$\tau_{\cB_1}(\mathbf{p},\mathbf{o})=\tau_{\cB_2}(\mathbf{p},\mathbf{o})$};
+		\node (typeprof) [below=of types, align=center] {$\Upsilon(\cB_1, k)=\Upsilon(\cB_2, k)$};
+		\node (Theta) [below=of typeprof, align=center] {$\Theta_T(k)$};
+		\node (mapping) [below=of Theta, align=center] {if $\Theta_T(k)\wedge \Theta_T(k')$ then $\cT_1\prec_k\cT_2$ iff $\cT_1\prec_{k'}\cT_2$};
+
+ 		\path[->] 
+		(tr1) edge node[] {} (redundant)
+		(tr2) edge node[] {} (redundant)
+		(redundant) edge node[] {} (types)
+		(types) edge node[] {} (typeprof)
+		(typeprof) edge node[] {} (Theta)
+		(Theta)  edge node[] {} (mapping);
+
+% 		\node (perm_k_1) [below left=of mapping, align=center] {$w\in\perm_{k'}(\cB_1)$}; 
+% 		\node (perm_k_2) [below right=of mapping, align=center] {$\varphi^{-1}(\varphi(w))=w\in\perm_{k'}(\cB_2)$};
+% 		\node (perm_kp_1) [below=of perm_k_1, align=center] {$\varphi(w)\in\perm_{k}(\cB_1)$};
+% 		\node (perm_kp_2) [below=of perm_k_2, align=center] {$\varphi(w)\in\perm_{k}(\cB_2)$};
+%  		\path[->] 
+% 		(perm_k_1) edge node [pos=0.5] {} (perm_kp_1)
+% 		(perm_kp_1) edge node[fill=white, anchor=center, pos=0.5] {$\subseteq$} (perm_kp_2)
+% 		(perm_kp_2) edge node[pos=0.5] {} (perm_k_2);
+	\end{tikzpicture}
+	\caption{A flow diagram for the proof in~\cref{sec:proof_of_bound}.}
+	\label{fig:flow}
+\end{figure}
 
 \section{Proof of Theorem~\ref{thm:bound_on_k}}
 \label{sec:proof_of_bound}
@@ -170,7 +210,7 @@ The mapping is illustrated in~\cref{fig:type_profile}.
 		\node (perm_k_1) [align=center] {$w\in\perm_{k'}(\cB_1)$ \\ \footnotesize $w=(x_1,y_1)(x_2,y_2)\cdots (x_n,y_n)$}; 
 		\node (perm_kp_1) [below=of perm_k_1, align=center] {$\varphi(w)\in\perm_{k}(\cB_1)$ \\ \footnotesize $\varphi(w)=\varphi\left((x_1,y_1)\right)\varphi\left((x_2,y_2)\right)\cdots \varphi\left((x_n,y_n)\right)$};
 		\node (perm_kp_2) [right=of perm_kp_1, align=center] {$\varphi(w)\in\perm_{k}(\cB_2)$};
-		\node (perm_k_2) [right=of perm_k_1, align=center] {$\varphi^-1(\varphi(w))=w\in\perm_{k'}(\cB_2)$};
+		\node (perm_k_2) [right=of perm_k_1, align=center] {$\varphi^{-1}(\varphi(w))=w\in\perm_{k'}(\cB_2)$};
     %  	\node (w1) [rotate=20, below left= 0.07cm and 1.2cm of perm_k_1] {$w\in$};
     %  	\node (w2) [rotate=20,below left= 0.2cm and 1.4cm of perm_kp_1] {$\varphi(w)\in$};
     %  	\node (w3) [rotate=20,below left= 0.2cm and 1.4cm of perm_kp_2] {$\varphi(w)\in$};
@@ -225,9 +265,9 @@ In order for $\cT_2$ to $k$-round simulate $\cT_1$, it must be able to output a 
 
 \begin{figure}[ht]
 	\centering
-	\begin{tikzpicture}[shorten >=1pt,node distance=1.5cm and 3cm,on grid,auto]
-% 	\tikzset{state/.style={draw,ellipse}};
-        \node[state] (q_c) {$s_3/{\color{red}3}$}; 
+	\begin{tikzpicture}[shorten >=1mm,node distance=1.5cm and 3cm,on grid,auto]
+% 	\tikzset{state/.style={draw,ellipseenum}};
+        \node[state, initial text={}] (q_c) [initial above] {$s_3/{\color{red}3}$}; 
         \node[state] (q_a) [above right=of q_0] {$s_1/{\color{red}1}$}; 
         \node[state] (q_b) [below right=of q_0] {$s_2/{\color{red}2}$}; 
         \path[->] 
@@ -239,7 +279,7 @@ In order for $\cT_2$ to $k$-round simulate $\cT_1$, it must be able to output a 
     \begin{tikzpicture}[shorten >= 1mm, node distance=2.0cm and 1.5cm,on grid,auto]
         \tikzstyle{smallnode}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
     
-        \node[smallnode, fill=orange!20] (q_0) {}; 
+        \node[smallnode, fill=orange!20, initial text={}] (q_0) [initial above] {}; 
         \node[smallnode, label={$s^1_2$}, red] (q_b1) [right=of q_0] {$2$}; 
         \node[smallnode, label={$s^2_2$}, red] (q_b2) [right=of q_b1] {$2$}; 
         \node[smallnode, label={$s^3_2$}, red, fill=orange!20] (q_b3) [right=of q_b2] {$2$}; 
@@ -255,18 +295,18 @@ In order for $\cT_2$ to $k$-round simulate $\cT_1$, it must be able to output a 
               edge node {$2$} (q_b1)
               edge node {$3$} (q_c1)
         (q_a1) edge node {$\cP$} (q_a2)
-        (q_a2) edge [out=200, in=35, orange!80, pos=0.2] node {} (q_0)
+        (q_a2) edge [out=200, in=35, orange!80, pos=0.2] node {$\varepsilon$} (q_0)
         (q_b1) edge node {$\cP$} (q_b2)
         (q_b2) edge node {$\cP$} (q_b3)
-        (q_b3) edge [out=200, in=-20, orange!80, pos=0.2] node {} (q_0)
+        (q_b3) edge [out=200, in=-20, orange!80, pos=0.1] node {$\varepsilon$} (q_0)
         (q_c1) edge node {$\cP$} (q_c2)
         (q_c2) edge node {$\cP$} (q_c3)
         (q_c3) edge node {$\cP$} (q_c4)
         (q_c4) edge node {$\cP$} (q_c5)
-        (q_c5) edge [out=130, in=-25, orange!80, pos=0.2, sloped, above] node {\footnotesize behave like} (q_0);
+        (q_c5) edge [out=130, in=-25, orange!80, pos=0.2, sloped, above] node {$\varepsilon$} (q_0);
     \end{tikzpicture}
 	\caption{The transducers $\cT_1$ (left) and $\cT_2$ (right) for $m=3$ in~\cref{example:exponential_round_length}.
-        % The $\varepsilon$-edge from a state $s^{p_i}_i$ to $s_0$ in $\cT_2$ mean that the transition function from state $s^{p_i}_i$ behaves identically as from $s_0$.
+        The transition $s\runs{\varepsilon}{}t$ in $\cT_2$ means that the transition function from state $s$ behaves identically as from $t$.
     }
 	\label{fig:prime}
 \end{figure}

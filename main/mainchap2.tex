@@ -81,7 +81,7 @@ The proof of~\cref{lem:round_equivalence_iff_perm_containment} does not require 
 	By Savitch's theorem we have that $\coNPSPACE=\PSPACE$, and the proof is concluded.
 \end{proof}
 
-We now establish a $\PSPACE$-hardness lower bound, thus concluding that the problem is $\PSPACE$-complete. In fact, we show a lower bound for round equivalence. Does this entail a lower bound for round simulation by~\cref{lem:reduce_equiv_to_simulation}? Not immediately so, since the reduction there is a Turing reduction. Nevertheless, our $\PSPACE$-hardness proof actually explicitly shows the hardness of both simulation and equivalence.
+We now establish a $\PSPACE$-hardness lower bound, thus concluding that the problem is $\PSPACE$-complete. In fact, we show a lower bound for round equivalence. Note that a priori, this does not entail a lower bound for round simulation by~\cref{lem:reduce_equiv_to_simulation}, since the reduction there is a Turing reduction. However, our $\PSPACE$-hardness proof actually explicitly shows the hardness of both simulation and equivalence.
 
 % We now give a $\PSPACE$-hardness lower bound, thus concluding the problem is $\PSPACE$-complete. Actually, following~\cref{lem:reduce_equiv_to_simulation}, we give a stronger lower bound for round equivalence.\footnote{The reduction in~\cref{lem:reduce_equiv_to_simulation} is a Turing reduction, so a mere lower bound for round equivalence does not establish a bound for round simulation. Thankfully, our $\PSPACE$-hardness proof actually explicitly shows the hardness of both simulation and equivalence.}
 \begin{theorem}

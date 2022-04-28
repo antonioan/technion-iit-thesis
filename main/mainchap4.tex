@@ -2,25 +2,89 @@
 \label{chap:application}
 
 As mentioned in~\cref{chap:intro}, our original motivation for studying round simulation comes from process symmetry. We present process symmetry with an example before introducing the formal model.
-Recall the \gls{rr} scheduler from~\cref{example:transducer-req}. There, at each time step, the scheduler receives as input the IDs of processes in $\cP=\{0,1,2\}$ that are making a request, and it responds with the IDs of those that are granted (either a singleton $\{i\}$ or $\emptyset$).
+Recall the \glsfirst{rr} scheduler from~\cref{example:transducer-req}. There, at each time step, the scheduler receives as input the IDs of processes in $\cP=\{0,1,2\}$ that are making a request, and it responds with the IDs of those that are granted (either a singleton $\{i\}$ or $\emptyset$).
 
-In process symmetry, we consider a setting where the identities of the processes may be permuted. This corresponds to the IDs representing, for instance, ports, and the processes not knowing which port they are plugged into. Thus, the input received may be under any permutation of the actual identities of the processes. Note that a permutation in this case is a bijection over identities, not indices as in previous chapters. Then, a transducer is \emph{process symmetric} if the outputs are permuted in a way that matches the permutation of identities. For example, in the \gls{rr} scheduler, the output corresponding to input $\{1,2\}\{3\}\{3\}$ is $\{1\}\emptyset\{3\}$. If we permute the identities by swapping $1$ and $3$, the output letters have to be permuted in the same manner for \gls{rr} to be process symmetric. However, the output for $\{3,2\}\{1\}\{1\}$ is $\emptyset\emptyset\emptyset$, so \gls{rr} is not process symmetric.
+In process symmetry, we consider a setting where the identities of the processes may be permuted. This corresponds to the IDs representing, for instance, ports, and the processes not knowing which port they are plugged into. Thus, the input received may be under any permutation of the actual identities of the processes. Note that a permutation in this case is a bijection over identities, not indices as in previous chapters. Then, a transducer is \emph{process symmetric} if the outputs are permuted in a way that matches the permutation of identities. For example, in the \gls{rr} scheduler, the output corresponding to input $\{1,2\}\{3\}\{3\}$ is $\{1\}\emptyset\{3\}$. If we permute the identities by swapping $1$ and $3$, obtaining the input $\{3,2\}\{1\}\{1\}$, the output letters have to be permuted in the same manner for \gls{rr} to be process symmetric. However, the output for the input with permuted identities is $\emptyset\emptyset\emptyset$, so \gls{rr} is not process symmetric.
 
-In~\cite{Almagor2020b}, several definitions of process symmetry are studied for probabilistic transducers. In the deterministic case, however, process symmetry is a very strict requirement. In order to overcome this, we allow some flexibility by letting the transducer do some local order changes in the word that correspond to the permutation. This way, for instance, if we are allowed to rearrange (i.e. permute, in the former sense) the input $\{3,2\}\{1\}\{1\}$ to $\{1\}\{1\}\{3,2\}$, then the output becomes $\{1\}\emptyset\{3\}$, and once we apply the inverse permutation, this becomes $\{3\}\emptyset\{1\}$. This, in turn, can be again rearranged to obtain the original output $\{1\}\emptyset\{3\}$.
+In~\cite{Almagor2020b}, several definitions of process symmetry are studied for probabilistic transducers. In the deterministic case, however, process symmetry is a very strict requirement. In order to overcome this, we allow some flexibility by letting the transducer do some local order changes in the word in a way that corresponds to the permutation. This way, for instance, if we are allowed to rearrange (i.e. permute, in the former sense) the input $\{3,2\}\{1\}\{1\}$ to $\{1\}\{1\}\{3,2\}$, then the output becomes $\{1\}\emptyset\{3\}$, and once we apply the inverse permutation, this becomes $\{3\}\emptyset\{1\}$. This, in turn, can be again rearranged to obtain the original output $\{1\}\emptyset\{3\}$.
 In this sense, the scheduler is ``locally stable'' against permutations of the identities of processes.
 
 We now turn to give the formal model.
 Consider a set of processes $\cP=\{1,\dots,m\}$ and $k>0$. For a permutation $\pi$ of $\cP$ (i.e. a bijection $\pi:\cP\to \cP$) and a letter $\sigma\in 2^{\cP}$, we obtain $\pi(\sigma)\in 2^{\cP}$ by applying $\pi$ to each process in $\sigma$. We lift this to words $x\in (2^{\cP})^*$ by applying the permutation letter-wise to obtain $\pi(x)$.
-A $2^\cP/2^\cP$ transducer $\cT=\tup{2^\cP,2^\cP,Q,q_0,\delta,\lab}$ is \emph{$k$-round symmetric} if for every permutation $\pi$ of $\cP$ and for every $k$-round word $x\in (2^{\cP})^*$ there exists a $x' \in (2^{\cP})^*$ such that $\pi(x)\req[k] x'$ and $\pi(\cT(x))\req[k] \cT(x')$.
+A $2^\cP/2^\cP$ transducer $\cT=\tup{2^\cP,2^\cP,Q,q_0,\delta,\lab}$ is \emph{$k$-round symmetric} if for every permutation $\pi$ of $\cP$ and for every $k$-round word $x\in (2^{\cP})^*$ there exists $x' \in (2^{\cP})^*$ such that $\pi(x)\req[k] x'$ and $\pi(\cT(x))\req[k] \cT(x')$.
 We say that $\cT$ is $k$-round symmetric \WRT $\pi$ if the above holds for a certain permutation $\pi$.
 
-Here, too, we consider two main decision problems: \emph{fixed round symmetry} (where $k$ is fixed) and \emph{existential round symmetry} (where we decide whether there exists $k>0$ for which this holds). Observe that $\fL=(2^{\cP})^*$, and is therefore ignored.
+\begin{example}
+\label{example:rr_rsym}
+Consider the \gls{rr} scheduler for $n$ processes (cf.~\cref{example:transducer-req}), and let $\cT$ be a transducer for it. When a permutation $\pi\in\cS_n$ is applied on the signals, then intuitively, to preserve the behaviour of the system (i.e. the number of grants for each process), we need to change the order of handling the requests of processes (and giving grants) such that it matches the new order of requests. Formally, given input $x$, for the $i$-th round $b_1 b_2\cdots b_n$ of $\pi(x)$ (the input under permutation $\pi$) we set the corresponding round in $x'$ to $b_{\pi^{-1}(1)} b_{\pi^{-1}(2)} \cdots b_{\pi^{-1}(n)}$.
+For example, if $\pi=(0\ 1)$ and $n=3$, given $x=\{0,2\}\{1\}\{2\}$ we get $\pi(x)=\{1,2\}\{0\}\{2\}$ and choose $x'=\{0\}\{1,2\}\{2\}$.
+Thus, it holds that $\cT(x)=\pi^{-1}(\cT(x'))$ or equivalently, $\pi(\cT(x))=\cT(x')$, so \gls{rr} is $n$-round symmetric.
+\end{example}
+
+\Cref{example:rr_rsym} shows that \gls{rr} exhibits round symmetry \WRT all permutations. In the general sense, round symmetry might hold \WRT some permutations but not others, as is the case in the following.
+
+\begin{example}
+\label{example:rsym}
+Set $\cP=\{0,1,2\}$ and let $\cT$ be the $2^\cP/2^\cP$ transducer illustrated in~\cref{fig:example_rsym}. It is not difficult to see that $\cT$ satisfies 2-round symmetry \WRT $\pi=(0\ 1)$ but not \WRT some other permutations, e.g. $(0\ 2)$.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 3.2cm,on grid,auto]
+	    \tikzset{every state/.style={minimum size=9mm, inner sep=0}};
+	    \node[state] (q_0)  [initial, fill=orange!20] {$q_0$};
+	    \node[state] (s_0)  [above right=of q_0, text=red] {\small $\{0\}$};
+	    \node[state] (s_1)  [right=of q_0, text=red] {\small $\{1\}$};
+	    \node[state] (s_2)  [below=of s_1, text=red] {\small $\{2\}$};
+	    \node[state] (p_0)  [right=of s_0, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{1\}$};
+	    \node[state] (p_1)  [right=of s_1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{0\}$};
+	    \node[state] (p_2)  [right=of s_2, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{2\}$};
+        
+        \path[->] 
+        (q_0) edge [sloped, pos=0.7, out=45, in=180] node {$0\in\sigma$} (s_0)
+        (q_0) edge [sloped, pos=0.5] node {$0\notin\sigma, 1\in\sigma$} (s_1)
+        (q_0) edge [sloped, pos=0.7, out=-45, in=180] node {$0,1\notin\sigma$} (s_2)
+        (s_0) edge [] node {$\Sigma$} (p_0)
+        (s_1) edge [] node {$\Sigma$} (p_1)
+        (s_2) edge [] node {$\Sigma$} (p_2);
+    \end{tikzpicture}
+	\caption{Transducer $\cT$ satisfying round symmetry \WRT $\pi=(0\ 1)$ but not $(0\ 2)$.}
+	\label{fig:example_rsym}
+\end{figure}
+\end{example}
+
+In round symmetry, too, we consider two main decision problems: \emph{fixed round symmetry} (where $k$ is fixed) and \emph{existential round symmetry} (where we decide whether there exists $k>0$ for which this holds). Observe that $\fL=(2^{\cP})^*$, and is therefore ignored.
 
 \paragraph*{From round symmetry to round simulation.}
 \label{sec:symmetry_to_simulation}
 In order to solve the decision problems above, we reduce them to the respective problems about round symmetry. We start with the case where the permutation $\pi$ is given.
 
-Given the transducer $\cT$ as above, we obtain from $\cT$ a new transducer $\cT^\pi$ which is identical to $\cT$ except that it acts on a letter $\sigma\in 2^\cP$ as $\cT$ would act on $\pi^{-1}(\sigma)$, and it outputs $\sigma$ where $\cT$ would output $\pi^{-1}(\sigma)$. Formally, $\cT^{\pi}=\tup{2^\cP,2^\cP,Q,q_0,\delta^{\pi},\lab^{\pi}}$ where $\delta^{\pi}(q,\sigma)=\delta(q,\pi^{-1}(\sigma))$ and $\lab^{\pi}(q)=\pi(\lab(q))$. It is easy to verify that for every $x\in (2^{\cP})^*$ we have $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$.
+Given the transducer $\cT$ as above, we obtain from $\cT$ a new transducer $\cT^\pi$ which is identical to $\cT$ except that it acts on a letter $\sigma\in 2^\cP$ as $\cT$ would act on $\pi^{-1}(\sigma)$, and it outputs $\sigma$ where $\cT$ would output $\pi^{-1}(\sigma)$. \Cref{fig:example_transducer_pi} presents the transducer $\cT^\pi$ that corresponds to $\cT$ of~\cref{example:rsym} and $\pi=(0\ 1)$.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 3.2cm,on grid,auto]
+	    \tikzset{every state/.style={minimum size=9mm, inner sep=0}};
+	    \node[state] (q_0)  [initial, fill=orange!20] {$q_0$};
+	    \node[state] (s_0)  [above right=of q_0, text=red] {\small $\{1\}$};
+	    \node[state] (s_1)  [right=of q_0, text=red] {\small $\{0\}$};
+	    \node[state] (s_2)  [below=of s_1, text=red] {\small $\{2\}$};
+	    \node[state] (p_0)  [right=of s_0, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{0\}$};
+	    \node[state] (p_1)  [right=of s_1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{1\}$};
+	    \node[state] (p_2)  [right=of s_2, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {\small $\{2\}$};
+        
+        \path[->] 
+        (q_0) edge [sloped, pos=0.7, out=45, in=180] node {$1\in\sigma$} (s_0)
+        (q_0) edge [sloped, pos=0.5] node {$0\in\sigma, 1\notin\sigma$} (s_1)
+        (q_0) edge [sloped, pos=0.7, out=-45, in=180] node {$0,1\notin\sigma$} (s_2)
+        (s_0) edge [] node {$\Sigma$} (p_0)
+        (s_1) edge [] node {$\Sigma$} (p_1)
+        (s_2) edge [] node {$\Sigma$} (p_2);
+    \end{tikzpicture}
+	\caption{Transducer $\cT^\pi$ for the $\cT$ in~\cref{example:rsym} and $\pi=(0\ 1)$.}
+	\label{fig:example_transducer_pi}
+\end{figure}
+
+Formally, $\cT^{\pi}=\tup{2^\cP,2^\cP,Q,q_0,\delta^{\pi},\lab^{\pi}}$ where $\delta^{\pi}(q,\sigma)=\delta(q,\pi^{-1}(\sigma))$ and $\lab^{\pi}(q)=\pi(\lab(q))$. It is easy to verify that for every $x\in (2^{\cP})^*$ we have $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$.
 As we now show, once we have $\cT^\pi$, round symmetry is equivalent to round simulation, so we can use the tools developed in~\cref{chap:deciding_fixed_round_sim,chap:deciding_existential_round_sim} to solve the problems at hand.
 \begin{lemma}
     \label{lem:symmetry_to_simulation}
