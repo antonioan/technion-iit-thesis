@@ -11,7 +11,7 @@ Recall that solving the decision problems of round simulation will aid us in sol
 
 \section{Intuitive Overview}
 \label{sec:intuitive_overview}
-We start with an intuitive explanation of the solution and its challenges. For simplicity, assume for now $\fL=\sI^*$, so it can be ignored. The overall approach is to present a practical quest for hunting $k$: in~\cref{thm:bound_on_k}, the main result of this chapter, we give an upper bound on the minimal $k>0$ for which $\cT_1\prec_{k} \cT_2$, rendering the search space finite. In order to obtain this bound, we proceed as follows. Observe that for a transducer $\cT$ and for $0<k\neq k'$ the corresponding permutation closure \glspl{nfa} $\perm_k(\tr(\cT))$ and $\perm_{k'}(\tr(\cT))$ are defined on the same state space, but differ by their alphabet ($\sI^{k}\times \sO^{k}$ vs $\sI^{k'}\times \sO^{k'}$). Thus, by definition, these \glspl{nfa} obtained from an increasing round length form infinitely many distinct automata. Nonetheless, there are only finitely many possible types of letters (indeed, at most $|\bbB^{Q\times Q}|=2^{|Q|^2}$). Therefore, there are only finitely many \emph{type~profiles} for \glspl{nfa} -- that is, the set of letter types occurring in the \gls{nfa} -- up to multiplicities of the letter types.
+We start with an intuitive explanation of the solution and its challenges. For simplicity, assume for now $\fL=\sI^*$, so it can be ignored. The overall approach is to present a practical method for hunting $k$: in~\cref{thm:bound_on_k}, the main result of this chapter, we give an upper bound on the minimal $k>0$ for which $\cT_1\prec_{k} \cT_2$, rendering the search space finite. In order to obtain this bound, we proceed as follows. Observe that for a transducer $\cT$ and for $0<k\neq k'$ the corresponding permutation closure \glspl{nfa} $\perm_k(\tr(\cT))$ and $\perm_{k'}(\tr(\cT))$ are defined on the same state space, but differ by their alphabet ($\sI^{k}\times \sO^{k}$ vs $\sI^{k'}\times \sO^{k'}$). Thus, by definition, these \glspl{nfa} obtained from an increasing round length form infinitely many distinct automata. Nonetheless, there are only finitely many possible types of letters (indeed, at most $|\bbB^{Q\times Q}|=2^{|Q|^2}$). Therefore, there are only finitely many \emph{type~profiles} for \glspl{nfa} -- that is, the set of letter types occurring in the \gls{nfa} -- up to multiplicities of the letter types.
 
 Recall that by~\cref{lem:round_equivalence_iff_perm_containment}, we have that $\cT_1\prec_k \cT_2$ iff $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$.
 Intuitively, one could hope that if $\perm_k(\tr(\cT_i))$ and $\perm_{k'}(\tr(\cT_i))$ have the same type profile, for each $i\in \{1,2\}$, then $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$ iff $L(\perm_{k'}(\tr(\cT_1)))\subseteq L(\perm_{k'}(\tr(\cT_2)))$. Then, if one can bound the index $k$ after which no further type profiles are encountered, then the problem reduces to checking a finite number of containments.
@@ -276,7 +276,7 @@ In order for $\cT_2$ to $k$-round simulate $\cT_1$, it must be able to output a 
         (q_b) edge node {$3$} (q_c); 
     \end{tikzpicture}%
     \hspace{2cm}%
-    \begin{tikzpicture}[shorten >= 1mm, node distance=2.0cm and 1.5cm,on grid,auto]
+    \begin{tikzpicture}[shorten >= 1mm, node distance=1.8cm and 1.5cm,on grid,auto]
         \tikzstyle{smallnode}=[circle, inner sep=0mm, outer sep=0mm, minimum size=6mm, draw=black];
     
         \node[smallnode, fill=orange!20, initial text={}] (q_0) [initial above] {}; 
@@ -303,7 +303,7 @@ In order for $\cT_2$ to $k$-round simulate $\cT_1$, it must be able to output a 
         (q_c2) edge node {$\cP$} (q_c3)
         (q_c3) edge node {$\cP$} (q_c4)
         (q_c4) edge node {$\cP$} (q_c5)
-        (q_c5) edge [out=130, in=-25, orange!80, pos=0.2, sloped, above] node {$\varepsilon$} (q_0);
+        (q_c5) edge [out=140, in=-25, orange!80, pos=0.2, sloped, above] node {$\varepsilon$} (q_0);
     \end{tikzpicture}
 	\caption{The transducers $\cT_1$ (left) and $\cT_2$ (right) for $m=3$ in~\cref{example:exponential_round_length}.
         The transition $s\runs{\varepsilon}{}t$ in $\cT_2$ means that the transition function from state $s$ behaves identically as from $t$.

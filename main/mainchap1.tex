@@ -90,11 +90,11 @@ Consider the $\sI/\sO$ transducers $\cT_1$ and $\cT_2$ over the alphabet $\sI=\{
 	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 2cm,on grid,auto,initial text = {}]
 	\clip (-0.9,0.55) rectangle (4.5, -1.5);
 	    \tikzset{every state/.style={minimum size=0pt}}
-		\node[state,initial] (q_0) {$1$}; 
-		\node[state] (q_b) [right=of q_0] {$0$}; 
-		\node[state] (q_a) [below=of q_0] {$0$}; 
-		\node[state] (q_sink) [below=of q_b] {$1$}; 
-		\node[state] (q_bb) [right=of q_b] {$1$}; 
+		\node[state,initial] (q_0) {\color{red} $1$}; 
+		\node[state] (q_b) [right=of q_0] {\color{red} $0$}; 
+		\node[state] (q_a) [below=of q_0] {\color{red} $0$}; 
+		\node[state] (q_sink) [below=of q_b] {\color{red} $1$}; 
+		\node[state] (q_bb) [right=of q_b] {\color{red} $1$}; 
 		\path[->] 
 		(q_0)  edge [bend left=15] node {$b$} (q_b)
 		edge [bend left=15] node {$a$} (q_a)
@@ -109,11 +109,11 @@ Consider the $\sI/\sO$ transducers $\cT_1$ and $\cT_2$ over the alphabet $\sI=\{
 	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 2cm,on grid,auto,initial text = {}]
 	    \clip (-0.9,0.55) rectangle (4.5, -1.5);
 	    \tikzset{every state/.style={minimum size=0pt}}
-		\node[state,initial] (q_0) {$0$}; 
-		\node[state] (q_b) [right=of q_0] {$1$}; 
-		\node[state] (q_a) [below=of q_0] {$0$}; 
-		\node[state] (q_sink) [below=of q_b] {$1$}; 
-		\node[state] (q_bb) [right=of q_b] {$0$}; 
+		\node[state,initial] (q_0) {\color{red} $0$}; 
+		\node[state] (q_b) [right=of q_0] {\color{red} $1$}; 
+		\node[state] (q_a) [below=of q_0] {\color{red} $0$}; 
+		\node[state] (q_sink) [below=of q_b] {\color{red} $1$}; 
+		\node[state] (q_bb) [right=of q_b] {\color{red} $0$}; 
 		\path[->] 
 		(q_0)  edge [bend left=15] node {$b$} (q_b)
 		edge [bend left=15] node {$a$} (q_a)

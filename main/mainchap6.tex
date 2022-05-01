@@ -1,7 +1,7 @@
-\chapter{Additional Notions of Symmetry}
+\chapter{Additional Notions of Symmetry and Simulation}
 \label{chap:other_notions}
 
-\section{Variations of Round Symmetry}
+\section{Variations of Round Symmetry and Round Simulation}
 \label{sec:variations_rs}
 \newcommand{\RSTYPES}{\ensuremath{\mathbf{MOP}}}
 \newcommand{\RSTUPS}{\ensuremath{\mathbf{MOP}^2_k}}
@@ -16,10 +16,10 @@ Note that the uniform permutation between $x$ and $x'$ is not necessarily identi
 % If all input words require the same permutation for their rounds, and this permutation is identical for all input words, then we call this \emph{global round symmetry}.
 
 \begin{example}[Round Robin]
-Consider the \gls{rr} scheduler for $n$ processes, shown to be $n$-round symmetric in~\cref{example:rr_rsym}. Recall that in the proof of its symmetry when the permutation $\pi$ was applied to the signals, we had to change the order of handling the requests such that it matched the new order of received requests. Since the same permutation $\pi$ was applied for all rounds of the input $x$, the permutation by which the rounds of $x'$ were chosen was identical for all rounds (indeed, the permutation used was directly obtained from $\pi$). It follows that \gls{rr} exhibits uniform round symmetry.
+Consider the \gls{rr} scheduler for $n$ processes, shown to be $n$-round symmetric in~\cref{example:rr_rsym}. Recall that in the proof of its symmetry when the permutation $\pi$ was applied to the signals, we had to change the order of handling the requests such that it matched the new order of received requests: given input $x$, for the $i$-th round $b_1 b_2\cdots b_n$ of $\pi(x)$ (the input under permutation $\pi$) we set the corresponding round in $x'$ to $b_{\pi^{-1}(1)} b_{\pi^{-1}(2)} \cdots b_{\pi^{-1}(n)}$. Since the same permutation $\pi$ was applied for all rounds of the input $x$, the permutation by which the rounds of $x'$ were obtained was identical for all rounds. It follows that \gls{rr} exhibits uniform round symmetry.
 \end{example}
 
-Dually, a weaker notion of symmetry than round symmetry is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of process identities in $\cP$, a permutation in Parikh round symmetry can not only move letters but also signals, as long as every $i\in \cP$ appears the same number of times in the round as originally. To state this formally, we first need to expand our terminology a step further.
+Dually, a weaker notion of symmetry than round symmetry is what we call \emph{Parikh round symmetry}: keeping in mind that the letters in process transducers are subsets of process identities in $\cP$, a permutation in Parikh round symmetry can not only move letters but also signals, as long as every $i\in \cP$ appears the same number of times in the round as originally. For example, if $\cP=\{1,2,3\}$ then $\sI=2^\cP$ and the round $\{1,2\}\{3\}\emptyset\in(\sI)^*$ can be permuted to $\emptyset\{2,3\}\{1\}$ by moving the signal $2$ from the first letter to the second, and the signal $1$ to the third. To state this formally, we first need to expand our terminology a step further.
 
 Let $\cP=\{1,\dots,n\}$. For a word $x=x_1\dots x_k \in (2^\cP)^k$, define $\#(x,i) = |\condset{j}{i \in x_j}|$ to be the number of occurrences of $i$ in $x$. Then, we define the \emph{Parikh image \WRT $\cP$} of $x$ as $\fP_\cP(x) = (\#(x,1),...,\#(x,n))\in \bbN^n$. If it holds that $\fP_\cP(x)=\fP_\cP(y)$, we say that $y$ is a \emph{signal permutation} of $x$. Furthermore, for words $x,y\in\left((2^\cP)^k\right)^*$, if every round of $y$ is a signal permutation of the same round in $x$, we say that $x$ and $y$ are \emph{Parikh round equivalent} and write $x\reqtype[k]{p} y$.
 
@@ -63,11 +63,11 @@ Consider the $2^\cP/2^\cP$ transducer $\cT=\tup{2^\cP,2^\cP,S,s_0,\delta,\lab}$ 
         \node[draw=none] (t_ellipsis) [right=of t_2] {$\cdots$};
         \node[state] (t_k-1) [right=of t_ellipsis, text=red] {$\emptyset$};
         \node[state] (t_k) [right=of t_k-1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}, inner sep=0] {\small $\{1\}$};
-        \node[state] (p_1) [below right=of q_0, text=red] {$\emptyset$};
-        \node[state] (p_2) [right=of p_1, text=red] {$\emptyset$};
+        \node[state] (p_1) [below right=of q_0, text=red, label={[xshift=0.4cm, yshift=-1cm]\footnotesize\color{black!50} 1}] {$\emptyset$};
+        \node[state] (p_2) [right=of p_1, text=red, label={[xshift=0.4cm, yshift=-1cm]\footnotesize\color{black!50} 2}] {$\emptyset$};
         \node[draw=none] (p_ellipsis) [right=of p_2] {$\cdots$};
-        \node[state] (p_k-1) [right=of p_ellipsis, text=red] {$\emptyset$};
-        \node[state] (p_k) [right=of p_k-1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}] {$\emptyset$};
+        \node[state] (p_k-1) [right=of p_ellipsis, text=red, label={[xshift=0.7cm, yshift=-1cm]\footnotesize\color{black!50} $k-1$}] {$\emptyset$};
+        \node[state] (p_k) [right=of p_k-1, text=red, fill=orange!20, label={right:{\footnotesize\color{orange!80} behave like} $q_0$}, label={[xshift=0.4cm, yshift=-1cm]\footnotesize\color{black!50} $k$}] {$\emptyset$};
         
         \path[->] 
         (q_0) edge [sloped, pos=0.3, bend left] node {$\{0\}$} (s_1)
@@ -114,7 +114,7 @@ Observe that every round starts at $q_0$. There are three possible forms for the
 
 We first show that $\cT$ is Parikh round symmetric. Let $x$ be an input word and $\pi$ a permutation of $\cP$. Like in~\cref{chap:application}, $\pi(x)$ is the word obtained from $x$ by permuting every signal according to $\pi$. If $x$ is of one of the first two forms in~\cref{tab:example_parikh_not_symbolwise}, then by moving the signal $2\in \cP$ (fixed in $\pi$) between the first and last letters, we get $x'\reqtype[]{p} \pi(x)$ such that $T(x')\reqtype[]{p} \pi(T(x))$, as desired. Now assume $x$ is of some other form, having the output $\emptyset^k$. If $2\in \cP$ appears in both the first and last letters, or it appears in neither, then set $x'=\pi(x)$; otherwise, move the signal 2 to the other letter, and the output will remain $\emptyset^k$. Thus, $\cT$ is Parikh round symmetric.
 
-On the other hand, $\cT$ is not symbol-wise round symmetric. To see this, take the input $x=\{0\}^{k-1}\cdot\{1,2\}\cdot\emptyset^{k'k-k}$. We have $|x|=k'k$ which is divisible by $k'$. Regardless of how we permute $x$ to obtain $x'$, the output of $\cT$ on $x'$ is $\emptyset^{k-1}\cdot0\cdot\emptyset^{k'k-k}$, and $\pi(x)=\{1\}^{k-1}\cdot\{0,2\}\cdot\emptyset^{k'k-k}$. Having neither the letter $\{0\}$ nor $\{1,2\}$, the output of any (symbol-wise) round equivalent word of $\pi(x)$ is always $\emptyset^{k'k}$, which is not a permutation of the original output.
+On the other hand, $\cT$ is not symbol-wise $k'$-round symmetric for any $k'>0$. To see this, take the input $x=\{0\}^{k-1}\cdot\{1,2\}\cdot\emptyset^{k'k-k}$. We have $|x|=k'k$ which is divisible by $k'$, $\cT(x)=\emptyset^{k-1}\cdot\{0\}\cdot\emptyset^{k'k-k}$. It holds that $\pi(x)=\{1\}^{k-1}\cdot\{0,2\}\cdot\emptyset^{k'k-k}$, which contains neither the letter $\{0\}$ nor $\{1,2\}$. Thus, regardless of how we permute $\pi(x)$ to obtain $x'$, the output of any $x'\reqtype[]{s}\pi(x)$ is always $\emptyset^{k'k}$, which is not a permutation of $\cT(x)$.
 
 % It is Parikh round symmetric since upon permuting a round of the form $\mathbf{r}=\{0\}\sigma_2\cdots\sigma_{k-1}\{1,2\}$, one can obtain $\mathbf{r}'=\{1,2\}\sigma_2\cdots\sigma_{k-1}\{0\}$ that satisfies $T(\mathbf{r}')=\pi(T(\mathbf{r}))$, such that $\mathbf{r}'\equiv_P \pi(\mathbf{r})$ but not necessarily $\mathbf{r}'\equiv_S \pi(\mathbf{r})$. (Todo: Formalize. Explain the notations also.) This also holds conversely, for rounds of the form of $\mathbf{r}'$. For all other rounds, the output is always $\emptyset^k$, so for them $T$ is symmetric.
 \end{example}
@@ -123,17 +123,17 @@ Three types of round equivalence for words have been presented in total, and eac
 
 \paragraph*{Extension to round simulation.}
 Similarly to symmetry, round simulation can also be extended to variations of its original notion described in~\cref{chap:round_equivalence}.
-As an example, consider \gls{rr} once more. Let $\cT_0$ and $\cT_1$ be two copies of \gls{rr} with different initial states (cf.~\cref{example:transducer-req}): $\cT_0$ first considers requests from signal 0, whereas $\cT_1$ from signal 1. \Cref{example:transducer-req} established that $\cT_0\prec_k \cT_1$. In fact, the permutation of indices $\tau=(0\ 1)$ is the only permutation used in the simulation: by permuting the rounds of $x$ according to $\tau$, one obtains $x'$ such that all rounds of $\cT_1(x')$ are obtained from those of $\cT_0(x)$ by applying $\tau$. In other words, for every input $x$, there exists $x'\reqtype[k]{u} x$ such that $\cT_0(x)\reqtype[k]{u} \cT_1(x')$. It follows that a notion of uniformity in round simulation is exhibited; that is, the uniform mode of permutation $\rstype{u}\in\RSTYPES$ can be used to measure the equivalence of words in round simulation, just as it has been for round symmetry.
+As an example, consider \gls{rr} for three processes. Let $\cT_0$ and $\cT_1$ be two copies of \gls{rr} with different initial states (cf.~\cref{example:transducer-req}): $\cT_0$ first considers requests from signal 0, whereas $\cT_1$ from signal 1. \Cref{example:transducer-req} established that $\cT_0\prec_k \cT_1$. In fact, the permutation of indices $\tau=(0\ 1\ 2)$ is the only permutation used in the simulation: by permuting the rounds of $x$ according to $\tau$, one obtains $x'$ such that all rounds of $\cT_1(x')$ are obtained from those of $\cT_0(x)$ by applying $\tau$. In other words, for every input $x$, there exists $x'\reqtype[k]{u} x$ such that $\cT_0(x)\reqtype[k]{u} \cT_1(x')$. It follows that a notion of uniformity in round simulation is exhibited; that is, the uniform mode of permutation $\rstype{u}\in\RSTYPES$ can be used to measure equivalence of words in round simulation, just as it has been for round symmetry.
 
 % Naturally, any type of round symmetry can also be generalized to round simulation in the same manner as the original notion of simulation is a generalization of that of symmetry.
 Formally, we say a transducer $\cT_1$ is \emph{$\tup{\rstype{u}, \rstype{u}, k}$-round simulated by $\cT_2$} if for every input $x$ there exists $x'\reqtype[k]{u} x$ such that $\cT_1(x)\reqtype[k]{u} \cT_2(x')$ (and the reason behind the double appearance of $\rstype{u}$ will be clear in what follows).
 
-As we would expect, round simulation can similarly be extended for the third mode of permutation.
+As we would expect, round simulation can similarly be extended for the remaining mode of permutation, $\rstype{p}\in\RSTYPES$.
 However, we can also measure the equivalence of the input and the output words according to different symmetry notions, thereby combining two symmetry notions.
 For this end, we say a transducer $\cT_1$ is \emph{$\tup{\eta, \eta', k}$-round simulated by $\cT_2$} if for any input word $x$, there exists $x'\req[k]^\eta x$ such that $\cT_2(x')\req[k]^{\eta'} \cT_1(x)$. When this holds between $\cT_1$ and $\cT_2$, we denote this by $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$ (for simplicity, we do not consider restriction languages in this section).
 
 We go a step further and define a partial order on the set of all types of round simulation according to this definition, i.e. the set $\RSTUPS:=\condset{\tup{\eta, \eta', k}}{\eta,\eta'\in \RSTYPES}$ for a fixed $k>0$. The meaning of the order between two types of simulation is aimed to be implication in the following sense:
-If $\tup{\eta,\eta',k}\leq \tup{\mu,\mu',k}$, then $\cT_1 \prec_{k}^{\mu,\mu'} \cT_2$ implies $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$. Before defining the order on $\RSTUPS$, we begin with defining an order on $\RSTYPES$ as such: $\rstype{p}\leq \rstype{s}\leq \rstype{u}$. Here, too, the meaning is implication, as established by the following lemma.
+if $\tup{\eta,\eta',k}\leq \tup{\mu,\mu',k}$, then $\cT_1 \prec_{k}^{\mu,\mu'} \cT_2$ implies $\cT_1 \prec_{k}^{\eta,\eta'} \cT_2$. Before defining the order on $\RSTUPS$, we begin with defining an order on $\RSTYPES$ as such: $\rstype{p}\leq \rstype{s}\leq \rstype{u}$. Here, too, the meaning is implication, as established by the following lemma.
 
 \begin{lemma}
 \label{lemma:partial_order_rstypes}
@@ -143,7 +143,7 @@ If $\tup{\eta,\eta',k}\leq \tup{\mu,\mu',k}$, then $\cT_1 \prec_{k}^{\mu,\mu'} \
 % A simple observation of the definitions gives \cref{lemma:partial_order_rstypes}.
 Intuitively, this is because if uniform equivalence holds between words, then in particular, symbol-wise equivalence holds too by a simple observation of the definitions; and if symbol-wise equivalence holds between $x$ and $y$, this means $y$ is a permutation and, in particular, a signal permutation of $x$.
 
-Following this, we can now define the order on $\RSTUPS$ to be the \emph{product order} of two copies of $\RSTUPS$: $\tup{\eta, \eta', k}\leq \tup{\mu, \mu', k}$ if both $\eta\leq \mu$ and $\eta'\leq \mu'$. In fact, $\RSTYPES$ defines a lattice, and $\RSTUPS$ (upon fixing $k$ and ignoring the third coordinate) is the lattice obtained from the product of two copies of $\RSTYPES$. It is not difficult to see from the definition that the following holds too.
+Following this, we can now define the order on $\RSTUPS$ to be the \emph{product order} of two copies of $\RSTYPES$: $\tup{\eta, \eta', k}\leq \tup{\mu, \mu', k}$ if both $\eta\leq \mu$ and $\eta'\leq \mu'$. In fact, $\RSTYPES$ defines a lattice, and $\RSTUPS$ (upon fixing $k$ and ignoring the third coordinate) is the lattice obtained from the product of two copies of $\RSTYPES$. It is not difficult to see from the definition that the following holds too.
 
 \begin{lemma}
 \label{lemma:partial_order_tups}
@@ -153,7 +153,7 @@ We furthermore show that these implications are strict.
 
 \begin{example}
 \label{example:gap1}
-Recall the transducer $\cT$ from~\cref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi$ as per~\cref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By a reasoning analogous to the transition from symmetry to simulation as per~\cref{sec:symmetry_to_simulation}, this gives $\cT\prectype{p}{p}_k \cT^\pi$. However, it does not hold that $\cT\prectype{s}{p}_k \cT^\pi$: for the input $x:=\{0\}\sigma_2\cdots \sigma_{k-1}\{1,2\}$ having output $y:=\emptyset^{k-1}\{0\}$ (cf.~\cref{tab:example_parikh_not_symbolwise}), any permutation $x'\reqtype[k]{s} x$ will lead to an output of $\emptyset^k\not\reqtype[k]{p} y$. Thus $\cT\not\prectype{s}{p}_k \cT^\pi$ (and in particular, $\cT\prectype{s}{s}_k \cT^\pi$ so $\cT$ is not symbol-wise symmetric). In the general sense, we conclude that $\cT_1\prectype{p}{p}_k \cT_2$ does not imply $\cT_1\prectype{s}{p}_k \cT_2$.
+Recall the transducer $\cT$ from~\cref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi$ as in~\cref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By a reasoning analogous to the transition from symmetry to simulation as per~\cref{sec:symmetry_to_simulation}, this gives $\cT\prectype{p}{p}_k \cT^\pi$. However, it does not hold that $\cT\prectype{s}{p}_k \cT^\pi$: for the input $x:=\{0\}\sigma_2\cdots \sigma_{k-1}\{1,2\}$ having output $y:=\emptyset^{k-1}\{0\}$ (cf.~\cref{tab:example_parikh_not_symbolwise}), any permutation $x'\reqtype[k]{s} x$ will lead to an output of $\emptyset^k\not\reqtype[k]{p} y$. Thus $\cT\not\prectype{s}{p}_k \cT^\pi$ (and in particular, $\cT\not\prectype{s}{s}_k \cT^\pi$ so $\cT$ is not symbol-wise symmetric). In the general sense, we conclude that $\cT_1\prectype{p}{p}_k \cT_2$ does not imply $\cT_1\prectype{s}{p}_k \cT_2$.
 \end{example}
 
 \Cref{example:gap1} establishes the gap\footnote{Inequality clearly holds between the two tuples. However, we use the notation of equality (and strict inequality) between elements in $\RSTUPS$ to mean the implication of round simulation (or lack of it) between these types, as in~\cref{lemma:partial_order_tups}.} $\tup{\rstype{p}, \rstype{p}, k}\lneq\tup{\rstype{s}, \rstype{p}, k}$, illustrated in~\cref{fig:p-diagram}. In order to establish the gap $\tup{\rstype{p}, \rstype{p}, k}\lneq\tup{\rstype{p}, \rstype{s}, k}$, we use a different pair of transducers.
@@ -182,7 +182,7 @@ As for the first gap, we use a process-symmetric approach: we define one transdu
 Consider the transducer $\cT$ in~\cref{fig:example_gap2}, whose round-by-round behaviour can once more be summarized in a table (see~\cref{tab:example_gap2}).
 % The proof for $\cT$ being Parikh round symmetric is left for the reader.
 $\cT$ is Parikh round symmetric: for an input $x$, choose $x'=\pi(x)$. It is not difficult to show that $\cT(x')\reqtype[k]{p} \pi(\cT(x))$ by considering the possible forms of $x$ according to~\cref{tab:example_gap2}.
-To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \emptyset$. The output of $\cT$ on $x$ is $0\emptyset 2$. Any round equivalent word $x'$ of $x$ either starts with $\{1\}$ or $\emptyset$, the respective outputs being either $\{1,2\}\emptyset\emptyset$ or $\emptyset^3$. In all cases, we have $T(x')\not\reqtype[k]{s} \cT^{\pi}(x)$.
+To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \emptyset$. The output of $\cT$ on $x$ is $\{0\}\emptyset \{2\}$. Any round equivalent word $x'$ of $x$ either starts with $\{1\}$ or $\emptyset$, the respective outputs being either $\{1,2\}\emptyset\emptyset$ or $\emptyset^3$. In all cases, we have $T(x')\not\reqtype[k]{s} \cT^{\pi}(x)$.
 
 \begin{figure}[ht]
 	\centering
@@ -248,7 +248,7 @@ To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \e
 \end{table}
 \end{example}
 
-The transducers used in~\cref{example:gap1,example:gap2} have established two gaps from~\cref{fig:p-diagram}. In fact, these same transducers can be used to establish the remaining two gaps as well, as follows. The transducer in~\cref{example:gap1} satisfies $\tup{\rstype{p},\rstype{s},k}$-round simulation with its corresponding $\cT^\pi$; indeed, observe that the output labels are either singleton sets or empty sets, so that a signal permutation of the output is equivalent to permuting the letters. The transducer in~\cref{example:gap2} satisfies $\tup{\rstype{s},\rstype{p},k}$-round simulation, which is inferred from the choice of $x'=\pi(x)$, satisfying in particular $x'\reqtype[]{s} \pi(x)$. However, neither of the two transducers satisfy $\tup{\rstype{s},\rstype{s},k}$-round simulation, since they are not symbol-wise round symmetric. This finishes the proof of strictness of the gaps illustrated in~\cref{fig:p-diagram}.
+The transducers used in~\cref{example:gap1,example:gap2} have established two gaps from~\cref{fig:p-diagram}. In fact, these same transducers can be used to establish the remaining two gaps as well, as follows. The transducer $\cT$ in~\cref{example:gap1} satisfies $\tup{\rstype{p},\rstype{s},k}$-round simulation with its corresponding $\cT^\pi$; indeed, observe that the output labels are either singleton sets or empty sets, so that a signal permutation of the output is equivalent to permuting the letters. The transducer $\cT$ in~\cref{example:gap2} satisfies $\tup{\rstype{s},\rstype{p},k}$-round simulation with its corresponding $\cT^\pi$, which is inferred from the choice of $x'=\pi(x)$, satisfying in particular $x'\reqtype[]{s} \pi(x)$. However, neither of the two satisfy $\tup{\rstype{s},\rstype{s},k}$-round simulation, since they are not symbol-wise round symmetric. This finishes the proof of strictness of the gaps illustrated in~\cref{fig:p-diagram}.
 
 % Note that our examples rely on the fact that permutations $x'$ can move signals around even if they are not touched by the permutation $\pi$ of round symmetry (they are not in $\mathrm{supp}(\pi)$).
 The full Hasse diagram of the partial order on $\RSTUPS$ is illustrated in~\cref{fig:psu-diagram}. We believe that elements in the same row are not comparable and, as in the sub-diagram in~\cref{fig:p-diagram}, all implications are strict. We conclude our contribution for this section by presenting some transducers that aid us in the proof of strictness, all being variants of \gls{rr}:
@@ -292,6 +292,8 @@ Denote by $\cT$ the transducer for \gls{rr}. It is not difficult to see that $\c
 	\label{fig:psu-diagram}
 \end{figure}
 
+Finally, \cref{apx:example_counterex} presents a pair of transducers $\cT_1$ and $\cT_2$ such that $\cT_1\prectype{s}{p}_2 \cT_2$ and $\cT_1\prectype{p}{s}_2 \cT_2$, but $\cT_1\not\prectype{s}{s}_2 \cT_2$. This proves that although $\tup{\rstype{s},\rstype{s},k}$-round simulation implies both $\tup{\rstype{p},\rstype{s},k}$ and $\tup{\rstype{s},\rstype{p},k}$-round simulation, the inverse does not hold.
+
 \section{Symmetry over Infinite Words}
 \label{sec:infinite_setting}
 
@@ -326,4 +328,4 @@ we have that $\cC(x)=\left(\cT(x), \cT(\pi(x))\right)$.
 Denote by $r_{\cC,x}$ the run of $\cC$ on $x$. Then, it holds that $x\in L(\cC)$ iff $\inf(r_{\cC,x})\subseteq \alpha$, iff at some point all states in $r_{\cC,x}$ are in $\alpha$; i.e. iff there exists $k>0$ such that $r_{\cC,x}[k:\infty]\in \alpha^\star$. But this is equivalent to saying there exists $k>0$ such that $\pi(\cT(x))[k:\infty] = \cT(\pi(x))[k:\infty]$. The required result follows.
 \end{proof}
 
-It is not difficult to show that, ultimate symmetry, like round symmetry, is closed under composition of permutations: if $\cT$ is ultimately symmetric \WRT permutations $\pi$ and $\chi$ then it is also ultimately symmetric \WRT $\pi\circ\chi$. Again relying on the fact that the group $\cS_k$ of all permutations is generated by two permutations~\cite{Cameron1999}, it follows that the problem of deciding ultimate symmetry is in $\P$.
+It is not difficult to show that ultimate symmetry, like round symmetry, is closed under composition of permutations: if $\cT$ is ultimately symmetric \WRT permutations $\pi$ and $\chi$ then it is also ultimately symmetric \WRT $\pi\circ\chi$. Again relying on the fact that the group $\cS_k$ of all permutations is generated by two permutations~\cite{Cameron1999}, it follows that the problem of deciding ultimate symmetry is in $\P$.
