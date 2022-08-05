@@ -112,7 +112,10 @@ Observe that every round starts at $q_0$. There are three possible forms for the
     \label{tab:example_parikh_not_symbolwise}
 \end{table}
 
-We first show that $\cT$ is Parikh round symmetric. Let $x$ be an input word and $\pi$ a permutation of $\cP$. Like in~\cref{chap:application}, $\pi(x)$ is the word obtained from $x$ by permuting every signal according to $\pi$. If $x$ is of one of the first two forms in~\cref{tab:example_parikh_not_symbolwise}, then by moving the signal $2\in \cP$ (fixed in $\pi$) between the first and last letters, we get $x'\reqtype[]{p} \pi(x)$ such that $T(x')\reqtype[]{p} \pi(T(x))$, as desired. Now assume $x$ is of some other form, having the output $\emptyset^k$. If $2\in \cP$ appears in both the first and last letters, or it appears in neither, then set $x'=\pi(x)$; otherwise, move the signal 2 to the other letter, and the output will remain $\emptyset^k$. Thus, $\cT$ is Parikh round symmetric.
+We first show that $\cT$ is Parikh round symmetric. Let $x$ be an input word.
+% and $\pi$ a permutation of $\cP$.
+Like in~\cref{chap:application}, $\pi(x)$ is the word obtained from $x$ by permuting every signal according to $\pi$.
+If $x$ is of one of the first two forms in~\cref{tab:example_parikh_not_symbolwise}, then by moving the signal $2\in \cP$ (fixed in $\pi$) between the first and last letters, we get $x'\reqtype[]{p} \pi(x)$ such that $T(x')\reqtype[]{p} \pi(T(x))$, as desired. Now assume $x$ is of some other form, having the output $\emptyset^k$. If $2\in \cP$ appears in both the first and last letters, or it appears in neither, then set $x'=\pi(x)$; otherwise, move the signal 2 to the other letter, and the output will remain $\emptyset^k$. Thus, $\cT$ is Parikh round symmetric.
 
 On the other hand, $\cT$ is not symbol-wise $k'$-round symmetric for any $k'>0$. To see this, take the input $x=\{0\}^{k-1}\cdot\{1,2\}\cdot\emptyset^{k'k-k}$. We have $|x|=k'k$ which is divisible by $k'$, $\cT(x)=\emptyset^{k-1}\cdot\{0\}\cdot\emptyset^{k'k-k}$. It holds that $\pi(x)=\{1\}^{k-1}\cdot\{0,2\}\cdot\emptyset^{k'k-k}$, which contains neither the letter $\{0\}$ nor $\{1,2\}$. Thus, regardless of how we permute $\pi(x)$ to obtain $x'$, the output of any $x'\reqtype[]{s}\pi(x)$ is always $\emptyset^{k'k}$, which is not a permutation of $\cT(x)$.
 
@@ -153,7 +156,7 @@ We furthermore show that these implications are strict.
 
 \begin{example}
 \label{example:gap1}
-Recall the transducer $\cT$ from~\cref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi$ as in~\cref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By a reasoning analogous to the transition from symmetry to simulation as per~\cref{sec:symmetry_to_simulation}, this gives $\cT\prectype{p}{p}_k \cT^\pi$. However, it does not hold that $\cT\prectype{s}{p}_k \cT^\pi$: for the input $x:=\{0\}\sigma_2\cdots \sigma_{k-1}\{1,2\}$ having output $y:=\emptyset^{k-1}\{0\}$ (cf.~\cref{tab:example_parikh_not_symbolwise}), any permutation $x'\reqtype[k]{s} x$ will lead to an output of $\emptyset^k\not\reqtype[k]{p} y$. Thus $\cT\not\prectype{s}{p}_k \cT^\pi$ (and in particular, $\cT\not\prectype{s}{s}_k \cT^\pi$ so $\cT$ is not symbol-wise symmetric). In the general sense, we conclude that $\cT_1\prectype{p}{p}_k \cT_2$ does not imply $\cT_1\prectype{s}{p}_k \cT_2$.
+Recall the transducer $\cT$ from~\cref{example:parikh_not_symbolwise}, and consider the transducer $\cT^\pi$ obtained from $\cT$ by permuting both the input and the output by $\pi=(0\ 1)$ as in~\cref{sec:symmetry_to_simulation}. We have shown that $\cT$ is Parikh round symmetric. By a reasoning analogous to the transition from symmetry to simulation as per~\cref{sec:symmetry_to_simulation}, this gives $\cT\prectype{p}{p}_k \cT^\pi$. However, it does not hold that $\cT\prectype{s}{p}_k \cT^\pi$: for the input $x:=\{0\}\sigma_2\cdots \sigma_{k-1}\{1,2\}$ having output $y:=\emptyset^{k-1}\{0\}$ (cf.~\cref{tab:example_parikh_not_symbolwise}), any permutation $x'\reqtype[k]{s} x$ will lead to an output of $\emptyset^k\not\reqtype[k]{p} y$. Thus $\cT\not\prectype{s}{p}_k \cT^\pi$ (and in particular, $\cT\not\prectype{s}{s}_k \cT^\pi$ so $\cT$ is not symbol-wise symmetric). In the general sense, we conclude that $\cT_1\prectype{p}{p}_k \cT_2$ does not imply $\cT_1\prectype{s}{p}_k \cT_2$.
 \end{example}
 
 \Cref{example:gap1} establishes the gap\footnote{Inequality clearly holds between the two tuples. However, we use the notation of equality (and strict inequality) between elements in $\RSTUPS$ to mean the implication of round simulation (or lack of it) between these types, as in~\cref{lemma:partial_order_tups}.} $\tup{\rstype{p}, \rstype{p}, k}\lneq\tup{\rstype{s}, \rstype{p}, k}$, illustrated in~\cref{fig:p-diagram}. In order to establish the gap $\tup{\rstype{p}, \rstype{p}, k}\lneq\tup{\rstype{p}, \rstype{s}, k}$, we use a different pair of transducers.
@@ -186,7 +189,7 @@ To see that $\cT\nprec^{p,s}_k \cT^\pi$, consider the word $x=\{0\} \emptyset \e
 
 \begin{figure}[ht]
 	\centering
-	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 3.5cm,on grid,auto]
+	\begin{tikzpicture}[shorten >=1pt,node distance=1.1cm and 3.1cm,on grid,auto]
 	    \tikzset{every state/.style={minimum size=9mm, inner sep=0}};
 	    \node[state] (q_0)  [initial, fill=orange!20] {$q_0$};
 	    \node[state] (s_0)  [above right=of q_0, text=red] {\small $\{0\}$};
@@ -297,7 +300,7 @@ Finally, \cref{apx:example_counterex} presents a pair of transducers $\cT_1$ and
 \section{Symmetry over Infinite Words}
 \label{sec:infinite_setting}
 
-So far we have dealt with finite words. However, the setting of infinite words is common in formal verification; it arises naturally in ongoing processes, e.g., elevator controllers, operating systems, etc.
+So far we have dealt with finite words. However, the setting of infinite words is common in formal verification; it arises naturally in ongoing processes such as elevator controllers and operating systems.
 % Symmetry in such systems would either span over all the input that has been read already or extend into the future. We will now present a kind of symmetry that achieves the latter case.
 
 For modelling systems over infinite words, the same model of transducers could be used. Indeed, recall that according to our definition of a transducer in~\cref{chap:prelims}, the output is a word obtained by concatenating labels of the states. This definition extends seamlessly for infinite words, where for an infinite input $x\in(\sI)^\omega$ the output is also infinite, $\cT(x)\in(\sO)^\omega$.
@@ -325,7 +328,7 @@ We then show that $\cC$ accepts a word $x\in \Io$ iff there exists $k\ge 0$ such
 Formally, we define the components of $\cC_{\cT, \pi}$ as such: $\alpha=\condset{(s,t)}{\pi(\lab(s))=\lab(t)}$ and $\mu\left((s,t),I'\right)=\left( \delta(s,I'), \delta(t, \pi(I')) \right)$. Observe that for an input $x\in \Io$,
 % by naturally embedding $\left(\tO \times \tO\right)^\omega$ into $\Oo\times \Oo$,
 we have that $\cC(x)=\left(\cT(x), \cT(\pi(x))\right)$.
-Denote by $r_{\cC,x}$ the run of $\cC$ on $x$. Then, it holds that $x\in L(\cC)$ iff $\inf(r_{\cC,x})\subseteq \alpha$, iff at some point all states in $r_{\cC,x}$ are in $\alpha$; i.e. iff there exists $k>0$ such that $r_{\cC,x}[k:\infty]\in \alpha^\star$. But this is equivalent to saying there exists $k>0$ such that $\pi(\cT(x))[k:\infty] = \cT(\pi(x))[k:\infty]$. The required result follows.
+Denote by $r_{\cC,x}$ the run of $\cC$ on $x$. Then, it holds that $x\in L(\cC)$ iff $\inf(r_{\cC,x})\subseteq \alpha$, iff at some point all states in $r_{\cC,x}$ are in $\alpha$; i.e. iff there exists $k>0$ such that $r_{\cC,x}[k:\infty]\in \alpha^\omega$. But this is equivalent to saying there exists $k>0$ such that $\pi(\cT(x))[k:\infty] = \cT(\pi(x))[k:\infty]$. The required result follows.
 \end{proof}
 
 It is not difficult to show that ultimate symmetry, like round symmetry, is closed under composition of permutations: if $\cT$ is ultimately symmetric \WRT permutations $\pi$ and $\chi$ then it is also ultimately symmetric \WRT $\pi\circ\chi$. Again relying on the fact that the group $\cS_k$ of all permutations is generated by two permutations~\cite{Cameron1999}, it follows that the problem of deciding ultimate symmetry is in $\P$.

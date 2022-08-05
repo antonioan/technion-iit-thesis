@@ -93,7 +93,7 @@ As we now show, once we have $\cT^\pi$, round symmetry is equivalent to round si
 \begin{proof}
     By definition, we have that $\cT^{\pi}\prec_{k} \cT$ iff for every $x\in (2^{\cP})^*$ there exists $x'\req x$ such that $\cT^{\pi}(x)\req \cT(x')$. We show that this is equivalent to the definition of round symmetry.
     
-    For the first direction, assume $\cT$ is $k$-round symmetric \WRT $\pi$, and let $x\in (2^{\cP})^*$. Applying the definition of $k$-round symmetry to $y=\pi^{-1}(x)$ shows that there exists $x'\req \pi(y)$ such that $\pi(\cT(y))\req \cT(x')$. Since $\pi(y)=x$ we get that $x'\req x$ and $\pi(\cT(\pi^{-1}(x)))\req \cT(x')$. By the above, $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$, so we have $\cT^{\pi}(x)\req x'$.
+    For the first direction, assume $\cT$ is $k$-round symmetric \WRT $\pi$, and let $x\in (2^{\cP})^*$. Applying the definition of $k$-round symmetry to $y=\pi^{-1}(x)$, there exists $x'\req \pi(y)$ such that $\pi(\cT(y))\req \cT(x')$. Since $\pi(y)=x$ we get that $x'\req x$ and $\pi(\cT(\pi^{-1}(x)))\req \cT(x')$. By the above, $\cT^\pi(x) = \pi(\cT(\pi^{-1}(x)))$, so we have $\cT^{\pi}(x)\req \cT(x')$.
     
     For the second direction, assume $\cT^\pi \prec_k \cT$, and let $x\in (2^{\cP})^*$. Applying the definition of round simulation to $z=\pi(x)$, there exists $x'\req z$ such that $\cT^{\pi}(z)\req \cT(x')$. Thus, $\pi(\cT(\pi^{-1}(z)))\req \cT(x')$, but $\pi^{-1}(z)=x$, so we get $\pi(\cT(x))\req \cT(x')$, and we are done.
 \end{proof}

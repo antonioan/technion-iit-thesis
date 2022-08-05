@@ -32,7 +32,7 @@ Thus, we have the following.
 Since the transition function of $\perm_k(\cN)$ is only defined using permutations of its input letters, we have the following property, which we refer to as \emph{permutation invariance}:
 \begin{observation}[Permutation invariance]
 	\label{obs:perm_invariance}
-	For every state $s\in S$ and letters $(\alpha,\beta), (\alpha',\beta')\in \sI^k \times \sO^k$, if $\fP(\alpha)=\fP(\alpha')$ and $\fP(\beta)=\fP(\beta')$ then $\mu(s,(\alpha,\beta))=\mu(s,(\alpha',\beta'))$.
+	For every state $s\in S$ and letters $(\alpha,\beta),$ $(\alpha',\beta')\in \sI^k \times \sO^k$, if $\fP(\alpha)=\fP(\alpha')$ and $\fP(\beta)=\fP(\beta')$ then $\mu(s,(\alpha,\beta))=\mu(s,(\alpha',\beta'))$.
 \end{observation}
 
 Given a transducer $\cT$, we apply the permutation closure to the trace \gls{dfa} of $\cT$. In order to account for the restriction given by $\fL\subseteq \sI^*$, we identify it with $\fL \subseteq \sI^*\times \sO^*$. We remind that $\fL$ denotes both a language and a corresponding \gls{nfa} (or \gls{dfa}), so what this means is that the \gls{nfa}, reading input from $\sI^*\times \sO^*$, simply ignores the second component.

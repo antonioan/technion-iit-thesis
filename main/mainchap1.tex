@@ -7,7 +7,8 @@ Consider two $k$-round words $x,y\in \Sigma^{kR}$ with the same number of rounds
 \label{example:word-req}
 Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sigma=\{a,b\}$. Looking at the words as $3$-round words, one can see in~\cref{tab:word-req-3} that rounds of length 3 in $y$ are all permutations of those in $x$, which gives $x\req[3] y$. However, looking at the rounds of length 4 of $x,y$, the number of occurrences of $b$ already in the first round of $x$ and of $y$ is different, so $x\not\req[4] y$, as illustrated in~\cref{tab:word-req-4}.
 \begin{table}[!htb]
-\begin{minipage}{.5\linewidth}
+\hspace{.05\linewidth}%
+\begin{minipage}{.4\linewidth}
     \centering
     \caption{$x$ and $y$ are 3-round equivalent}
     \vspace{2mm}
@@ -18,7 +19,8 @@ Consider the words $x=abaabbabbbaa$ and $y=baabbaabbaba$ over the alphabet $\Sig
     \end{tabular}
     \label{tab:word-req-3}
 \end{minipage}%
-\begin{minipage}{.5\linewidth}
+\hspace{.1\linewidth}%
+\begin{minipage}{.4\linewidth}
     \centering
     \caption{$x$ and $y$ are not 4-round equivalent}
     \vspace{2mm}
@@ -75,7 +77,7 @@ Depending on the ID $i\in \{0,1,2\}$ of the first process, we model the schedule
 	\label{fig:RR}
 \end{figure}
 
-Technically, the initial state changes the behaviour of $\cT_i$ significantly (e.g. $\cT_0(\{0\}\{2\}\{1\})=\{0\}\emptyset\emptyset$ whereas $\cT_1(\{0\}\{2\}\{1\})=\emptyset\{2\}\emptyset$). Conceptually, however, changing the initial state does not alter the behaviour, as long as the requests are permuted accordingly. This is captured by round equivalence, as follows.
+Technically, the initial state changes the behaviour of $\cT_i$ significantly (e.g. we have $\cT_0(\{0\}\{2\}\{1\})=\{0\}\emptyset\emptyset$ whereas $\cT_1(\{0\}\{2\}\{1\})=\emptyset\{2\}\emptyset$). Conceptually, however, changing the initial state does not alter the behaviour, as long as the requests are permuted accordingly. This is captured by round equivalence, as follows.
 
 We argue that, if we allow permutation of the input letters, then the set of processes whose requests are granted in each round is independent of the start state. This is equivalent to saying $\cT_0 \equiv_k \cT_j$ for $j\in \{1,2\}$, which indeed holds: if $j=1$ then we permute all rounds of the form $\sigma_0 \sigma_1 \sigma_2$ to $\sigma_1 \sigma_2 \sigma_0$, and similarly if $j=2$ then we permute all rounds to $\sigma_2 \sigma_0 \sigma_1$. It is easy to see that the run of $\cT_i$ on the permuted input grants outputs that $k$-round equivalent to the output of $\cT_0$ on the non-permuted input.
 \end{example}

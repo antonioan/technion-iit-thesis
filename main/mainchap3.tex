@@ -13,8 +13,8 @@ Recall that solving the decision problems of round simulation will aid us in sol
 \label{sec:intuitive_overview}
 We start with an intuitive explanation of the solution and its challenges. For simplicity, assume for now $\fL=\sI^*$, so it can be ignored. The overall approach is to present a practical method for hunting $k$: in~\cref{thm:bound_on_k}, the main result of this chapter, we give an upper bound on the minimal $k>0$ for which $\cT_1\prec_{k} \cT_2$, rendering the search space finite. In order to obtain this bound, we proceed as follows. Observe that for a transducer $\cT$ and for $0<k\neq k'$ the corresponding permutation closure \glspl{nfa} $\perm_k(\tr(\cT))$ and $\perm_{k'}(\tr(\cT))$ are defined on the same state space, but differ by their alphabet ($\sI^{k}\times \sO^{k}$ vs $\sI^{k'}\times \sO^{k'}$). Thus, by definition, these \glspl{nfa} obtained from an increasing round length form infinitely many distinct automata. Nonetheless, there are only finitely many possible types of letters (indeed, at most $|\bbB^{Q\times Q}|=2^{|Q|^2}$). Therefore, there are only finitely many \emph{type~profiles} for \glspl{nfa} -- that is, the set of letter types occurring in the \gls{nfa} -- up to multiplicities of the letter types.
 
-Recall that by~\cref{lem:round_equivalence_iff_perm_containment}, we have that $\cT_1\prec_k \cT_2$ iff $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$.
-Intuitively, one could hope that if $\perm_k(\tr(\cT_i))$ and $\perm_{k'}(\tr(\cT_i))$ have the same type profile, for each $i\in \{1,2\}$, then $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$ iff $L(\perm_{k'}(\tr(\cT_1)))\subseteq L(\perm_{k'}(\tr(\cT_2)))$. Then, if one can bound the index $k$ after which no further type profiles are encountered, then the problem reduces to checking a finite number of containments.
+Recall that by~\cref{lem:round_equivalence_iff_perm_containment}, we have $\cT_1\prec_k \cT_2$ iff $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$.
+Intuitively, one could hope that if $\perm_k(\tr(\cT_i))$ and $\perm_{k'}(\tr(\cT_i))$ have the same type profile, for each $i\in \{1,2\}$, then it holds that $L(\perm_k(\tr(\cT_1)))\subseteq L(\perm_{k}(\tr(\cT_2)))$ iff $L(\perm_{k'}(\tr(\cT_1)))\subseteq L(\perm_{k'}(\tr(\cT_2)))$. Then, if one can bound the index $k$ after which no further type profiles are encountered, then the problem reduces to checking a finite number of containments.
 
 Unfortunately, this is not the case, the reason being
 that the mapping of letters induced by the equal type profiles $\perm_k(\tr(\cT_1))$ and $\perm_{k'}(\tr(\cT_1))$ may differ from the mapping induced by $\perm_k(\tr(\cT_2))$ and $\perm_{k'}(\tr(\cT_2))$, and thus one cannot translate language containment between the two pairs. We overcome this difficulty, however, by working from the start with product automata that capture the structure of both $\cT_1$ and $\cT_2$ simultaneously, and thus unify the letter mapping. We dub them \emph{redundant product automata} for their apparent redundancy.
@@ -91,7 +91,7 @@ Following this, we now lift the definition of types to Parikh vectors. Consider 
 Note that we use different automata to extract the type of words of different lengths. We obtain a more uniform description as follows.
 \begin{lemma}
 \label{lem:type_of_parikh}
-    In the notations above, for every $s_1,s_2\in S$, we have that $(\tau_{\cN}(\vec{p},\vec{o}))_{s_1,s_2}=1$ iff there exists $(\alpha,\beta)\in \sI^k\times \sO^k$ with $\fP(\alpha)=\vec{p}$ and $\fP(\beta)=\vec{o}$ such that $s_1\runs{(\alpha,\beta)}{\perm_k(\cN)}s_2$.
+    In the notations above, for every $s_1,s_2\in S$, we have $(\tau_{\cN}(\vec{p},\vec{o}))_{s_1,s_2}=1$ iff there exists $(\alpha,\beta)\in \sI^k\times \sO^k$ with $\fP(\alpha)=\vec{p}$ and $\fP(\beta)=\vec{o}$ such that $s_1\runs{(\alpha,\beta)}{\perm_k(\cN)}s_2$.
 \end{lemma}
 \begin{proof}
     By the definitions preceding the lemma, we have that $\tau_{\cN}(\vec{p},\vec{o})=\tau_{\perm_k(\cN)}(\alpha',\beta')$ for some $(\alpha',\beta')\in \sI^k\times \sO^k$ are such that $\fP(\alpha')=\vec{p}$ and $\fP(\beta')=\vec{o}$. According to the transition function of $\perm_k(\cN)$ (as defined in~\cref{chap:deciding_fixed_round_sim}), for every $s_1,s_2\in S$ we have that $s_1\runs{(\alpha',\beta')}{\perm_k(\cN)}s_2$ iff there exist $(\alpha,\beta)\in \sI^k\times \sO^k$ with $\fP(\alpha)=\fP(\alpha')=\vec{p}$ and $\fP(\beta)=\fP(\beta')=\vec{o}$ such that $s_1\runs{(\alpha,\beta)}{\cN}s_2$. Since the type encodes the reachable pairs of states, this concludes the proof.
@@ -100,7 +100,7 @@ Note that we use different automata to extract the type of words of different le
 \paragraph*{\glsentrylong{pa}.}
 The first ingredient in the proof of~\cref{thm:bound_on_k} is to characterize the set of Parikh vectors whose type is some fixed matrix $\tau\in \bbB^{Q\times Q}$. For this characterization, we employ the first-order theory of the naturals with addition and order $\textrm{Th}(\bbN,0,1,+,<,=)$, commonly known as \emph{\gls{pa}}. We do not give a full exposition of \gls{pa} but refer the reader to~\cite{Haase2018} (and references therein) for a survey. In the following we briefly cite the results we need.
 
-For our purposes, a \gls{pa}~formula $\varphi(x_1,\ldots,x_d)$, where $x_1,\ldots, x_d$ are free variables, is evaluated over $\bbN^d$, and \emph{defines} the set $\condset{(a_1,\ldots,a_d)\in \bbN^d}{(a_1,\ldots,a_d)\models \varphi(x_1,\ldots,x_d)}$. For example, the formula $\varphi(x_1,x_2):=x_1< x_2\wedge \exists y. x_1=2y$ defines the set $\condset{(a,b)\in \bbN^2}{a<b\wedge a \text{ is even}}$.
+For our purposes, a \gls{pa}~formula $\varphi(x_1,\ldots,x_d)$, where $x_1,\ldots, x_d$ are free variables, is evaluated over $\bbN^d$, and \emph{defines} the set $\condset{(a_1,\ldots,a_d)\in \bbN^d}{(a_1,\ldots,a_d)\models \varphi(x_1,\ldots,x_d)}$. For example, the formula $\varphi(x_1,x_2):=x_1< x_2\wedge \exists y.\ x_1=2y$ defines the set \linebreak $\condset{(a,b)\in \bbN^2}{a<b\wedge a \text{ is even}}$.
 
 A fundamental result about \gls{pa} is that the definable sets in \gls{pa} are exactly the semilinear sets. In particular, Parikh's theorem states that for every \gls{nfa} $\cA$, $\fP(L(\cA))$ is \gls{pa}~definable. In fact, by~\cite{Verma2005}, one can efficiently construct a linear-sized existential \gls{pa}~formula for $\fP(L(\cA))$.
 We can now show that the set of Parikh vectors whose type is $\tau$ is \gls{pa}~definable.
@@ -183,7 +183,7 @@ This is captured in the following.
 \end{lemma}
 \begin{proof}
 
-By the symmetry between $k$ and $k'$, it suffices to prove w.l.o.g. that if $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$, then $L(\perm_{k'}(\cB_1))\subseteq L(\perm_{k'}(\cB_2))$.
+By the symmetry between $k$ and $k'$, it suffices to prove w.l.o.g. that if $L(\perm_{k}(\cB_1))$ $\subseteq\  L(\perm_{k}(\cB_2))$, then $L(\perm_{k'}(\cB_1))\subseteq L(\perm_{k'}(\cB_2))$.
 
 Assume the former, and let $w=(x',y')\in L(\perm_{k'}(\cB_1))$, where $(x',y')\in (\sI^{k'}\times \sO^{k'})^*$, and we denote $(x',y')=(\alpha'_1,\beta'_1)\cdots (\alpha'_n,\beta'_n)$ with $(\alpha'_j,\beta'_j)\in \sI^{k'}\times \sO^{k'}$ for every $1\le j\le n$. 
 
@@ -191,7 +191,7 @@ Since $\Upsilon(\cB_1,k')=\Upsilon(\cB_1,k)$, there is a mapping $\varphi$ that 
 
 By the definition of the type of a Parikh vector, we have that \[\tau_{\perm_k(\cB_1)}(\alpha_j,\beta_j)=\tau_{\cB_1}(\fP(\alpha_j),\fP(\beta_j))=\tau_{\cB_1}(\fP(\alpha'_j),\fP(\beta'_j))=\tau_{\perm_{k'}(\cB_1)}(\alpha'_j,\beta'_j).\]
 In particular, since the type of a word is the concatenation (i.e., Boolean matrix product) of its underlying letters, we have that $\tau_{\perm_k(\cB_1)}(x,y)=\tau_{\perm_{k'}(\cB_1)}(x',y')$. Since $(x',y')\in L(\perm_{k'}(\cB_1))$, it follows that also $(x,y)\in L(\perm_{k}(\cB_1))$. Indeed, 
-$(\tau_{\perm_{k'}(\cB_1)}(x',y'))_{s^1_0,s^1_f}=1$ where $s^1_0$ and $s^1_f$ are an initial state and an accepting state of $\perm_{k'}(\cB_1)$, respectively. But the equality of the types implies that $\left(\tau_{\perm_{k}(\cB_1)}(x,y)\right)_{s^1_0,s^1_f}=1$ as well, so $\perm_k(\cB_1)$ has an accepting run on $(x,y)$.
+$(\tau_{\perm_{k'}(\cB_1)}(x',y'))_{s^1_0,s^1_f}=1$ where $s^1_0$ and $s^1_f$ are an initial state and an accepting state of $\perm_{k'}(\cB_1)$, respectively. But the equality of types implies $\left(\tau_{\perm_{k}(\cB_1)}(x,y)\right)_{s^1_0,s^1_f}=1$ as well, so $\perm_k(\cB_1)$ has an accepting run on $(x,y)$.
 
 By our assumption, $L(\perm_{k}(\cB_1))\subseteq L(\perm_{k}(\cB_2))$, so $(x,y)=\varphi(w)\in L(\perm_{k}(\cB_2))$, or equivalently, $\varphi(w)\in L(\perm_{k}(\cB_2))$.
 We now essentially reverse the arguments above, but with $\cB_2$ instead of $\cB_1$. However, this needs to be done carefully, so that the mapping of letters lands us back at $(x',y')$, and not a different word.

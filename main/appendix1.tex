@@ -18,7 +18,7 @@ Since we start this chain of reductions with an \gls{nfa} of nondeterminism degr
 \section{Proof of Theorem~\ref{thm:equivalence_PSPACE-H}}
 \label{apx:proof_equivalence_PSPACE-H}
 
-We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round-equivalence with $k=2$ and with $\fL$ given as a \gls{dfa} of constant size. The former is shown to be $\PSPACE$-hard in~\cref{lem:universalityofnfa}.
+We show a reduction from the universality problem for \glspl{nfa} over alphabet $\{0,1\}$ where all states are accepting and the degree of nondeterminism is at most 2, to round equivalence with $k=2$ and with $\fL$ given as a \gls{dfa} of constant size. The former is shown to be $\PSPACE$-hard in~\cref{lem:universalityofnfa}.
 
 Consider an \gls{nfa} $\cN=\tup{Q,\{0,1\},\delta,q_0,Q}$ where $|\delta(q,\sigma)|\le 2$ for every $q\in Q$ and $\sigma\in \{0,1\}$.
 %Set $\Sigma=\{0,1\}$ and $\Lambda=(ab+cd)^*$, and let $A=\tup{Q, \Sigma, \delta,q_0,Q}$ be an \gls{nfa}. 
@@ -372,7 +372,7 @@ The transducers in~\cref{fig:example_counterex} satisfy $\cT_1\prectype{s}{p}_2 
     \label{fig:example_counterex}
 \end{figure}
 
-However, $\cT_1\not\prectype{s}{s}_{k'} \cT_2$ for any $k'>0$. Indeed, consider the word $x=\{0,1\}\emptyset^{k'-1}$ having output $\cT(x)=\emptyset\{0,1\}\emptyset^{k'-2}$. For $\cT_2$ to output the letter $\{0,1\}$, it must see one of the input letters $\{0\}$ and $\{1\}$, since the only state labelled $\{0,1\}$ has two incoming transitions with $\{0\}$ and $\{1\}$. But any $x'\reqtype[{k'}]{s} x$ will not contain the letters $\{0\}$ and $\{1\}$, so $\cT_1(x)\not\reqtype[{k'}]{s} \cT_2(x')$. Therefore $\cT_1\not\prectype{s}{s}_{k'} \cT_2$.
+However, $\cT_1\not\prectype{s}{s}_{k'} \cT_2$ for any $k'>0$. Indeed, consider the word $x=\{0,1\}\emptyset^{k'-1}$ having output $\cT_1(x)=\emptyset\{0,1\}\emptyset^{k'-2}$. For $\cT_2$ to output the letter $\{0,1\}$, it must see one of the input letters $\{0\}$ and $\{1\}$, since the only state labelled $\{0,1\}$ has two incoming transitions with $\{0\}$ and $\{1\}$. But any $x'\reqtype[{k'}]{s} x$ will not contain the letters $\{0\}$ and $\{1\}$, so $\cT_1(x)\not\reqtype[{k'}]{s} \cT_2(x')$. Therefore $\cT_1\not\prectype{s}{s}_{k'} \cT_2$.
 
 \begin{table}[!htb]
     \centering
